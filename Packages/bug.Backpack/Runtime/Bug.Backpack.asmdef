@@ -1,0 +1,16 @@
+{
+    "name": "Bug.Backpack",
+    "rootNamespace": "Bug.Project21.Backpack",
+    "references": [
+        "GUID:aae4944b432ca2b41809b3cdcbb9b722"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

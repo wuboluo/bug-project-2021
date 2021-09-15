@@ -1,0 +1,8 @@
+{
+  "name": "com.bug.unity.project21.backpack",
+  "version": "1.0.1",
+  "displayName": "Bug.Project21.Backpack",
+  "description": "backpack system",
+  "unity": "2020.3",
+  "type": "tool"
+}
