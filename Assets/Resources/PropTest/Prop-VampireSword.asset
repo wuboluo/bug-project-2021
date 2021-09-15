@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bcf5a62a2e3446be496ac507fd98c, type: 3}
+  m_Name: Prop-VampireSword
+  m_EditorClassIdentifier: 
+  id: 0
+  tag: {fileID: 11400000, guid: 6e2f697e4d73a7f4e84695243647679a, type: 2}
+  mainIcon: {fileID: 2800000, guid: 00947069e9eb7434eb48e788b0db5025, type: 3}
+  lowLevelProps: []
+  name: "\u996E\u8840\u5251"
+  price: 100
+  describe: "\u653B\u51FB\u654C\u4EBA\u56DE\u590D\u751F\u547D"
+  attr: 
+  skills:
+  - {fileID: 11400000, guid: 2f1fdccdf62071a45b1e780d91921354, type: 2}
+  - {fileID: 11400000, guid: d68adb6ff9832bc4aacfbfec4f33e296, type: 2}
