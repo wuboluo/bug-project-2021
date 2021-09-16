@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Skill-Vampire
   m_EditorClassIdentifier: 
   propSkillTypeSo: {fileID: 11400000, guid: 70b51a999477ebb44ac60bfeba84f81d, type: 2}
-  skillDescribe: "\u7ACB\u523B\u5077\u53D6\u5F53\u524D\u751F\u547D\u503C10%\u7684\u8840\u91CF"
+  skillDescribe: "\u653B\u51FB\u9644\u5E2610%\u751F\u547D\u5077\u53D6"
+  propSkillAttr: {fileID: 11400000, guid: d3afe0273ab4674429c4d4360e558859, type: 2}
   effect: {fileID: 0}
   audio: {fileID: 0}
