@@ -8,9 +8,11 @@ namespace Bug.Project21.PropsEditor
     public partial class PropDataSO : ScriptableObject
     {
         // ---------------------------------------- Display on UI
-        [HorizontalGroup("PropData", 60)] [PreviewField(60)] [HideLabel] [SerializeField]
+        [Space(10)]
+        [HorizontalGroup("PropData", 100)] [PreviewField(100)] [HideLabel] [SerializeField]
         private Texture2D mainIcon;
 
+        [Space(10)]
         [VerticalGroup("PropData/Stats")] [LabelWidth(50)] [LabelText("名称")] [SerializeField]
         private new string name;
 
@@ -22,10 +24,10 @@ namespace Bug.Project21.PropsEditor
 
 
         // ---------------------------------------- For program
-        [Space(10)]
+        [VerticalGroup("PropData/Stats")]
         [LabelWidth(50)] [LabelText("ID")] [SerializeField]
         private int id;
-
+        [VerticalGroup("PropData/Stats")]
         [LabelWidth(50)] [LabelText("标签")] [SerializeField]
         private PropTagSO tag;
 

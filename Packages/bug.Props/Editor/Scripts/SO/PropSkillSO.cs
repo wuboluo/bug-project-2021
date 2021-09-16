@@ -5,6 +5,9 @@ namespace Bug.Project21.PropsEditor
     [CreateAssetMenu(fileName = "NewPropSkill", menuName = "Props/Skill/PropSkill")]
     public class PropSkillSO : ScriptableObject
     {
+        public string skillName;
+
+        
         // 主动 or 被动
         [SerializeField] private PropSkillTypeSO propSkillTypeSo;
         public PropSkillTypeSO PropSkillTypeSo => propSkillTypeSo;

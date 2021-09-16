@@ -5,6 +5,8 @@ namespace Bug.Project21.PropsEditor
     [CreateAssetMenu(fileName = "NewPropAttr", menuName = "Props/PropAttr")]
     public class PropAttrSO : ScriptableObject
     {
+        public string attrName;
+        
         // 攻击力
         [SerializeField] private int atk;
         public int Atk => atk;
