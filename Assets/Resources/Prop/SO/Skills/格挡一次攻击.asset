@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bacb15ae106c9e9439a5987c54b68d14, type: 3}
   m_Name: "\u683C\u6321\u4E00\u6B21\u653B\u51FB"
   m_EditorClassIdentifier: 
-  name: 
-  propSkillTypeSo: {fileID: 0}
-  skillDescribe: 
+  name: "\u683C\u6321"
+  propSkillTypeSo: {fileID: 11400000, guid: ccd5d918b304d08428481168425b0eeb, type: 2}
+  skillDescribe: "1\u5206\u949F1\u6B21"
   propSkillAttr: {fileID: 0}
   effect: {fileID: 0}
   audio: {fileID: 0}
