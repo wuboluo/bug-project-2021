@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainIcon: {fileID: -1087164816274819069, guid: f48370f841d3aca4485450ade7f0de4e, type: 3}
   name: "\u84DD\u76FE"
-  describe: "\u7279\u522B\u8010\u6253"
-  price: 200
-  id: 2
+  describe: 
+  price: 0
+  id: 0
   tag: {fileID: 11400000, guid: 6e2f697e4d73a7f4e84695243647679a, type: 2}
-  attrs:
-  - {fileID: 11400000, guid: 8995db9d126c0ec4b86bbc96cb406a92, type: 2}
-  skills:
-  - {fileID: 11400000, guid: 2f1fdccdf62071a45b1e780d91921354, type: 2}
+  attrs: []
+  skills: []
   lowLevelProps: []

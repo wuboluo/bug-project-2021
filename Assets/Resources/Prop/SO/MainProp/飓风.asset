@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee4bcf5a62a2e3446be496ac507fd98c, type: 3}
-  m_Name: Prop-VampireSword
+  m_Name: "\u98D3\u98CE"
   m_EditorClassIdentifier: 
-  mainIcon: {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
-  name: "\u996E\u8840\u5251"
-  describe: "\u653B\u51FB\u654C\u4EBA\u56DE\u590D\u751F\u547D"
-  price: 100
+  mainIcon: {fileID: -1304905567622442630, guid: f48370f841d3aca4485450ade7f0de4e, type: 3}
+  name: 
+  describe: 
+  price: 0
   id: 0
-  tag: {fileID: 11400000, guid: 6e2f697e4d73a7f4e84695243647679a, type: 2}
+  tag: {fileID: 0}
   attrs: []
-  skills:
-  - {fileID: 0}
+  skills: []
   lowLevelProps: []

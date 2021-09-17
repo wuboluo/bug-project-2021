@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a378474c2a2124aa3ea716c3f4cece, type: 3}
-  m_Name: Attr
+  m_Script: {fileID: 11500000, guid: cf5098bd16f87114f8f289d8b3fbdb22, type: 3}
+  m_Name: "\u52A0\u901F"
   m_EditorClassIdentifier: 
-  atk: 100
-  def: 0
-  hp: 0
-  speed: 0
+  name: "\u52A0\u901F"
+  addSpeed: 20
