@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: "\u63D0\u4F9B\u751F\u547D\u503C"
   atk: 0
-  def: 0
+  def: 20
   hp: 150
   speed: 0

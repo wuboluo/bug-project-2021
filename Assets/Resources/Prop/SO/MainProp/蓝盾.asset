@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4bcf5a62a2e3446be496ac507fd98c, type: 3}
   m_Name: "\u84DD\u76FE"
   m_EditorClassIdentifier: 
-  mainIcon: {fileID: -1087164816274819069, guid: f48370f841d3aca4485450ade7f0de4e, type: 3}
+  mainIcon: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
   name: "\u84DD\u76FE"
-  describe: 
-  price: 0
-  id: 0
+  describe: "\u5F88\u8089"
+  price: 500
+  id: 2
   tag: {fileID: 11400000, guid: 6e2f697e4d73a7f4e84695243647679a, type: 2}
-  attrs: []
-  skills: []
+  attrs:
+  - {fileID: 11400000, guid: 4008d6c086a2f7043bfb400920e61f64, type: 2}
+  skills:
+  - {fileID: 11400000, guid: 8a1f829a8b28d964a83849a69a34be08, type: 2}
   lowLevelProps: []
