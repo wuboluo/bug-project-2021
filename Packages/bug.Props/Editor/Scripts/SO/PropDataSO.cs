@@ -5,14 +5,12 @@ using Sirenix.OdinInspector;
 namespace Bug.Project21.PropsEditor
 {
     [CreateAssetMenu(fileName = "NewProp", menuName = "Props/PropData")]
-    public partial class PropDataSO : ScriptableObject
+    public class PropDataSO : PropSOBase
     {
         // ---------------------------------------- Display on UI
-        [Space(10)]
         [HorizontalGroup("PropData", 100)] [PreviewField(100)] [HideLabel] [SerializeField]
-        private Texture2D mainIcon;
+        private Texture mainIcon;
 
-        [Space(10)]
         [VerticalGroup("PropData/Stats")] [LabelWidth(50)] [LabelText("名称")] [SerializeField]
         private new string name;
 
@@ -24,17 +22,15 @@ namespace Bug.Project21.PropsEditor
 
 
         // ---------------------------------------- For program
-        [VerticalGroup("PropData/Stats")]
-        [LabelWidth(50)] [LabelText("ID")] [SerializeField]
+        [VerticalGroup("PropData/Stats")] [LabelWidth(50)] [LabelText("ID")] [SerializeField]
         private int id;
-        [VerticalGroup("PropData/Stats")]
-        [LabelWidth(50)] [LabelText("标签")] [SerializeField]
+
+        [VerticalGroup("PropData/Stats")] [LabelWidth(50)] [LabelText("标签")] [SerializeField]
         private PropTagSO tag;
 
 
         // ---------------------------------------- Attribute & Skill
-        [Space(10)]
-        [LabelWidth(50)] [LabelText("属性")] [SerializeField]
+        [Space(10)] [LabelWidth(50)] [LabelText("属性")] [SerializeField]
         private List<PropAttrSO> attrs = new List<PropAttrSO>();
 
         [LabelWidth(50)] [LabelText("技能")] [SerializeField]
@@ -42,16 +38,23 @@ namespace Bug.Project21.PropsEditor
 
 
         // ---------------------------------------- Synthetic Route
-        [Space(10)]
-        [LabelWidth(50)] [LabelText("合成路线")] [SerializeField]
+        [Space(10)] [LabelWidth(50)] [LabelText("合成路线")] [SerializeField]
         private List<PropDataSO> lowLevelProps = new List<PropDataSO>();
+   
         
-    }
+        
+        public override Texture Icon
+        {
+            get => mainIcon;
+            set => mainIcon = value;
+        }
 
-    public partial class PropDataSO
-    {
-        public Texture2D MainIcon => mainIcon;
-        public string Name => name;
+        public override string Name
+        {
+            get => name;
+            set => name = value;
+        }
+
         public string Describe => describe;
         public int Price => price;
 
