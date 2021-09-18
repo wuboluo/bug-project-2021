@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,9 +11,10 @@ using UnityEngine;
 
 namespace Bug.Project21.PropsEditor
 {
-    public class SOCreator : MonoBehaviour
+    public static class SOCreator
     {
-        public static void ShowDialog<T>(string defaultDestinationPath, Action<T> onScriptableObjectCreated = null) where T : ScriptableObject
+        public static void ShowDialog<T>(string defaultDestinationPath, Action<T> onScriptableObjectCreated = null)
+            where T : ScriptableObject
         {
             var selector = new ScriptableObjectSelector<T>(defaultDestinationPath, onScriptableObjectCreated);
 
@@ -63,7 +66,8 @@ namespace Bug.Project21.PropsEditor
 
                 dest = EditorUtility.SaveFilePanel("Save object as", dest, "New " + typeof(T).GetNiceName(), "asset");
 
-                if (!string.IsNullOrEmpty(dest) && PathUtilities.TryMakeRelative(Path.GetDirectoryName(Application.dataPath), dest, out dest))
+                if (!string.IsNullOrEmpty(dest) &&
+                    PathUtilities.TryMakeRelative(Path.GetDirectoryName(Application.dataPath), dest, out dest))
                 {
                     AssetDatabase.CreateAsset(obj, dest);
                     AssetDatabase.Refresh();
@@ -72,9 +76,11 @@ namespace Bug.Project21.PropsEditor
                 }
                 else
                 {
-                    DestroyImmediate(obj);
+                    UnityEngine.Object.DestroyImmediate(obj);
                 }
             }
         }
     }
 }
+
+#endif

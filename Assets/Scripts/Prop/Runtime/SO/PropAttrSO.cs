@@ -1,39 +1,52 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Bug.Project21.PropsEditor
 {
-    [CreateAssetMenu(fileName = "NewPropAttr", menuName = "Props/PropAttr")]
-    public class PropAttrSO : PropSOBase
+    [Serializable]
+    public partial class PropAttrSO
     {
-        [LabelText("名称")] [SerializeField]
-        private new string name;
+        public Attr_Atk Atk => atk;
+        public Attr_Def Def => def;
+        public Attr_Hp Hp => hp;
+        public Attr_Speed Speed => speed;
 
-        [Space(15)]
+        // ------------------------------------------------------------ 
 
-        // 攻击力
-        [LabelText("攻击")][SerializeField] private int atk;
-        
-        // 防御力
-        [LabelText("防御")] [SerializeField] private int def;
-        
-        // 生命值
-        [LabelText("生命值")] [SerializeField] private int hp;
-        
-        // 移动速度
-        [LabelText("移动速度")]  [SerializeField] private int speed;
-        
-        
-        
-        
-        public override string Name
+        [ShowIf("isWeapon")] [Toggle("enable")] [LabelText("攻击")] [SerializeField]
+        private Attr_Atk atk;
+
+        [ShowIf("isWeapon")] [Toggle("enable")] [LabelText("防御")] [SerializeField]
+        private Attr_Def def;
+
+        [ShowIf("isWeapon")] [Toggle("enable")] [LabelText("生命值")] [SerializeField]
+        private Attr_Hp hp;
+
+        [ShowIf("isWeapon")] [Toggle("enable")] [LabelText("移动速度")] [SerializeField]
+        private Attr_Speed speed;
+
+        // ------------------------------------------------------------ 
+
+        private bool isWeapon;
+        public bool IsWeapon
         {
-            get => name;
-            set => name = value;
+            get => isWeapon;
+            set => isWeapon = value;
         }
-        public int Atk => atk;
-        public int Def => def;
-        public int Hp => hp;
-        public int Speed => speed;
+    }
+
+    public partial class PropAttrSO
+    {
+        public Attr_Price Price => price;
+        public Attr_Rarity Rarity => rarity;
+
+        // ------------------------------------------------------------ 
+
+        [HideIf("isWeapon")] [Toggle("enable")] [LabelText("价格")] [SerializeField]
+        private Attr_Price price;
+
+        [HideIf("isWeapon")] [Toggle("enable")] [LabelText("稀有度")] [SerializeField]
+        private Attr_Rarity rarity;
     }
 }

@@ -1,42 +1,49 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Bug.Project21.PropsEditor
 {
-    [CreateAssetMenu(fileName = "NewPropSkill", menuName = "Props/Skill/PropSkill")]
-    public class PropSkillSO : PropSOBase
+    [Serializable]
+    public class PropSkillSO
     {
-        [LabelText("名称")] [SerializeField]
-        private new string name;
-        
-        [Space(15)]
-        
-        // 主动 or 被动
-        [LabelText("技能类型")] [SerializeField] private PropSkillTypeSO propSkillTypeSo;
-
-        // 技能描述
-        [LabelText("技能描述")][SerializeField] private string skillDescribe;
-
-        // 技能属性
-        [LabelText("技能属性")] [SerializeField] private PropSkillAttrSO propSkillAttr;
-
-        // 特效
-        [LabelText("特效组")] [SerializeField] private ParticleSystem effect;
-
-        // 音效
-        [LabelText("音效组")][SerializeField] private AudioSource audio;
-        
-        
-        public override string Name
+        public string Name
         {
             get => name;
             set => name = value;
         }
-
-        public PropSkillTypeSO PropSkillTypeSo => propSkillTypeSo;
+        
+        public PropSkillType Type => type;
         public string SkillDescribe => skillDescribe;
         public PropSkillAttrSO PropSkillAttr => propSkillAttr;
         public ParticleSystem Effect => effect;
         public AudioSource Audio => audio;
+        
+        // ------------------------------------------------------------ 
+        
+        [LabelText("名称")] [ToggleGroup("Enabled")] [SerializeField]
+        private string name;
+        
+        [ToggleGroup("Enabled")] [LabelText("技能类型")] [SerializeField]
+        private PropSkillType type;
+        
+        [ToggleGroup("Enabled")] [LabelText("技能描述")] [SerializeField]
+        private string skillDescribe;
+        
+        [ToggleGroup("Enabled")] [LabelText("技能属性")] [SerializeField]
+        private PropSkillAttrSO propSkillAttr;
+        
+        //todo: 特效组和音效组 或许需要配置 SO
+        
+        [ToggleGroup("Enabled")] [LabelText("特效组")] [SerializeField]
+        private ParticleSystem effect;
+        
+        [ToggleGroup("Enabled")] [LabelText("音效组")] [SerializeField]
+        private AudioSource audio;
+        
+        // ------------------------------------------------------------ 
+        
+        [ToggleGroup("Enabled", "$Label")] public bool Enabled = true;
+        public string Label => name;
     }
 }
