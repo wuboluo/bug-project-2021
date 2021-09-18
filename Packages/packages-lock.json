@@ -6,10 +6,17 @@
       "source": "embedded",
       "dependencies": {}
     },
+<<<<<<< HEAD
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+=======
     "com.bug.unity.project21.props": {
       "version": "file:bug.Props",
       "depth": 0,
       "source": "embedded",
+>>>>>>> 550e2791b9e1290b234239bd3a43bad6ec927d10
       "dependencies": {}
     },
     "com.unity.collab-proxy": {
@@ -38,7 +45,7 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.9",
+      "version": "2.0.11",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -68,7 +75,7 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.render-pipelines.core": {
-      "version": "10.5.0",
+      "version": "10.5.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -95,11 +102,11 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.shadergraph": {
-      "version": "10.5.0",
+      "version": "10.5.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.render-pipelines.core": "10.5.0",
+        "com.unity.render-pipelines.core": "10.5.1",
         "com.unity.searcher": "4.3.2"
       },
       "url": "https://packages.unity.cn"
@@ -171,6 +178,15 @@
       "dependencies": {},
       "url": "https://packages.unity.cn"
     },
+<<<<<<< HEAD
+    "com.unity.visualeffectgraph": {
+      "version": "10.5.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.shadergraph": "10.5.1",
+        "com.unity.render-pipelines.core": "10.5.1"
+=======
     "nuget.castle-core": {
       "version": "1.0.1",
       "depth": 1,
@@ -184,6 +200,7 @@
       "source": "registry",
       "dependencies": {
         "nuget.castle-core": "1.0.1"
+>>>>>>> 550e2791b9e1290b234239bd3a43bad6ec927d10
       },
       "url": "https://packages.unity.cn"
     },
