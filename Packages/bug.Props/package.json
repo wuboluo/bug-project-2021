@@ -1,8 +1,0 @@
-{
-  "name": "com.bug.unity.project21.props",
-  "version": "1.0.1",
-  "displayName": "Bug.Project21.Props",
-  "description": "props editor",
-  "unity": "2020.3",
-  "type": "tool"
-}
