@@ -27,13 +27,13 @@ namespace Bug.Project21.PropsEditor
         private Attr_Speed speed;
 
         // ------------------------------------------------------------ 
-
-        private bool isWeapon;
-        public bool IsWeapon
-        {
-            get => isWeapon;
-            set => isWeapon = value;
-        }
+        [HideInInspector]
+        public bool isWeapon;
+        // public bool IsWeapon
+        // {
+        //     get => isWeapon;
+        //     set => isWeapon = value;
+        // }
     }
 
     public partial class PropAttrSO

@@ -30,11 +30,11 @@ namespace Bug.Project21.PropsEditor
 
         private void SwitchPropTag()
         {
-            attrs.IsWeapon = Tag switch
+            attrs.isWeapon = Tag switch
             {
                 PropTag.weapon => true,
                 PropTag.stuff => false,
-                _ => attrs.IsWeapon
+                _ => attrs.isWeapon
             };
         }
     }
