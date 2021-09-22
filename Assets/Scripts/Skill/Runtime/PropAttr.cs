@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Bug.Project21.PropsEditor
 {
     [Serializable]
-    public partial class PropAttrSO
+    public partial class PropAttr
     {
         public Attr_Atk Atk => atk;
         public Attr_Def Def => def;
@@ -36,7 +36,7 @@ namespace Bug.Project21.PropsEditor
         // }
     }
 
-    public partial class PropAttrSO
+    public partial class PropAttr
     {
         public Attr_Price Price => price;
         public Attr_Rarity Rarity => rarity;

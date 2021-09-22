@@ -1,9 +1,9 @@
-using UnityEditor;
-using UnityEngine;
 using System.Linq;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
+using UnityEditor;
+using UnityEngine;
 
 namespace Bug.Project21.PropsEditor
 {
@@ -22,11 +22,11 @@ namespace Bug.Project21.PropsEditor
             tree.DefaultMenuStyle.IconSize = 25f;
             tree.Config.DrawSearchToolbar = true;
 
-            tree.AddAllAssetsAtPath("", "Assets/Resources/Prop/SO", typeof(PropSOBase), true)
+            tree.AddAllAssetsAtPath("", "Assets/Resources/Prop/SO", typeof(PropDataSO), true)
                 .ForEach(AddDragHandles);
-            
-            tree.EnumerateTree().Where(r => r.Value as PropSOBase).ForEach(AddDragHandles);
-            tree.EnumerateTree().AddIcons<PropSOBase>(r => r.Icon);
+
+            tree.EnumerateTree().Where(r => r.Value as PropDataSO).ForEach(AddDragHandles);
+            tree.EnumerateTree().AddIcons<PropDataSO>(r => r.Icon);
 
             return tree;
         }
@@ -43,20 +43,24 @@ namespace Bug.Project21.PropsEditor
 
             SirenixEditorGUI.BeginHorizontalToolbar(toolbarHeight);
             {
-                if (selected != null)
-                {
-                    GUILayout.Label(selected.Name);
-                }
+                if (selected != null) GUILayout.Label(selected.Name);
 
-                if (SirenixEditorGUI.ToolbarButton(new GUIContent("Create")))
-                {
-                    SOCreator.ShowDialog<PropSOBase>("Assets/Resources/Prop/SO",
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("创建")))
+                    SOCreator.ShowDialog<PropDataSO>("Assets/Resources/Prop/SO",
                         obj =>
                         {
                             obj.Name = obj.name;
                             TrySelectMenuItemWithObject(obj);
+
+                            obj.asset = AssetDatabase.FindAssets(obj.Name, new[] {"Assets/Resources/Prop/SO"});
                         });
-                }
+
+                if (SirenixEditorGUI.ToolbarButton(new GUIContent("删除")))
+                    if (selected != null)
+                    {
+                        var asset = AssetDatabase.FindAssets(selected.Name, new[] {"Assets/Resources/Prop/SO"});
+                        AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(asset.First()));
+                    }
             }
             SirenixEditorGUI.EndHorizontalToolbar();
         }

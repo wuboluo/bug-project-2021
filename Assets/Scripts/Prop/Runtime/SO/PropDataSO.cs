@@ -1,19 +1,21 @@
-using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace Bug.Project21.PropsEditor
 {
-    [CreateAssetMenu(fileName = "NewProp", menuName = "Props/PropData")]
-    public partial class PropDataSO : PropSOBase
+    public partial class PropDataSO : ScriptableObject
     {
-        public override Texture Icon
+        [HideInInspector] public string[] asset;
+
+        public Texture Icon
         {
             get => mainIcon;
             set => mainIcon = value;
         }
 
-        public override string Name
+        public string Name
         {
             get => name;
             set => name = value;
@@ -23,10 +25,7 @@ namespace Bug.Project21.PropsEditor
         public int Price => price;
         public int ID => id;
         public PropTag Tag => tag;
-        public List<PropDataSO> LowLevelProps => lowLevelProps;
-        public PropAttrSO Attrs => attrs;
-        public PropSkillSO[] Skills => skills;
-
+        public PropAttr Attrs => attrs;
 
         private void SwitchPropTag()
         {
@@ -37,20 +36,26 @@ namespace Bug.Project21.PropsEditor
                 _ => attrs.isWeapon
             };
         }
+
+        private void Rename()
+        {
+            AssetDatabase.RenameAsset(AssetDatabase.GUIDToAssetPath(asset.First()), Name);
+        }
     }
 
     public partial class PropDataSO
     {
-        // ------------------------------------------------------------ Left
-
         [HideLabel]
         [PreviewField(80)]
         [VerticalGroup("Basic/Left")]
-        [HorizontalGroup("Basic/Left/通用/Basic", 80, LabelWidth = 60)]
+        [HorizontalGroup("Basic/Left/通用/Basic", 80, LabelWidth = 70)]
         [SerializeField]
         private Texture mainIcon;
 
-        [BoxGroup("Basic/Left/通用")] [VerticalGroup("Basic/Left/通用/Basic/Right")] [LabelText("名称")] [SerializeField]
+        [BoxGroup("Basic/Left/通用")]
+        [VerticalGroup("Basic/Left/通用/Basic/Right")]
+        [SerializeField]
+        [InlineButton(nameof(Rename), "↺")]
         private new string name;
 
         [BoxGroup("Basic/Left/通用")] [VerticalGroup("Basic/Left/通用/Basic/Right")] [LabelText("价值")] [SerializeField]
@@ -66,22 +71,14 @@ namespace Bug.Project21.PropsEditor
         [OnValueChanged(nameof(SwitchPropTag))]
         private PropTag tag;
 
-        [FoldoutGroup("Basic/Left/属性")] [HideLabel] [SerializeField]
-        private PropAttrSO attrs;
-
-        // ------------------------------------------------------------ Right
-
-        [HorizontalGroup("Basic", 0.5f, MarginLeft = 5, LabelWidth = 120)]
-        [BoxGroup("Basic/Right/描述")]
-        [SerializeField]
-        [HideLabel]
-        [TextArea(3, 10)]
+        [FoldoutGroup("Basic/Left/描述")] [HideLabel] [SerializeField] [TextArea(3, 10)]
         private string describe;
 
-        [VerticalGroup("Basic/Right")] [LabelText("技能")] [SerializeField]
-        private PropSkillSO[] skills;
-
-        [Space(5)] [LabelWidth(50)] [LabelText("合成路线")] [SerializeField]
-        private List<PropDataSO> lowLevelProps = new List<PropDataSO>();
+        [HorizontalGroup("Basic", 0.4f, MarginLeft = 0, LabelWidth = 70)]
+        [VerticalGroup("Basic/Right")]
+        [FoldoutGroup("Basic/Right/属性")]
+        [HideLabel]
+        [SerializeField]
+        private PropAttr attrs;
     }
 }
