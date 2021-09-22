@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class PropSkillEditor : OdinMenuEditorWindow
 {
-    [MenuItem("Bug/Tools/PropSkillEditor")]
+    [MenuItem("碧油鸡/工具/技能编辑器")]
     private static void Open()
     {
         var window = GetWindow<PropSkillEditor>();

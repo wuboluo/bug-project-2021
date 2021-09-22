@@ -9,7 +9,7 @@ namespace Bug.Project21.PropsEditor
 {
     public class PropEditor : OdinMenuEditorWindow
     {
-        [MenuItem("Bug/Tools/PropEditor")]
+        [MenuItem("碧油鸡/工具/道具编辑器")]
         private static void Open()
         {
             var window = GetWindow<PropEditor>();
