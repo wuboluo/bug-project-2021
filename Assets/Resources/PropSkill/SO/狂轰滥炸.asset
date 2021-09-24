@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f71e35f1f7adea41a105ee68e6f1a1f, type: 3}
+  m_Name: "\u72C2\u8F70\u6EE5\u70B8"
+  m_EditorClassIdentifier: 
+  asset:
+  - d85923de2352f9145a33ea6094290034
+  name: "\u72C2\u8F70\u6EE5\u70B8"
+  type: 0
+  skillDescribe: "boooooom\u4F60\u6B7B\u4E86"
+  effect: {fileID: 0}
+  audio: {fileID: 0}
+  skillAttrs:
+  - name: "\u6838\u5F39\uFF01"
+    target: 0
+    isAOE: 1
+    value: 0
+    percent: 0
+    Enabled: 1
