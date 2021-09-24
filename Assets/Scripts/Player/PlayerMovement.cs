@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5;
-    private Rigidbody2D rb;
-    private Vector2 movement;
-
-    private Animator animator;
-    public Animator atkAnimator;
-    
     private static readonly int Horizontal = Animator.StringToHash("Horizontal");
     private static readonly int Vertical = Animator.StringToHash("Vertical");
     private static readonly int Speed = Animator.StringToHash("Speed");
+    public float moveSpeed = 5;
+    public Animator atkAnimator;
+
+    private Animator animator;
+    private Vector2 movement;
+    private Rigidbody2D rb;
 
     private void Start()
     {
@@ -28,10 +27,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat(Vertical, movement.y);
         animator.SetFloat(Speed, movement.sqrMagnitude);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            atkAnimator.SetBool("shoot", true);
-        }
+        if (Input.GetKeyDown(KeyCode.Space)) atkAnimator.SetBool("shoot", true);
     }
 
     private void FixedUpdate()

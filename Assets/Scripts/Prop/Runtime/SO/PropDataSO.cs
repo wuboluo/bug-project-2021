@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
-namespace Bug.Project21.PropsEditor
+namespace Bug.Project21.Props
 {
     public partial class PropDataSO : ScriptableObject
     {
@@ -26,7 +26,7 @@ namespace Bug.Project21.PropsEditor
         public int ID => id;
         public PropTag Tag => tag;
         public PropAttr Attrs => attrs;
-        
+
         private void SwitchPropTag()
         {
             attrs.isWeapon = Tag switch
@@ -80,8 +80,8 @@ namespace Bug.Project21.PropsEditor
         [HideLabel]
         [SerializeField]
         private PropAttr attrs;
-        
-        [BoxGroup("Basic/Left/技能")] [HideLabel] 
+
+        [BoxGroup("Basic/Left/技能")] [HideLabel]
         public PropSkillDataSO skillDataSO;
     }
 }

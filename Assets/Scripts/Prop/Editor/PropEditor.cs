@@ -5,7 +5,7 @@ using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Bug.Project21.PropsEditor
+namespace Bug.Project21.Props
 {
     public class PropEditor : OdinMenuEditorWindow
     {

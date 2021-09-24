@@ -2,16 +2,11 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Bug.Project21.PropsEditor
+namespace Bug.Project21.Props
 {
     [Serializable]
     public partial class PropAttr
     {
-        public Attr_Atk Atk => atk;
-        public Attr_Def Def => def;
-        public Attr_Hp Hp => hp;
-        public Attr_Speed Speed => speed;
-
         // ------------------------------------------------------------ 
 
         [ShowIf("isWeapon")] [Toggle("enable")] [LabelText("攻击")] [SerializeField]
@@ -27,15 +22,15 @@ namespace Bug.Project21.PropsEditor
         private Attr_Speed speed;
 
         // ------------------------------------------------------------ 
-        [HideInInspector]
-        public bool isWeapon;
+        [HideInInspector] public bool isWeapon;
+        public Attr_Atk Atk => atk;
+        public Attr_Def Def => def;
+        public Attr_Hp Hp => hp;
+        public Attr_Speed Speed => speed;
     }
 
     public partial class PropAttr
     {
-        public Attr_Price Price => price;
-        public Attr_Rarity Rarity => rarity;
-
         // ------------------------------------------------------------ 
 
         [HideIf("isWeapon")] [Toggle("enable")] [LabelText("价格")] [SerializeField]
@@ -43,5 +38,8 @@ namespace Bug.Project21.PropsEditor
 
         [HideIf("isWeapon")] [Toggle("enable")] [LabelText("稀有度")] [SerializeField]
         private Attr_Rarity rarity;
+
+        public Attr_Price Price => price;
+        public Attr_Rarity Rarity => rarity;
     }
 }

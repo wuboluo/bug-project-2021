@@ -8,8 +8,9 @@ using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace Bug.Project21.PropsEditor
+namespace Bug.Project21.Props
 {
     public static class SOCreator
     {
@@ -76,7 +77,7 @@ namespace Bug.Project21.PropsEditor
                 }
                 else
                 {
-                    UnityEngine.Object.DestroyImmediate(obj);
+                    Object.DestroyImmediate(obj);
                 }
             }
         }

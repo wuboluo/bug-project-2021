@@ -2,7 +2,7 @@ using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Bug.Project21.PropsEditor
+namespace Bug.Project21.Props
 {
     [Serializable]
     public class PropSkillAttr
