@@ -16,17 +16,20 @@ namespace Bug.Project21.PropsEditor
         [ToggleGroup("Enabled")] [LabelText("AOE")] [LabelWidth(100)] [SerializeField]
         private bool isAOE;
 
-        [ToggleGroup("Enabled")] [LabelText("CD")] [LabelWidth(100)] [SerializeField]
-        private float cd;
+        // [ToggleGroup("Enabled")] [LabelText("CD")] [LabelWidth(100)] [SerializeField]
+        // private float cd;
 
-        [ToggleGroup("Enabled")] [LabelText("执行耗时")] [LabelWidth(100)] [SerializeField]
-        private float time;
+        // [ToggleGroup("Enabled")] [LabelText("引导时间")] [LabelWidth(100)] [SerializeField]
+        // private float time;
 
-        [ToggleGroup("Enabled")] [LabelText("影响范围（%）")] [LabelWidth(100)] [SerializeField] [Range(0, 1)]
+        [ToggleGroup("Enabled")] [LabelText("基础伤害")] [LabelWidth(100)] [SerializeField]
         private float value;
 
-        [ToggleGroup("Enabled")] [LabelText("影响速度")] [LabelWidth(100)] [SerializeField]
-        private AnimationCurve valueCurve;
+        [ToggleGroup("Enabled")] [LabelText("影响比例")] [LabelWidth(100)] [SerializeField] [Range(0, 1)]
+        private float percent;
+
+        // [ToggleGroup("Enabled")] [LabelText("影响速度")] [LabelWidth(100)] [SerializeField]
+        // private AnimationCurve valueCurve;
 
         // ------------------------------------------------------------ 
 
@@ -39,13 +42,16 @@ namespace Bug.Project21.PropsEditor
         }
 
         public SkillAttrActingOn Target => target;
+
         public bool IsAOE => isAOE;
-        public float Cd => cd;
-        public float Time => time;
+
+        // public float Cd => cd;
+        // public float Time => time;
+        public float Percent => percent;
+
+        // public AnimationCurve ValueCurve => valueCurve;
         public float Value => value;
-        public AnimationCurve ValueCurve => valueCurve;
 
         public string Label => name;
-        // ------------------------------------------------------------ 
     }
 }

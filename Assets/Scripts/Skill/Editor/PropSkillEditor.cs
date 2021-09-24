@@ -13,6 +13,7 @@ public class PropSkillEditor : OdinMenuEditorWindow
     {
         var window = GetWindow<PropSkillEditor>();
         window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);
+        window.titleContent = new GUIContent("技能编辑器");
     }
 
     protected override OdinMenuTree BuildMenuTree()

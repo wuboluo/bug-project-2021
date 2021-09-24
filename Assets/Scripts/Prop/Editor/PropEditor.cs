@@ -14,6 +14,7 @@ namespace Bug.Project21.PropsEditor
         {
             var window = GetWindow<PropEditor>();
             window.position = GUIHelper.GetEditorWindowRect().AlignCenter(800, 500);
+            window.titleContent = new GUIContent("道具编辑器");
         }
 
         protected override OdinMenuTree BuildMenuTree()

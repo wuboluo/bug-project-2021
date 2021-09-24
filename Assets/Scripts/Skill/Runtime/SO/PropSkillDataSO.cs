@@ -45,6 +45,9 @@ public class PropSkillDataSO : ScriptableObject
     public ParticleSystem Effect => effect;
     public AudioSource Audio => audio;
 
+    /// <summary>
+    /// 技能列表
+    /// </summary>
     public PropSkillAttr[] SkillAttrs => skillAttrs;
 
     // ------------------------------------------------------------ 

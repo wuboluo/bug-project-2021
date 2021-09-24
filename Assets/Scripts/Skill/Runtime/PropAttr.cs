@@ -29,11 +29,6 @@ namespace Bug.Project21.PropsEditor
         // ------------------------------------------------------------ 
         [HideInInspector]
         public bool isWeapon;
-        // public bool IsWeapon
-        // {
-        //     get => isWeapon;
-        //     set => isWeapon = value;
-        // }
     }
 
     public partial class PropAttr
