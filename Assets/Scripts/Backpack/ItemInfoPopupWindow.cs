@@ -42,32 +42,32 @@ namespace Bug.Project21.Backpack
             {
                 g.gameObject.SetActive(false);
             }
-            MyName.text = item.MyName;
-            MyIcon.texture = item.MyIcon;
-            MyIntroduce.text = item.MyIntroduce;
-            if (item.MyAtk > 0)
+            MyName.text = item.dataSO.Name;
+            MyIcon.texture = item.dataSO.Icon;
+            MyIntroduce.text = item.dataSO.Describe;
+            if (item.dataSO.Attrs.Atk.Value > 0)
             {
                 MyAtk.SetActive(true);
                 MyAtk.transform.GetChild(0).GetComponent<Text>().text = "攻击";
-                MyAtk.transform.GetChild(1).GetComponent<Text>().text = item.MyAtk.ToString();
+                MyAtk.transform.GetChild(1).GetComponent<Text>().text = item.dataSO.Attrs.Atk.Value.ToString();
             }
-            if (item.MyDef > 0)
+            if (item.dataSO.Attrs.Def.Value > 0)
             {
                 MyDef.SetActive(true);
                 MyDef.transform.GetChild(0).GetComponent<Text>().text = "防御";
-                MyDef.transform.GetChild(1).GetComponent<Text>().text = item.MyDef.ToString();
+                MyDef.transform.GetChild(1).GetComponent<Text>().text = item.dataSO.Attrs.Def.Value.ToString();
             }
-            if (item.MyHp > 0)
+            if (item.dataSO.Attrs.Hp.Value > 0)
             {
                 MyHp.SetActive(true);
                 MyHp.transform.GetChild(0).GetComponent<Text>().text = "生命";
-                MyHp.transform.GetChild(1).GetComponent<Text>().text = item.MyHp.ToString();
+                MyHp.transform.GetChild(1).GetComponent<Text>().text = item.dataSO.Attrs.Hp.Value.ToString();
             }
-            if (item.MyMoveSpeed > 0)
+            if (item.dataSO.Attrs.Speed.Value > 0)
             {
                 MyMoveSpeed.SetActive(true);
                 MyMoveSpeed.transform.GetChild(0).GetComponent<Text>().text = "移动速度";
-                MyMoveSpeed.transform.GetChild(1).GetComponent<Text>().text = item.MyMoveSpeed.ToString();
+                MyMoveSpeed.transform.GetChild(1).GetComponent<Text>().text = item.dataSO.Attrs.Speed.Value.ToString();
             }
             this.transform.localScale = Vector3.one;
         }
