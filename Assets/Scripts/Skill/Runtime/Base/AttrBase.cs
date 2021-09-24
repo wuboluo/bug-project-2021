@@ -12,23 +12,14 @@ namespace Bug.Project21.Props
 
         [HideLabel] public Vector2 range = new Vector2(0, 10);
 
-        private float? value = default;
+        public float Value { get; private set; }
 
-        public float? Value
+        /// <summary>
+        ///     初始化数值，只能调用一次
+        /// </summary>
+        public void InitValue()
         {
-            get
-            {
-                if (!enable) return null;
-                return value.Equals(default) ? Random.Range(range.x, range.y) : value;
-            }
+            Value = enable ? Random.Range(range.x, range.y) : float.MinValue;
         }
-
-        // /// <summary>
-        // /// 初始化数值，只能调用一次
-        // /// </summary>
-        // public void InitValue()
-        // {
-        //     Value = enable ? Random.Range(range.x, range.y) : float.MinValue;
-        // }
     }
 }
