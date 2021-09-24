@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -23,10 +24,25 @@ namespace Bug.Project21.Props
 
         // ------------------------------------------------------------ 
         [HideInInspector] public bool isWeapon;
-        public Attr_Atk Atk => atk;
-        public Attr_Def Def => def;
-        public Attr_Hp Hp => hp;
-        public Attr_Speed Speed => speed;
+
+        public bool InitValues()
+        {
+            var values = new[] {atk.Value, def.Value, hp.Value, speed.Value};
+            return !values.All(_ => _.Equals(default));
+        }
+
+        public void SetValues()
+        {
+            atk.InitValue();
+            def.InitValue();
+            hp.InitValue();
+            speed.InitValue();
+        }
+
+        public (float _atk, float _def, float _hp, float _speed) GetValues()
+        {
+            return (atk.Value, def.Value, hp.Value, speed.Value);
+        }
     }
 
     public partial class PropAttr
