@@ -31,6 +31,14 @@ namespace Bug.Project21.Props
             return !values.All(_ => _.Equals(default));
         }
 
+        public void SetValues()
+        {
+            atk.InitValue();
+            def.InitValue();
+            hp.InitValue();
+            speed.InitValue();
+        }
+
         public (float _atk, float _def, float _hp, float _speed) GetValues()
         {
             return (atk.Value, def.Value, hp.Value, speed.Value);
