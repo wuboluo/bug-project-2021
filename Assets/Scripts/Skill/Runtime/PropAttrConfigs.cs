@@ -1,9 +1,9 @@
 using System;
 
-// ------------------------------ 武器
-
 namespace Bug.Project21.Props
 {
+    // ------------------------------ 武器
+
     [Serializable]
     public class Attr_Atk : AttrBase
     {
@@ -24,7 +24,8 @@ namespace Bug.Project21.Props
     {
     }
 
-// ------------------------------ 材料
+    // ------------------------------ 材料
+
     [Serializable]
     public class Attr_Price : AttrBase
     {
