@@ -9,31 +9,31 @@ namespace Bug.Project21.Backpack
     {
         public Transform Group = null;
         /// <summary>
-        /// 名称
+        /// 鍚嶇О
         /// </summary>
         public Text MyName = null;
         /// <summary>
-        /// 图标
+        /// 鍥炬爣
         /// </summary>
         public RawImage MyIcon = null;
         /// <summary>
-        /// 说明
+        /// 璇存槑
         /// </summary>
         public Text MyIntroduce = null;
         /// <summary>
-        /// 攻击
+        /// 鏀诲嚮
         /// </summary>
         public GameObject MyAtk = null;
         /// <summary>
-        /// 防御
+        /// 闃插尽
         /// </summary>
         public GameObject MyDef = null;
         /// <summary>
-        /// 体力
+        /// 浣撳姏
         /// </summary>
         public GameObject MyHp = null;
         /// <summary>
-        /// 移动速度
+        /// 绉诲姩閫熷害
         /// </summary>
         public GameObject MyMoveSpeed = null;
         public void OnOpenWindow(Item item)
@@ -56,25 +56,25 @@ namespace Bug.Project21.Backpack
             if(is_values["atk"])
             {
                 MyAtk.SetActive(true);
-                MyAtk.transform.GetChild(0).GetComponent<Text>().text = "攻击";
+                MyAtk.transform.GetChild(0).GetComponent<Text>().text = "鏀诲嚮";
                 MyAtk.transform.GetChild(1).GetComponent<Text>().text = values["atk"].ToString();
             }
             if (is_values["def"])
             {
                 MyDef.SetActive(true);
-                MyDef.transform.GetChild(0).GetComponent<Text>().text = "防御";
+                MyDef.transform.GetChild(0).GetComponent<Text>().text = "闃插尽";
                 MyDef.transform.GetChild(1).GetComponent<Text>().text = values["def"].ToString();
             }
             if (is_values["hp"])
             {
                 MyHp.SetActive(true);
-                MyHp.transform.GetChild(0).GetComponent<Text>().text = "生命";
+                MyHp.transform.GetChild(0).GetComponent<Text>().text = "鐢熷懡";
                 MyHp.transform.GetChild(1).GetComponent<Text>().text = values["hp"].ToString();
             }
             if (is_values["speed"])
             {
                 MyMoveSpeed.SetActive(true);
-                MyMoveSpeed.transform.GetChild(0).GetComponent<Text>().text = "移动速度";
+                MyMoveSpeed.transform.GetChild(0).GetComponent<Text>().text = "绉诲姩閫熷害";
                 MyMoveSpeed.transform.GetChild(1).GetComponent<Text>().text = values["speed"].ToString();
             }
             this.transform.localScale = Vector3.one;

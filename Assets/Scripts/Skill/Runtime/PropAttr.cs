@@ -39,10 +39,23 @@ namespace Bug.Project21.Props
         ///     判断道具属性的值是否都被设置过
         /// </summary>
         /// <returns>true：全部被设置</returns>
-        public bool InitValues()
+        public bool InitValues(PropTag tag)
         {
-            var values = new[] {atk.Value, def.Value, hp.Value, speed.Value};
-            return !values.All(_ => _.Equals(default));
+            switch (tag)
+            {
+                case PropTag.weapon:
+                {
+                    var values = new[] {atk.Value, def.Value, hp.Value, speed.Value};
+                    return !values.All(_ => _.Equals(default));
+                }
+                case PropTag.stuff:
+                {
+                    var values = new[] {price.Value, rarity.Value};
+                    return !values.All(_ => _.Equals(default));
+                }
+                default:
+                    return false;
+            }
         }
 
         /// <summary>
