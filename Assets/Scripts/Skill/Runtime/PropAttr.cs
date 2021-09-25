@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -19,8 +20,19 @@ namespace Bug.Project21.Props
 
         [ShowIf("isWeapon")] [Toggle("enable")] [LabelText("移动速度")] [SerializeField]
         private Attr_Speed speed;
+    }
 
-        // ------------------------------------------------------------ 
+    public partial class PropAttr
+    {
+        [HideIf("isWeapon")] [Toggle("enable")] [LabelText("价格")] [SerializeField]
+        private Attr_Price price;
+
+        [HideIf("isWeapon")] [Toggle("enable")] [LabelText("稀有度")] [SerializeField]
+        private Attr_Rarity rarity;
+    }
+
+    public partial class PropAttr
+    {
         [HideInInspector] public bool isWeapon;
 
         /// <summary>
@@ -36,42 +48,62 @@ namespace Bug.Project21.Props
         /// <summary>
         ///     设置道具属性的数值（范围随机）
         /// </summary>
-        public void SetValues()
+        public void SetValues(PropTag tag)
         {
-            atk.InitValue();
-            def.InitValue();
-            hp.InitValue();
-            speed.InitValue();
+            switch (tag)
+            {
+                case PropTag.weapon:
+                    atk.InitValue();
+                    def.InitValue();
+                    hp.InitValue();
+                    speed.InitValue();
+                    break;
+                case PropTag.stuff:
+                    price.InitValue();
+                    rarity.InitValue();
+                    break;
+            }
         }
 
         /// <summary>
         ///     获取道具属性的值
         /// </summary>
         /// <returns></returns>
-        public (float _atk, float _def, float _hp, float _speed) GetValues()
+        public Dictionary<string, int> GetValues(PropTag tag)
         {
-            return (atk.Value, def.Value, hp.Value, speed.Value);
+            return tag switch
+            {
+                PropTag.weapon => new Dictionary<string, int>
+                {
+                    {"atk", atk.Value}, {"def", def.Value}, {"hp", hp.Value}, {"speed", speed.Value}
+                },
+                PropTag.stuff => new Dictionary<string, int>
+                {
+                    {"price", price.Value}, {"rarity", rarity.Value}
+                },
+                _ => null
+            };
         }
+
 
         /// <summary>
-        ///     获取道具属性是否可使用
+        ///     获取属性是否可使用
         /// </summary>
         /// <returns></returns>
-        public (bool _atkAble, bool _defAble, bool _hpAble, bool _speedAble) GetAbles()
+        public Dictionary<string, bool> GetAbles(PropTag tag)
         {
-            return (atk.enable, def.enable, hp.enable, speed.enable);
+            return tag switch
+            {
+                PropTag.weapon => new Dictionary<string, bool>
+                {
+                    {"atk", atk.enable}, {"def", def.enable}, {"hp", hp.enable}, {"speed", speed.enable}
+                },
+                PropTag.stuff => new Dictionary<string, bool>
+                {
+                    {"price", price.enable}, {"rarity", rarity.enable}
+                },
+                _ => null
+            };
         }
-    }
-
-    public partial class PropAttr
-    {
-        [HideIf("isWeapon")] [Toggle("enable")] [LabelText("价格")] [SerializeField]
-        private Attr_Price price;
-
-        [HideIf("isWeapon")] [Toggle("enable")] [LabelText("稀有度")] [SerializeField]
-        private Attr_Rarity rarity;
-
-        public Attr_Price Price => price;
-        public Attr_Rarity Rarity => rarity;
     }
 }
