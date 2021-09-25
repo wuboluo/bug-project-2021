@@ -30,7 +30,13 @@ namespace Bug.Project21.Backpack
     {
 
         public PropDataSO dataSO = null;
-
+        public void Start()
+        {
+            if(dataSO.Attrs.InitValues()== false)
+            {
+                dataSO.Attrs.SetValues();
+            }
+        }
 
         ///// <summary>
         ///// ŒÔ∆∑ID£®±‡∫≈£©

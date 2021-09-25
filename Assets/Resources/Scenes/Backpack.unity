@@ -664,6 +664,10 @@ PrefabInstance:
       value: "\u5B8F\u535A\u7684\u94E0\u7532"
       objectReference: {fileID: 0}
     - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
+      propertyPath: dataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 771382fd7ac95cf489185bea236501e5, type: 2}
+    - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
       propertyPath: MyEquipType
       value: 1
       objectReference: {fileID: 0}
@@ -7839,6 +7843,10 @@ PrefabInstance:
       value: "\u5B8F\u535A\u7684\u978B\u5B50"
       objectReference: {fileID: 0}
     - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
+      propertyPath: dataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b75b7092aa695442acb7defc0c4285e, type: 2}
+    - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
       propertyPath: MyEquipType
       value: 2
       objectReference: {fileID: 0}
@@ -8907,7 +8915,7 @@ PrefabInstance:
     - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
       propertyPath: dataSO
       value: 
-      objectReference: {fileID: 11400000, guid: 6817eaf5642f7e243bbfb3ad76406769, type: 2}
+      objectReference: {fileID: 11400000, guid: 3ca0a046f817d094ca860a07888760f7, type: 2}
     - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
       propertyPath: MyMoveSpeed
       value: 222
@@ -10343,6 +10351,10 @@ PrefabInstance:
       propertyPath: MyDef
       value: 888
       objectReference: {fileID: 0}
+    - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
+      propertyPath: dataSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 6817eaf5642f7e243bbfb3ad76406769, type: 2}
     - target: {fileID: 6808474635298348779, guid: 3a04dd8b6cc47b04f93c46e9fba592fd, type: 3}
       propertyPath: MyMoveSpeed
       value: 666
