@@ -34,7 +34,7 @@ namespace Bug.Project21.Backpack
         {
             if(dataSO.Attrs.InitValues()== false)
             {
-                dataSO.Attrs.SetValues();
+                dataSO.Attrs.SetValues(PropTag.weapon);
             }
         }
 
