@@ -6,21 +6,21 @@ using Bug.Project21.Props;
 namespace Bug.Project21.Backpack
 {
     /// <summary>
-    /// ÎïÆ·ÀàÐÍ
-    /// 1£º×°±¸
-    /// 2£º²ÄÁÏ
+    /// ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+    /// 1ï¿½ï¿½×°ï¿½ï¿½
+    /// 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public enum ItemType { NULL = -1, Equip = 0, Materials = 1 }
     /// <summary>
-    /// ×°±¸ÀàÐÍ
-    /// 1£ºÎäÆ÷
-    /// 2£ºîø¼×
-    /// 3£ºÐ¬×Ó
+    /// ×°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// 3ï¿½ï¿½Ð¬ï¿½ï¿½
     /// </summary>
     public enum EquipType { NULL = -1, Weapon = 0, Barde = 1, Shoe = 2 }
     /// <summary>
-    /// ²ÄÁÏÀàÐÍ
-    /// 1£º
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    /// 1ï¿½ï¿½
     /// </summary>
     public enum MaterialsType { NULL = -1 }
     /// <summary>
@@ -32,50 +32,50 @@ namespace Bug.Project21.Backpack
         public PropDataSO dataSO = null;
         public void Start()
         {
-            if(dataSO.Attrs.InitValues()== false)
+            if(dataSO.Attrs.InitValues(PropTag.weapon)== false)
             {
                 dataSO.Attrs.SetValues(PropTag.weapon);
             }
         }
 
         ///// <summary>
-        ///// ÎïÆ·ID£¨±àºÅ£©
+        ///// ï¿½ï¿½Æ·IDï¿½ï¿½ï¿½ï¿½Å£ï¿½
         ///// </summary>
         //public int ID = 0;
         ///// <summary>
-        ///// ÎïÆ·ÀàÐÍ
+        ///// ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
         ///// </summary>
         //public ItemType MyItemType = ItemType.NULL;
         ///// <summary>
-        ///// ÎäÆ÷ÀàÐÍ
+        ///// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         ///// </summary>
         //public EquipType MyEquipType = EquipType.NULL;
         ///// <summary>
-        ///// Ãû³Æ
+        ///// ï¿½ï¿½ï¿½ï¿½
         ///// </summary>
         //public string MyName = string.Empty;
         ///// <summary>
-        ///// Í¼±ê
+        ///// Í¼ï¿½ï¿½
         ///// </summary>
         //public Texture2D MyIcon = null;
         ///// <summary>
-        ///// ËµÃ÷
+        ///// Ëµï¿½ï¿½
         ///// </summary>
         //public string MyIntroduce = string.Empty;
         ///// <summary>
-        ///// ¹¥»÷
+        ///// ï¿½ï¿½ï¿½ï¿½
         ///// </summary>
         //public int MyAtk = 0;
         ///// <summary>
-        ///// ·ÀÓù
+        ///// ï¿½ï¿½ï¿½ï¿½
         ///// </summary>
         //public int MyDef = 0;
         ///// <summary>
-        ///// ÌåÁ¦
+        ///// ï¿½ï¿½ï¿½ï¿½
         ///// </summary>
         //public int MyHp = 0;
         ///// <summary>
-        ///// ÒÆ¶¯ËÙ¶È
+        ///// ï¿½Æ¶ï¿½ï¿½Ù¶ï¿½
         ///// </summary>
         //public int MyMoveSpeed = 0;
     }
