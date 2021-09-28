@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 /// <summary>
-/// ◊”–≈œ¢µØ¥∞
+/// Â≠ê‰ø°ÊÅØÂºπÁ™ó
 /// </summary>
 public class MinItemInfoPopupWindow : ItemInfoPopupWindowBase<MinItemInfoPopupWindow>,IPointerExitHandler
 {
@@ -27,18 +27,18 @@ public class MinItemInfoPopupWindow : ItemInfoPopupWindowBase<MinItemInfoPopupWi
                 break;
             case GridPoint.Backpack:
                 SonWindowLists[0].gameObject.SetActive(true);
-                //¥©¥˜◊∞±∏
+                //Á©øÊà¥Ë£ÖÂ§á
                 SonWindowLists[0].onClick.AddListener(() =>
                 {
                     try
                     {
-                        //◊∞±∏±≥∞¸∏Ò◊”
+                        //Ë£ÖÂ§áËÉåÂåÖÊ†ºÂ≠ê
                         GridBase equipGridBase = EquipGridControl.GetInstance.GridBaseLists.Find(s => (s as EquipGrid).EquipType_ == item.EquipType_);
                         if(equipGridBase != null)
                         {
                             if (equipGridBase.transform.childCount <= 0)
                             {
-                                //◊∞±∏∑≈»Î±≥∞¸∏Ò◊”=¥©¥˜
+                                //Ë£ÖÂ§áÊîæÂÖ•ËÉåÂåÖÊ†ºÂ≠ê=Á©øÊà¥
                                 equipGridBase.OnInputTo(item);
                             }
                             else
@@ -59,7 +59,7 @@ public class MinItemInfoPopupWindow : ItemInfoPopupWindowBase<MinItemInfoPopupWi
                 });
 
                 SonWindowLists[3].gameObject.SetActive(true);
-                //≥ˆ €
+                //Âá∫ÂîÆ
                 SonWindowLists[3].onClick.AddListener(() =>
                 {
 
@@ -67,7 +67,7 @@ public class MinItemInfoPopupWindow : ItemInfoPopupWindowBase<MinItemInfoPopupWi
                 break;
             case GridPoint.Equip:
                 SonWindowLists[1].gameObject.SetActive(true);
-                //–∂œ¬◊∞±∏
+                //Âç∏‰∏ãË£ÖÂ§á
                 SonWindowLists[1].onClick.AddListener(() =>
                 {
                     try
@@ -91,7 +91,7 @@ public class MinItemInfoPopupWindow : ItemInfoPopupWindowBase<MinItemInfoPopupWi
                 break;
             case GridPoint.Store:
                 SonWindowLists[2].gameObject.SetActive(true);
-                //π∫¬Ú◊∞±∏
+                //Ë¥≠‰π∞Ë£ÖÂ§á
                 SonWindowLists[2].onClick.AddListener(() =>
                 {
                     try
