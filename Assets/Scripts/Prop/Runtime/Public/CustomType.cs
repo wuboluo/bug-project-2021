@@ -5,7 +5,7 @@ namespace Bug.Project21.Props
     public enum PropTag
     {
         [InspectorName("材料")] stuff,
-        [InspectorName("武器")] weapon
+        [InspectorName("装备")] weapon
     }
 
     public enum PropSkillType

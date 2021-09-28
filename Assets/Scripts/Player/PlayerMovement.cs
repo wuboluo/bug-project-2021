@@ -1,37 +1,59 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+namespace Bug.Project21.Player
 {
-    private static readonly int Horizontal = Animator.StringToHash("Horizontal");
-    private static readonly int Vertical = Animator.StringToHash("Vertical");
-    private static readonly int Speed = Animator.StringToHash("Speed");
-    public float moveSpeed = 5;
-    public Animator atkAnimator;
-
-    private Animator animator;
-    private Vector2 movement;
-    private Rigidbody2D rb;
-
-    private void Start()
+    public class PlayerMovement : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-    }
+        public float moveSpeed = 3;
+        private Camera _camera;
 
-    private void Update()
-    {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        private Animator animator;
 
-        animator.SetFloat(Horizontal, movement.x);
-        animator.SetFloat(Vertical, movement.y);
-        animator.SetFloat(Speed, movement.sqrMagnitude);
+        public PlayerInputControl controls;
+        private Rigidbody2D rb;
 
-        if (Input.GetKeyDown(KeyCode.Space)) atkAnimator.SetBool("shoot", true);
-    }
+        private void Awake()
+        {
+            controls = new PlayerInputControl();
+        }
 
-    private void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * (moveSpeed * Time.fixedDeltaTime));
+        private void Start()
+        {
+            rb = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
+            _camera = Camera.main;
+        }
+
+        private void FixedUpdate()
+        {
+            // move
+            var moveInput = controls.Player.Move.ReadValue<Vector2>();
+            rb.velocity = moveInput * moveSpeed;
+
+            // todo: mouse position 
+            var mousePos = controls.Player.MousePos.ReadValue<Vector2>();
+            var mousePosZ = _camera.farClipPlane * .5f;
+            var mouseWorldPos = _camera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, mousePosZ));
+
+
+            // animator
+            animator.SetFloat("MousePositionX", moveInput.x);
+            animator.SetFloat("MousePositionY", moveInput.y);
+
+            animator.SetFloat("Horizontal", moveInput.x);
+            animator.SetFloat("Vertical", moveInput.y);
+
+            animator.SetFloat("Speed", moveInput.sqrMagnitude);
+        }
+
+        private void OnEnable()
+        {
+            controls.Enable();
+        }
+
+        private void OnDisable()
+        {
+            controls.Disable();
+        }
     }
 }

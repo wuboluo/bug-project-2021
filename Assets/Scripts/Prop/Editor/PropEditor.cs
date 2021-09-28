@@ -23,7 +23,7 @@ namespace Bug.Project21.Props
             tree.DefaultMenuStyle.IconSize = 25f;
             tree.Config.DrawSearchToolbar = true;
 
-            tree.AddAllAssetsAtPath("", "Assets/Resources/Prop/SO", typeof(PropDataSO), true)
+            tree.AddAllAssetsAtPath("", "Assets/ScriptableObjects/Prop", typeof(PropDataSO), true)
                 .ForEach(AddDragHandles);
 
             tree.EnumerateTree().Where(r => r.Value as PropDataSO).ForEach(AddDragHandles);
@@ -47,19 +47,19 @@ namespace Bug.Project21.Props
                 if (selected != null) GUILayout.Label(selected.Name);
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("创建")))
-                    SOCreator.ShowDialog<PropDataSO>("Assets/Resources/Prop/SO",
+                    SOCreator.ShowDialog<PropDataSO>("Assets/ScriptableObjects/Prop",
                         obj =>
                         {
                             obj.Name = obj.name;
                             TrySelectMenuItemWithObject(obj);
 
-                            obj.asset = AssetDatabase.FindAssets(obj.Name, new[] {"Assets/Resources/Prop/SO"});
+                            obj.asset = AssetDatabase.FindAssets(obj.Name, new[] {"Assets/ScriptableObjects/Prop"});
                         });
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("删除")))
                     if (selected != null)
                     {
-                        var asset = AssetDatabase.FindAssets(selected.Name, new[] {"Assets/Resources/Prop/SO"});
+                        var asset = AssetDatabase.FindAssets(selected.Name, new[] {"Assets/ScriptableObjects/Prop"});
                         AssetDatabase.DeleteAsset(AssetDatabase.GUIDToAssetPath(asset.First()));
                     }
             }
