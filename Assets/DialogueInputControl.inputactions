@@ -1,0 +1,52 @@
+{
+    "name": "DialogueInputControl",
+    "maps": [
+        {
+            "name": "Dialogue",
+            "id": "6f8857ca-63cc-4391-a301-774c2453aa87",
+            "actions": [
+                {
+                    "name": "Next",
+                    "type": "Button",
+                    "id": "ee38abbf-b709-4269-bf1f-53a95d91728e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "StartTalk",
+                    "type": "Button",
+                    "id": "24f89af9-a6b6-4093-ba69-06c9cb7e5fa5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8ab566cc-0b7a-41f1-8dc9-b15652e46c7a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eed8ea96-377a-4b9b-8a0d-efdf8937d228",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartTalk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
