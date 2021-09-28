@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// ÷˜–≈œ¢µØ¥∞
+/// ‰∏ª‰ø°ÊÅØÂºπÁ™ó
 /// </summary>
 public class MaxItemInfoPopupWindow : ItemInfoPopupWindowBase<MaxItemInfoPopupWindow>
 {
@@ -17,6 +17,7 @@ public class MaxItemInfoPopupWindow : ItemInfoPopupWindowBase<MaxItemInfoPopupWi
     public Text DefText = null;
     public Text HPText = null;
     public Text SpeedText = null;
+    public Text SkillValueText = null;
 
     public GameObject SkillActive = null;
     public RawImage SkillActiveIcon = null;
@@ -50,7 +51,7 @@ public class MaxItemInfoPopupWindow : ItemInfoPopupWindowBase<MaxItemInfoPopupWi
 
         float offset_x = (popupWindow_W / 2f + grid_W / 2f);
 
-        #region X◊¯±Í
+        #region XÂùêÊ†á
         float get_X = _grid.transform.position.x;
         get_X = _grid.transform.position.x - offset_x;
         //get_X = get_X > Screen.width / 2f ? GridPoint.position.x - offset_x : GridPoint.position.x + offset_x;
@@ -68,7 +69,7 @@ public class MaxItemInfoPopupWindow : ItemInfoPopupWindowBase<MaxItemInfoPopupWi
         }
         #endregion
 
-        #region Y◊¯±Í
+        #region YÂùêÊ†á
         float get_Y = _grid.transform.position.y;
         get_Y = get_Y - popupWindow_H / 2f < 0 ? popupWindow_H / 2 : get_Y;
         get_Y = get_Y + popupWindow_H / 2f > Screen.height ? Screen.height - popupWindow_H / 2 : get_Y;
@@ -81,48 +82,55 @@ public class MaxItemInfoPopupWindow : ItemInfoPopupWindowBase<MaxItemInfoPopupWi
 
         MainIcon.texture = temp_item.Icon_;
         MainNameText.text = temp_item.Name_;
-        MainDesText.text = "ΩÈ…‹£∫"+temp_item.Des_;
+        MainDesText.text = "‰ªãÁªçÔºö"+temp_item.Des_;
 
         if (temp_item.Atk_ > 0)
         {
             AtkText.gameObject.SetActive(true);
-            AtkText.text = "π•ª˜£∫" + temp_item.Atk_.ToString();
+            AtkText.text = "ÊîªÂáªÔºö" + temp_item.Atk_.ToString();
         }
         if (temp_item.Def_ > 0)
         {
             DefText.gameObject.SetActive(true);
-            DefText.text = "∑¿”˘£∫" + temp_item.Def_.ToString();
+            DefText.text = "Èò≤Âæ°Ôºö" + temp_item.Def_.ToString();
         }
         if (temp_item.HP_ > 0)
         {
             HPText.gameObject.SetActive(true);
-            HPText.text = "…˙√¸£∫" + temp_item.HP_.ToString();
+            HPText.text = "ÁîüÂëΩÔºö" + temp_item.HP_.ToString();
         }
         if (temp_item.Speed_ > 0)
         {
             SpeedText.gameObject.SetActive(true);
-            SpeedText.text = "“∆∂ØÀŸ∂»£∫" + temp_item.Speed_.ToString();
+            SpeedText.text = "ÁßªÂä®ÈÄüÂ∫¶Ôºö" + temp_item.Speed_.ToString();
         }
+
+        if (temp_item.SkillValue_ > 0)
+        {
+            SkillValueText.gameObject.SetActive(true);
+            SkillValueText.text = "Â¢ûÂπÖÂ±ûÊÄßÔºö" + temp_item.SkillValue_.ToString();
+        }
+
         if (temp_item.SkillActive_ != null)
         {
             SkillActive.SetActive(true);
             SkillActiveIcon.texture = temp_item.SkillActive_.Icon_;
             SkillActiveNameText.text = temp_item.SkillActive_.Name_;
-            SkillActiveValueText.text = "‘ˆ∑˘ Ù–‘£∫"+temp_item.SkillActive_.SkillValue_.ToString();
-            SkillActiveDesText.text = "ΩÈ…‹£∫"+temp_item.SkillActive_.Des_;
+            SkillActiveValueText.text = "Â¢ûÂπÖÂ±ûÊÄßÔºö"+temp_item.SkillActive_.SkillValue_.ToString();
+            SkillActiveDesText.text = "‰ªãÁªçÔºö"+temp_item.SkillActive_.Des_;
         }
         if (temp_item.SkillPassive_ != null)
         {
             SkillPassive.SetActive(true);
             SkillPassiveIcon.texture = temp_item.SkillPassive_.Icon_;
             SkillPassiveNameText.text = temp_item.SkillPassive_.Name_;
-            SkillPassiveValueText.text = "‘ˆ∑˘ Ù–‘£∫" + temp_item.SkillPassive_.SkillValue_.ToString();
-            SkillPassiveDesText.text = "ΩÈ…‹£∫"+temp_item.SkillPassive_.Des_;
+            SkillPassiveValueText.text = "Â¢ûÂπÖÂ±ûÊÄßÔºö" + temp_item.SkillPassive_.SkillValue_.ToString();
+            SkillPassiveDesText.text = "‰ªãÁªçÔºö"+temp_item.SkillPassive_.Des_;
         }
         if (temp_item.Cost > 0)
         {
             CostPanel.SetActive(true);
-            CostText.text = "º€÷µ£∫"+temp_item.Cost.ToString();
+            CostText.text = "‰ª∑ÂÄºÔºö"+temp_item.Cost.ToString();
         }
         switch (_grid.GridPoint_)
         {
