@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Bug.Project21.Dialogues;
 using Bug.Project21.Quest;
 using UnityEngine;
 
@@ -21,7 +22,20 @@ namespace Bug.Project21.Player
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("NPC"))
+            {
                 GetComponent<QuestRequester>().RequestOneQuest(other.gameObject);
+
+                var currentQuest = GetComponent<QuestRequester>().currentQuest;
+                var currentProgress = currentQuest._progress;
+                switch (currentProgress)
+                {
+                    case QuestProgress.OnSD:
+                        // DialogueManager.instance.sentences = currentQuest.diasOnFirstMeet;
+
+                        break;
+                }
+
+            }
         }
 
         private void OnCollisionStay2D(Collision2D other)

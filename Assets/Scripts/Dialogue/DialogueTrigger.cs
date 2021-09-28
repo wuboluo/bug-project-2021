@@ -4,7 +4,7 @@ namespace Bug.Project21.Dialogues
 {
     public class DialogueTrigger : MonoBehaviour
     {
-        public Dialogue dialogue;
+        public Dialogue[] dialogue;
 
         public void TriggerDialogue()
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -6,7 +7,9 @@ namespace Bug.Project21.Dialogues
 {
     public class DialogueManager : MonoBehaviour
     {
-        public Queue<string> sentences = new Queue<string>();
+        public static DialogueManager instance;
+
+        public Queue<Dialogue> sentences = new Queue<Dialogue>();
 
         public TextMeshProUGUI nameText, diaText;
 
@@ -16,13 +19,14 @@ namespace Bug.Project21.Dialogues
 
         private void Awake()
         {
+            instance = this;
             controls = new DialogueInputControl();
         }
 
         private void Start()
         {
             diaTrigger = GetComponent<DialogueTrigger>();
-            
+
             controls.Dialogue.StartTalk.performed += _ => diaTrigger.TriggerDialogue();
             controls.Dialogue.Next.performed += _ => DisplayNextSentence();
         }
@@ -37,14 +41,11 @@ namespace Bug.Project21.Dialogues
             controls.Disable();
         }
 
-        public void StartDialogue(Dialogue dialogue)
+        public void StartDialogue(Dialogue[] dialogue)
         {
-            Debug.Log("start with " + dialogue.name);
+            Debug.Log("start with " + dialogue.First().name + "  " + dialogue.First().sentence);
 
-            nameText.text = dialogue.name;
-            sentences.Clear();
-
-            foreach (var s in dialogue.sentences) sentences.Enqueue(s);
+            sentences = new Queue<Dialogue>(dialogue);
 
             DisplayNextSentence();
         }
@@ -58,8 +59,10 @@ namespace Bug.Project21.Dialogues
             }
 
             var s = sentences.Dequeue();
-            diaText.text = s;
-            print(s);
+
+            nameText.text = s.name;
+            diaText.text = s.sentence;
+            print($"{s.name} : {s.sentence}");
         }
 
         private static void EndDialogue()

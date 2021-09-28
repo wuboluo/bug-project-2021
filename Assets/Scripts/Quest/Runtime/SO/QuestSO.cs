@@ -14,9 +14,12 @@ namespace Bug.Project21.Quest
         [HideInInspector] public string[] asset;
 
         [LabelText("推送任务对象")] public QuestPusher pusher;
-        public bool isDone;
+        
+        [LabelText("完成任务")] public bool isDone;
 
-        [BoxGroup("对话")] [LabelText("初次见面")] public List<QuestDialogue> diasOnFirstMeet;
+        [LabelText("任务进度")] public QuestProgress _progress = QuestProgress.OnSD;
+
+        [BoxGroup("对话")] [LabelText("初次见面")] public Queue<QuestDialogue> diasOnFirstMeet;
 
         [BoxGroup("对话")] [LabelText("检查任务")] public List<QuestDialogue> diasOnCheck;
 
@@ -25,6 +28,7 @@ namespace Bug.Project21.Quest
         [BoxGroup("交换物品")] [LabelText("奖励")] public List<ExchangeObj> rewards;
 
         [LabelText("检查结果")] public Check check;
+
 
         public string Name
         {
@@ -36,5 +40,12 @@ namespace Bug.Project21.Quest
         {
             AssetDatabase.RenameAsset(AssetDatabase.GUIDToAssetPath(asset.First()), Name);
         }
+    }
+
+    public enum QuestProgress
+    {
+        [InspectorName("开始对话")] OnSD, // 开始对话 start dialogue
+        [InspectorName("检查")] OnCD, // 检查对话 check dialogue
+        [InspectorName("完成任务")] OnFD // 结束对话 finished dialogue
     }
 }
