@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4bcf5a62a2e3446be496ac507fd98c, type: 3}
+  m_Name: "\u68EE\u6797\u62E5\u62A4"
+  m_EditorClassIdentifier: 
+  asset:
+  - 16e1dca26c3a2eb41a76eca2dbe54b96
+  mainIcon: {fileID: 2800000, guid: 6ffc7b3601474ed4196b4fd3ccbb8c71, type: 3}
+  name: "\u68EE\u6797\u62E5\u62A4"
+  price: 0
+  id: 10
+  tag: 1
+  equipType: 0
+  describe: "\u5927\u81EA\u7136\u4FDD\u62A4\u7740\u6211"
+  skill: {fileID: 0}
+  attrs:
+    atk:
+      enable: 0
+      range: {x: 0, y: 10}
+    def:
+      enable: 1
+      range: {x: 19, y: 69}
+    hp:
+      enable: 1
+      range: {x: 100, y: 500}
+    speed:
+      enable: 0
+      range: {x: 0, y: 10}
+    price:
+      enable: 0
+      range: {x: 0, y: 10}
+    rarity:
+      enable: 0
+      range: {x: 0, y: 10}
+    isWeapon: 1

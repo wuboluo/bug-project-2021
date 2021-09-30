@@ -1,73 +1,207 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
-namespace Bug.Project21.Dialogues
+public class DialogueManager : MonoBehaviour
 {
-    public class DialogueManager : MonoBehaviour
+    [SerializeField] private List<ActorSO> _actorsList;
+
+    [Header("监听")] [LabelText("开始对话")] [SerializeField]
+    private DialogueDataChannelSO _startDialogue;
+
+    [LabelText("进行对话选择")] [SerializeField] private DialogueChoiceChannelSO _makeDialogueChoiceEvent = default;
+
+    [Header("广播")] [LabelText("打开UI对话")] [SerializeField]
+    private DialogueLineChannelSO _openUIDialogueEvent;
+
+    [LabelText("结束对话类型")] [SerializeField] private IntEventChannelSO _endDialogueWithTypeEvent;
+    [LabelText("继续步骤")] [SerializeField] private VoidEventChannelSO _continueWithStep;
+
+    [LabelText("播放未完成任务对话")] [SerializeField]
+    private VoidEventChannelSO _playIncompleteDialogue;
+
+    [LabelText("做出完成任务选择")] [SerializeField]
+    private VoidEventChannelSO _makeWinningChoice;
+
+    [LabelText("做出未完成任务选择")] [SerializeField]
+    private VoidEventChannelSO _makeLosingChoice;
+
+    private int _counterDialogue;
+    private int _counterLine;
+    private bool _reachedEndOfDialogue => _counterDialogue >= _currentDialogue.Lines.Count;
+    private bool _reachedEndOfLine => _counterLine >= _currentDialogue.Lines[_counterDialogue]._textList.Count;
+
+    private DialogueDataSO _currentDialogue;
+
+    public DialogueInputControl dialogueInputControl;
+
+    // ------- temp -------
+    public GameObject uiChoices;
+    public TextMeshProUGUI uiActor;
+    public TextMeshProUGUI uiSentence;
+
+
+    private void Awake()
     {
-        public static DialogueManager instance;
+        dialogueInputControl = new DialogueInputControl();
+    }
 
-        public Queue<Dialogue> sentences = new Queue<Dialogue>();
+    private void Start()
+    {
+        _startDialogue.OnEventRaised += DisplayDialogueData;
+        dialogueInputControl.Dialogue.Next.performed += _ => OnAdvance();
+    }
 
-        public TextMeshProUGUI nameText, diaText;
+    private void OnEnable()
+    {
+        dialogueInputControl.Enable();
+    }
 
-        private DialogueTrigger diaTrigger;
+    private void OnDisable()
+    {
+        dialogueInputControl.Disable();
+    }
 
-        public DialogueInputControl controls;
+    // 在 UI中显示对话
+    public void DisplayDialogueData(DialogueDataSO dialogueDataSO)
+    {
+        _counterDialogue = 0;
+        _counterLine = 0;
+        _currentDialogue = dialogueDataSO;
 
-        private void Awake()
+        if (_currentDialogue.Lines != null)
         {
-            instance = this;
-            controls = new DialogueInputControl();
+            var currentActor =
+                _actorsList.Find(o => o._actorId == _currentDialogue.Lines[_counterDialogue].actorID);
+
+            DisplayDialogueLine(_currentDialogue.Lines[_counterDialogue]._textList[_counterLine], currentActor);
         }
-
-        private void Start()
+        else
         {
-            diaTrigger = GetComponent<DialogueTrigger>();
-
-            controls.Dialogue.StartTalk.performed += _ => diaTrigger.TriggerDialogue();
-            controls.Dialogue.Next.performed += _ => DisplayNextSentence();
+            Debug.LogError("Check Dialogue");
         }
+    }
 
-        private void OnEnable()
+    /// <summary>
+    /// 显示一行对话（内容，讲话的角色）
+    /// </summary>
+    /// <param name="dialogueLine"></param>
+    /// <param name="actor"></param>
+    public void DisplayDialogueLine(string dialogueLine, ActorSO actor)
+    {
+        _openUIDialogueEvent.RaiseEvent(dialogueLine, actor);
+
+
+        uiActor.text = actor == null ? "Me" : actor.name;
+        uiSentence.text = dialogueLine;
+        if (_reachedEndOfLine) uiActor.text = uiSentence.text = string.Empty;
+    }
+
+    /// <summary>
+    /// 下一步，切换行 or 段
+    /// </summary>
+    private void OnAdvance()
+    {
+        _counterLine++;
+        var _choices = _currentDialogue.Lines[_counterDialogue]._choices;
+
+        if (!_reachedEndOfLine)
         {
-            controls.Enable();
+            var currentActor = _actorsList.Find(o => o._actorId == _currentDialogue.Lines[_counterDialogue].actorID);
+            DisplayDialogueLine(_currentDialogue.Lines[_counterDialogue]._textList[_counterLine], currentActor);
         }
-
-        private void OnDisable()
+        else if (_choices != null && _choices.Count > 0)
         {
-            controls.Disable();
+            DisplayChoices(_currentDialogue.Lines[_counterDialogue]._choices);
         }
-
-        public void StartDialogue(Dialogue[] dialogue)
+        else
         {
-            Debug.Log("start with " + dialogue.First().name + "  " + dialogue.First().sentence);
-
-            sentences = new Queue<Dialogue>(dialogue);
-
-            DisplayNextSentence();
-        }
-
-        public void DisplayNextSentence()
-        {
-            if (sentences.Count == 0)
+            _counterDialogue++;
+            if (!_reachedEndOfDialogue)
             {
-                EndDialogue();
-                return;
+                _counterLine = 0;
+
+                var currentActor =
+                    _actorsList.Find(o => o._actorId == _currentDialogue.Lines[_counterDialogue].actorID);
+                DisplayDialogueLine(_currentDialogue.Lines[_counterDialogue]._textList[_counterLine], currentActor);
             }
-
-            var s = sentences.Dequeue();
-
-            nameText.text = s.name;
-            diaText.text = s.sentence;
-            print($"{s.name} : {s.sentence}");
+            else
+            {
+                DialogueEndedAndCloseDialogueUI();
+            }
         }
+    }
 
-        private static void EndDialogue()
+    // todo: 传入 choices
+    /// <summary>
+    /// 显示选项
+    /// </summary>
+    /// <param name="choices"></param>
+    private void DisplayChoices(List<DialogueDataSO.Choice> choices)
+    {
+        _makeDialogueChoiceEvent.OnEventRaised += MakeDialogueChoice;
+        uiChoices.SetActive(true);
+    }
+
+    /// <summary>
+    /// 做出对话选择
+    /// </summary>
+    /// <param name="choice"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    private void MakeDialogueChoice(DialogueDataSO.Choice choice)
+    {
+        _makeDialogueChoiceEvent.OnEventRaised -= MakeDialogueChoice;
+
+        switch (choice.ActionType)
         {
-            print("dialogue finished");
+            case ChoiceActionType.ContinueWithStep:
+                if (_continueWithStep != null)
+                    _continueWithStep.RaiseEvent();
+                if (choice.NextDialogue != null)
+                    DisplayDialogueData(choice.NextDialogue);
+                break;
+
+            case ChoiceActionType.WinningChoice:
+                if (_makeWinningChoice != null)
+                    _makeWinningChoice.RaiseEvent();
+                break;
+
+            case ChoiceActionType.LosingChoice:
+                if (_makeLosingChoice != null)
+                    _makeLosingChoice.RaiseEvent();
+                break;
+
+            case ChoiceActionType.DoNothing:
+                if (choice.NextDialogue != null)
+                    DisplayDialogueData(choice.NextDialogue);
+                else
+                    DialogueEndedAndCloseDialogueUI();
+                break;
+
+            case ChoiceActionType.IncompleteStep:
+                if (_playIncompleteDialogue != null)
+                    _playIncompleteDialogue.RaiseEvent();
+                if (choice.NextDialogue != null)
+                    DisplayDialogueData(choice.NextDialogue);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
+    }
+
+
+    /// <summary>
+    /// 对话结束和关闭对话 UI
+    /// </summary>
+    private void DialogueEndedAndCloseDialogueUI()
+    {
+        // 如果有的话，引发对话结束的特殊事件
+        _currentDialogue.FinishDialogue();
+
+        // 引发结束对话事件
+        if (_endDialogueWithTypeEvent != null)
+            _endDialogueWithTypeEvent.RaiseEvent((int) _currentDialogue.DialogueType);
     }
 }

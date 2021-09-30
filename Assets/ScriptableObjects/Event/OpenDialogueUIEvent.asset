@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d8fc3ae7358d34b81a9d7df5686494, type: 3}
+  m_Name: OpenDialogueUIEvent
+  m_EditorClassIdentifier: 
+  _guid: 3044eed72df87cf44b1e21ac337ad03d
+  description: 

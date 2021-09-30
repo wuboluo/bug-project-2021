@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f71e35f1f7adea41a105ee68e6f1a1f, type: 3}
+  m_Name: "\u65CB\u98CE\u51B2\u51FB"
+  m_EditorClassIdentifier: 
+  asset: []
+  name: "\u65CB\u98CE\u51B2\u51FB"
+  type: 0
+  icon: {fileID: 2800000, guid: 0f3aa2720e7b7a8428b6dd4ebbcc96d5, type: 3}
+  skillDescribe: "\u6839\u636E\u9F20\u6807\u65B9\u5411\u53D1\u51FA\u4E00\u9053\u51B2\u51FB\u9020\u6210\u653B\u51FB\u529B\u768450%+100\u4F24\u5BB3"
+  target: 1
+  isAOE: 0
+  value: 100
+  percent: 0.5
+  effect: {fileID: 0}
+  audio: {fileID: 0}

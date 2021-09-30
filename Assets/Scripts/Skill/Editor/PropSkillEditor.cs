@@ -1,11 +1,12 @@
 using System.Linq;
+using Bug.Project21.Props;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Bug.Project21.Props
+namespace Bug.Project21.Skills
 {
     public class PropSkillEditor : OdinMenuEditorWindow
     {
@@ -23,10 +24,10 @@ namespace Bug.Project21.Props
             tree.DefaultMenuStyle.IconSize = 25f;
             tree.Config.DrawSearchToolbar = true;
 
-            tree.AddAllAssetsAtPath("", "Assets/ScriptableObjects/PropSkill", typeof(PropSkillDataSO), true)
+            tree.AddAllAssetsAtPath("", "Assets/ScriptableObjects/PropSkill", typeof(SkillSO), true)
                 .ForEach(AddDragHandles);
 
-            tree.EnumerateTree().Where(r => r.Value as PropSkillDataSO).ForEach(AddDragHandles);
+            tree.EnumerateTree().Where(r => r.Value as SkillSO).ForEach(AddDragHandles);
             // tree.EnumerateTree().AddIcons<PropSkillDataSO>(r => r.Icon);
 
             return tree;
@@ -47,7 +48,7 @@ namespace Bug.Project21.Props
                 if (selected != null) GUILayout.Label(selected.Name);
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("创建")))
-                    SOCreator.ShowDialog<PropSkillDataSO>("Assets/ScriptableObjects/PropSkill",
+                    SOCreator.ShowDialog<SkillSO>("Assets/ScriptableObjects/PropSkill",
                         obj =>
                         {
                             obj.Name = obj.name;

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3964ba2e19e5a4745bc0af5775ab3a08, type: 3}
+  m_Name: QL1-Q1-S3-SD
+  m_EditorClassIdentifier: 
+  _lines:
+  - actorID: 0
+    actor: Npc
+    _textList:
+    - "\u770B\u5728\u4F60\u7ED9\u4E86\u54E5\u4EEC\u4E00\u4E2A\u82F9\u679C\u7684\u4EFD\u4E0A"
+    - "\u7ED9\u4F60\u4E00\u628A\u5251"
+    - "\u540A\u7684\u4E00\u6279"
+    _choices: []
+  - actorID: 0
+    actor: Player
+    _textList:
+    - "\u90A3\u6211\u62FF\u5B83\u780D\u4F60"
+    - "\u6B7B\u5427\u50BB\u72D7"
+    - "\u54C8\u585E\u7ED9"
+    _choices: []
+  _dialogueType: 0
+  _endOfDialogueEvent: {fileID: 0}

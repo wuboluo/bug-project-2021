@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using Bug.Project21.Dialogues;
-using Bug.Project21.Quest;
 using UnityEngine;
 
 namespace Bug.Project21.Player
@@ -10,9 +8,11 @@ namespace Bug.Project21.Player
         public bool haveObjCanPickUp;
         public GameObject canPickUpObj;
         public List<GameObject> tempPlayerBackpack = new List<GameObject>();
+
         private PlayerInputControl controls;
 
-
+        public GameManager _gameManager;
+        
         private void Start()
         {
             controls = GetComponent<PlayerMovement>().controls;
@@ -23,21 +23,10 @@ namespace Bug.Project21.Player
         {
             if (other.gameObject.CompareTag("NPC"))
             {
-                GetComponent<QuestRequester>().RequestOneQuest(other.gameObject);
-
-                var currentQuest = GetComponent<QuestRequester>().currentQuest;
-                var currentProgress = currentQuest._progress;
-                switch (currentProgress)
-                {
-                    case QuestProgress.OnSD:
-                        // DialogueManager.instance.sentences = currentQuest.diasOnFirstMeet;
-
-                        break;
-                }
-
+                other.gameObject.GetComponent<StepController>().InteractWithCharacter();
             }
         }
-
+        
         private void OnCollisionStay2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Prop"))
@@ -47,14 +36,18 @@ namespace Bug.Project21.Player
             }
         }
 
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            if (!other.gameObject.CompareTag("Prop")) return;
+            haveObjCanPickUp = false;
+            canPickUpObj = null;
+        }
 
         private void PickUpObj()
         {
-            if (haveObjCanPickUp)
-            {
-                tempPlayerBackpack.Add(canPickUpObj);
-                canPickUpObj.SetActive(false);
-            }
+            if (!haveObjCanPickUp) return;
+            tempPlayerBackpack.Add(canPickUpObj);
+            canPickUpObj.SetActive(false);
         }
     }
 }
