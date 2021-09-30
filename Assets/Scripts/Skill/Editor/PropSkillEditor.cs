@@ -1,11 +1,12 @@
 using System.Linq;
+using Bug.Project21.Props;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Bug.Project21.Props
+namespace Bug.Project21.Skills
 {
     public class PropSkillEditor : OdinMenuEditorWindow
     {
