@@ -25,6 +25,9 @@ namespace Bug.Project21.Props
         public int Price => price;
         public int ID => id;
         public PropTag Tag => tag;
+
+        public GameObject Prefab => prefab;
+
         public PropAttr Attrs => attrs;
 
         private void SwitchPropTag()
@@ -56,6 +59,7 @@ namespace Bug.Project21.Props
         [VerticalGroup("Basic/Left/通用/Basic/Right")]
         [SerializeField]
         [InlineButton(nameof(Rename), "↺")]
+        [LabelText("名称")]
         private new string name;
 
         [BoxGroup("Basic/Left/通用")] [VerticalGroup("Basic/Left/通用/Basic/Right")] [LabelText("价值")] [SerializeField]
@@ -71,6 +75,13 @@ namespace Bug.Project21.Props
         [OnValueChanged(nameof(SwitchPropTag))]
         private PropTag tag;
 
+        [HorizontalGroup("Basic", 0.4f, MarginLeft = 0, LabelWidth = 70)]
+        [VerticalGroup("Basic/Right")]
+        [FoldoutGroup("Basic/Right/实例")]
+        [HideLabel]
+        [SerializeField]
+        private GameObject prefab;
+        
         [FoldoutGroup("Basic/Left/描述")] [HideLabel] [SerializeField] [TextArea(3, 10)]
         private string describe;
 

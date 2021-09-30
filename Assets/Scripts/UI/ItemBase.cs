@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Bug.Project21.Props;
 
 /// <summary>
-/// 1£º×°±¸
-/// 2£º¼¼ÄÜ
-/// 3£º²ÄÁÏ
+/// 1ï¼šè£…å¤‡
+/// 2ï¼šæŠ€èƒ½
+/// 3ï¼šææ–™
 /// </summary>
 public enum ItemType
 {
@@ -17,9 +18,9 @@ public enum ItemType
     Mater = 2
 }
 /// <summary>
-/// 1£ºÎäÆ÷
-/// 2£ºîø¼×
-/// 3£ºĞ¬×Ó
+/// 1ï¼šæ­¦å™¨
+/// 2ï¼šé“ ç”²
+/// 3ï¼šé‹å­
 /// </summary>
 public enum EquipType
 {
@@ -29,8 +30,8 @@ public enum EquipType
     Shoe = 2
 }
 /// <summary>
-/// 1£ºÖ÷¶¯
-/// 2£º±»¶¯
+/// 1ï¼šä¸»åŠ¨
+/// 2ï¼šè¢«åŠ¨
 /// </summary>
 public enum SkillType
 {
@@ -39,7 +40,7 @@ public enum SkillType
     Passive = 1
 }
 /// <summary>
-/// 1£º
+/// 1ï¼š
 /// </summary>
 public enum MaterType
 {
@@ -56,7 +57,16 @@ public abstract class ItemBase : MonoBehaviour
 
     public MaterType MaterType_ = MaterType.NULL;
 
-    public Texture2D Icon_ = null;
+    /// <summary>
+    /// è£…å¤‡
+    /// </summary>
+    public PropDataSO PropDataSO_ = null;
+    /// <summary>
+    /// æŠ€èƒ½1
+    /// </summary>
+    public PropSkillAttr SkillDataSO_ = null;
+
+    public Texture Icon_ = null;
 
     public string Name_ = string.Empty;
 
@@ -93,6 +103,7 @@ public abstract class ItemBase : MonoBehaviour
     }
     private void OnEnable()
     {
+        
         OnInitEvent.AddListener(OnInit);
         OnInitEvent?.Invoke();
     }
