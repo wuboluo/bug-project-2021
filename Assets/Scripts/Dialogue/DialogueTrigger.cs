@@ -1,14 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Bug.Project21.Dialogues
+public class DialogueTrigger : MonoBehaviour
 {
-    public class DialogueTrigger : MonoBehaviour
-    {
-        public Dialogue[] dialogue;
+	[SerializeField] private DialogueManager _dialogueManager = default;
+	[SerializeField] private DialogueDataSO _dialogueData = default;
 
-        public void TriggerDialogue()
-        {
-            FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
-        }
-    }
+	private void OnTriggerEnter(Collider other)
+	{
+		_dialogueManager.DisplayDialogueData(_dialogueData);
+	}
 }

@@ -23,11 +23,11 @@ namespace Bug.Project21.Props
             tree.DefaultMenuStyle.IconSize = 25f;
             tree.Config.DrawSearchToolbar = true;
 
-            tree.AddAllAssetsAtPath("", "Assets/ScriptableObjects/Prop", typeof(PropDataSO), true)
+            tree.AddAllAssetsAtPath("", "Assets/ScriptableObjects/Prop", typeof(PropSO), true)
                 .ForEach(AddDragHandles);
 
-            tree.EnumerateTree().Where(r => r.Value as PropDataSO).ForEach(AddDragHandles);
-            tree.EnumerateTree().AddIcons<PropDataSO>(r => r.Icon);
+            tree.EnumerateTree().Where(r => r.Value as PropSO).ForEach(AddDragHandles);
+            tree.EnumerateTree().AddIcons<PropSO>(r => r.Icon);
 
             return tree;
         }
@@ -47,7 +47,7 @@ namespace Bug.Project21.Props
                 if (selected != null) GUILayout.Label(selected.Name);
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("创建")))
-                    SOCreator.ShowDialog<PropDataSO>("Assets/ScriptableObjects/Prop",
+                    SOCreator.ShowDialog<PropSO>("Assets/ScriptableObjects/Prop",
                         obj =>
                         {
                             obj.Name = obj.name;

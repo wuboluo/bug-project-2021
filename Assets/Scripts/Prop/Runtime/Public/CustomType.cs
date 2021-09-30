@@ -5,7 +5,7 @@ namespace Bug.Project21.Props
     public enum PropTag
     {
         [InspectorName("材料")] stuff,
-        [InspectorName("装备")] weapon
+        [InspectorName("装备")] equip
     }
 
     public enum PropSkillType
@@ -20,5 +20,12 @@ namespace Bug.Project21.Props
         [InspectorName("攻击")] atk,
         [InspectorName("防御")] def,
         [InspectorName("移动")] speed
+    }
+
+    public enum EquipType
+    {
+        [InspectorName("武器")] weapon,
+        [InspectorName("铠甲")] armor,
+        [InspectorName("鞋子")] shoes
     }
 }

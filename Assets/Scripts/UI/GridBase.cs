@@ -15,12 +15,12 @@ public enum RighhtKeyActionType
     Sell = 3
 }
 /// <summary>
-/// ¸ñ×Ó
+/// æ ¼å­
 /// </summary>
 public abstract class GridBase : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     /// <summary>
-    /// ¸ñ×Óµ±Ç°Î»ÖÃ
+    /// æ ¼å­å½“å‰ä½ç½®
     /// </summary>
     public GridPoint GridPoint_ = GridPoint.NULL;
     ItemBase itemBase = null;
@@ -56,43 +56,43 @@ public abstract class GridBase : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
 
     /// <summary>
-    /// ·Å½øÀ´
+    /// æ”¾è¿›æ¥
     /// </summary>
     public abstract void OnInputTo(ItemBase itemBase);
     /// <summary>
-    /// ÄÃ³öÈ¥
+    /// æ‹¿å‡ºå»
     /// </summary>
     /// <param name="_gridPoint"></param>
     public abstract void OnOutputTo(GridPoint _gridPoint, ItemBase itemBase);
     /// <summary>
-    /// ¹â±ê½øÈë
+    /// å…‰æ ‡è¿›å…¥
     /// </summary>
     public abstract void OnMouseEnterTo();
     /// <summary>
-    /// ¹â±êÍÆ³ö
+    /// å…‰æ ‡æ¨å‡º
     /// </summary>
     public abstract void OnMouseExitTo();
     /// <summary>
-    /// ¹â±êÓÒ¼üµã»÷
+    /// å…‰æ ‡å³é”®ç‚¹å‡»
     /// </summary>
     public virtual void OnMouseRightClickTo()
     {
         OnMouseExitTo();
     }
     /// <summary>
-    /// ×°ÔØ
+    /// è£…è½½
     /// </summary>
     public abstract void OnRightKeyLoading();
     /// <summary>
-    /// Ğ¶ÔØ
+    /// å¸è½½
     /// </summary>
     public abstract void OnRightKeyUnload();
     /// <summary>
-    /// ¹ºÂò
+    /// è´­ä¹°
     /// </summary>
     public abstract void OnRightKeyBuy();
     /// <summary>
-    /// ³öÊÛ
+    /// å‡ºå”®
     /// </summary>
     public abstract void OnRightKeySell();
 
