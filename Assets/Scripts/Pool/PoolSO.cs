@@ -18,9 +18,8 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// 预热：开始在池中预先生成一定数量的 obj 给予使用
+        /// Start to generate a certain amount of obj in the pool in advance for use.
         /// </summary>
-        /// <param name="num"></param>
         public virtual void Prewarm(int num)
         {
             if (HasBeenPrewarmed)
@@ -34,37 +33,32 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// 请求：从池中弹出一个 obj，若池中没有剩余则创建一个新的（stack.pop 弹栈）
+        /// Pop an obj from the pool, if there is no remaining in the pool, create a new one. ---Stack.Pop()
         /// </summary>
-        /// <returns></returns>
         public virtual T Request()
         {
             return objs.Count > 0 ? objs.Pop() : Create();
         }
 
         /// <summary>
-        /// 回收：将暂时无用的 obj 压入池中（stack.push 压栈）
+        /// Push the useless obj into the pool. ---Stack.Push()
         /// </summary>
-        /// <param name="member"></param>
         public virtual void Return(T member)
         {
             objs.Push(member);
         }
 
         /// <summary>
-        /// 创建：由对应类型工厂创建
+        /// Created by the corresponding type factory.
         /// </summary>
-        /// <returns></returns>
         protected virtual T Create()
         {
             return Factory.Create();
         }
 
         /// <summary>
-        /// 单次请求出多个 obj
+        /// Multiple objs in a single request.
         /// </summary>
-        /// <param name="num"></param>
-        /// <returns></returns>
         public virtual IEnumerable<T> Request(int num = 1)
         {
             var members = new List<T>(num);
@@ -73,9 +67,8 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// 单次回收多个 obj
+        /// Return multiple objs at a time.
         /// </summary>
-        /// <param name="members"></param>
         public virtual void Return(IEnumerable<T> members)
         {
             foreach (var member in members) Return(member);

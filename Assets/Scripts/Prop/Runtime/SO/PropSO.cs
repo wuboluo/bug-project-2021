@@ -8,6 +8,7 @@ namespace Bug.Project21.Props
 {
     public partial class PropSO : ScriptableObject
     {
+        // Record the guid of the current asset, used in the editor script.
         [HideInInspector] public string[] asset;
 
         public Texture2D Icon
@@ -22,6 +23,12 @@ namespace Bug.Project21.Props
             set => name = value;
         }
 
+        public SkillSO Skill
+        {
+            get => skill;
+            set => skill = value;
+        }
+
         public string Describe => describe;
         public int Price => price;
         public int ID => id;
@@ -29,6 +36,7 @@ namespace Bug.Project21.Props
         public EquipType EquipType => equipType;
         public PropAttr Attrs => attrs;
 
+        // On propTag was Changed, show different attrs in editor window.
         private void SwitchPropTag()
         {
             attrs.isWeapon = Tag switch
@@ -39,6 +47,7 @@ namespace Bug.Project21.Props
             };
         }
 
+        // Asset rename, not the name of the object, used in the editor window.
         private void Rename()
         {
             AssetDatabase.RenameAsset(AssetDatabase.GUIDToAssetPath(asset.First()), Name);
@@ -76,7 +85,7 @@ namespace Bug.Project21.Props
         private string describe;
 
         [BoxGroup("Basic/技能")] [HideLabel]
-        public SkillSO skill;
+        private SkillSO skill;
 
         [BoxGroup("Basic/属性")] [HideLabel] [SerializeField]
         private PropAttr attrs;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Bug/Events/UI/Dialogue line Channel")]
+[CreateAssetMenu(menuName = "Bug/Event/Dialogue/Dialogue line Channel")]
 public class DialogueLineChannelSO : DescriptionBaseSO
 {
 	public UnityAction<string, ActorSO> OnEventRaised;

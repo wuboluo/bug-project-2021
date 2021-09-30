@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Bug/Events/UI/Item stack Event Channel")]
+[CreateAssetMenu(menuName = "Bug/Event/Item/Item stack Event Channel")]
 public class ItemStackEventChannelSO : DescriptionBaseSO
 {
     public UnityAction<ItemStack> OnEventRaised;

@@ -2,7 +2,7 @@ using System;
 
 namespace Bug.Project21.Props
 {
-    // ------------------------------ 武器
+    // ------------------------------ equip
 
     [Serializable] public class PropAttr_Atk : PropAttrBase
     {
@@ -17,7 +17,7 @@ namespace Bug.Project21.Props
     {
     }
 
-    // ------------------------------ 材料
+    // ------------------------------ stuff
 
     [Serializable] public class PropAttr_Price : PropAttrBase
     {

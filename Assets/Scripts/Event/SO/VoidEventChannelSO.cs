@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Bug/Events/Void Event Channel")]
+[CreateAssetMenu(menuName = "Bug/Event/Void Event Channel")]
 public class VoidEventChannelSO : DescriptionBaseSO
 {
     public UnityAction OnEventRaised;

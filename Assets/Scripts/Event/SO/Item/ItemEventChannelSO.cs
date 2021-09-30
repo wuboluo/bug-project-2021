@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Bug/Events/UI/Item Event Channel")]
+[CreateAssetMenu(menuName = "Bug/Event/Item/Item Event Channel")]
 public class ItemEventChannelSO : DescriptionBaseSO
 {
     public UnityAction<ItemSO> OnEventRaised;
