@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "\u51A5\u5E9C\u6218\u543C"
   m_EditorClassIdentifier: 
   asset: []
-  name: 
+  name: "\u51A5\u5E9C\u6218\u543C"
   type: 0
   icon: {fileID: 2800000, guid: ed01513e18309af429ab5dbbc206ad6c, type: 3}
   skillDescribe: "\u6307\u5B9A\u65B9\u5411\u53EC\u5524\u51A5\u754C\u5E7D\u7075\u9020\u6210\u653B\u51FB150%+100\u7684\u8303\u56F4\u4F24\u5BB3"
