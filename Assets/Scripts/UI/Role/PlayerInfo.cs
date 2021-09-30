@@ -20,10 +20,6 @@ public class PlayerInfo : RoleDataModelBase<PlayerInfo>
 
     public override void OnUIDataUpdate()
     {
-        atk = 0;
-        def = 0;
-        hp = 0;
-        speed = 0;
         SkillLists.ForEach(s =>
         {
             if (s.transform.childCount > 0)
@@ -36,6 +32,10 @@ public class PlayerInfo : RoleDataModelBase<PlayerInfo>
 
     void OnInputEquip()
     {
+        atk = 0;
+        def = 0;
+        hp = 0;
+        speed = 0;
         foreach (GridBase item in EquipLists)
         {
             if (item.transform.childCount > 0 && item.transform.GetChild(0).GetComponent<ItemBase>())
@@ -45,15 +45,30 @@ public class PlayerInfo : RoleDataModelBase<PlayerInfo>
                 def += data.Def_;
                 hp += data.HP_;
                 speed += data.Speed_;
+
+
                 if (data.SkillActive_ != null)
                 {
-                    GridBase skillActiveGrid = SkillLists.Find(s => s.transform.childCount <= 0);
-                    skillActiveGrid.OnInputTo(data.SkillActive_);
+                    //GridBase skillActiveGrid = SkillLists.Find(s => s.transform.childCount <= 0);
+                    //skillActiveGrid.OnInputTo(data.SkillActive_);
+                    (item as EquipGrid).SkillGrids[0].OnInputTo(data.SkillActive_);
                 }
-                if (data.SkillPassive_ != null)
+                switch ((item as EquipGrid).EquipType_)
                 {
-                    GridBase skillPassiveGrid = SkillLists.Find(s => s.transform.childCount <= 0);
-                    skillPassiveGrid.OnInputTo(data.SkillPassive_);
+                    case EquipType.Weapon:
+
+                        break;
+                    case EquipType.Barde:
+
+                        break;
+                    case EquipType.Shoe:
+                        if (data.SkillPassive_ != null)
+                        {
+                            //GridBase skillPassiveGrid = SkillLists.Find(s => s.transform.childCount <= 0);
+                            //skillPassiveGrid.OnInputTo(data.SkillPassive_);
+                            (item as EquipGrid).SkillGrids[1].OnInputTo(data.SkillPassive_);
+                        }
+                        break;
                 }
             }
         }

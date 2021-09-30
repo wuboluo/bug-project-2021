@@ -6,6 +6,8 @@ public class EquipGrid : GridBase
 {
     public EquipType EquipType_ = EquipType.NULL;
 
+    public List<GridBase> SkillGrids = new List<GridBase>();
+
     public override void OnInputTo(ItemBase itemBase)
     {
         itemBase.transform.SetParent(this.transform,false);
