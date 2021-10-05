@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
 
-#endif
+
 
 public enum DialogueType
 {
@@ -26,43 +25,32 @@ public enum ChoiceActionType
 [CreateAssetMenu(fileName = "new Dialogue", menuName = "Bug/Dialogue/Dialogue Data")]
 public class DialogueDataSO : ScriptableObject
 {
-    [SerializeField] private List<Line> _lines;
-    [SerializeField] private DialogueType _dialogueType;
-    [SerializeField] private VoidEventChannelSO _endOfDialogueEvent;
+    public List<Line> lines;
+    public DialogueType dialogueType;
+    public VoidEventChannelSO endOfDialogueEvent;
 
-    public VoidEventChannelSO EndOfDialogueEvent => _endOfDialogueEvent;
-    public List<Line> Lines => _lines;
-
-    public DialogueType DialogueType
-    {
-        get => _dialogueType;
-        set => _dialogueType = value;
-    }
-
+    /// <summary>
+    ///     引发 对话结束事件
+    /// </summary>
     public void FinishDialogue()
     {
-        if (EndOfDialogueEvent != null)
-            EndOfDialogueEvent.RaiseEvent();
+        endOfDialogueEvent?.RaiseEvent();
     }
 
     [Serializable]
     public class Choice
     {
-        [SerializeField] private DialogueDataSO _nextDialogue;
-        [SerializeField] private ChoiceActionType _actionType;
+        public DialogueDataSO nextDialogue;
+        public ChoiceActionType actionType;
 
         public Choice(Choice choice)
         {
-            _nextDialogue = choice.NextDialogue;
-            _actionType = ActionType;
+            nextDialogue = choice.nextDialogue;
         }
-
-        public DialogueDataSO NextDialogue => _nextDialogue;
-        public ChoiceActionType ActionType => _actionType;
 
         public void SetNextDialogue(DialogueDataSO dialogue)
         {
-            _nextDialogue = dialogue;
+            nextDialogue = dialogue;
         }
     }
 
@@ -71,13 +59,12 @@ public class DialogueDataSO : ScriptableObject
     {
         public int actorID;
         public string actor;
-        public List<string> _textList;
-        public List<Choice> _choices;
-
+        public List<string> textList;
+        public List<Choice> choices;
 
         public Line()
         {
-            _textList = null;
+            textList = null;
         }
     }
 }

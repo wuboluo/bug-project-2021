@@ -11,6 +11,9 @@ public class QuestlineSO : SerializableScriptableObject
 
     private readonly VoidEventChannelSO endQuestlineEvent = default;
 
+    /// <summary>
+    ///     引发 结束任务线 事件，标记此任务线为已完成
+    /// </summary>
     public void FinishQuestline()
     {
         endQuestlineEvent?.RaiseEvent();

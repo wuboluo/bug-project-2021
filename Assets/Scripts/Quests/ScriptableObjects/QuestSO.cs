@@ -4,33 +4,24 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new Quest", menuName = "Bug/Quests/Quest")]
 public class QuestSO : SerializableScriptableObject
 {
-    [SerializeField] private int _idQuest;
+    public int idQuest;
+    public List<StepSO> steps = new List<StepSO>();
 
-    [SerializeField] private List<StepSO> _steps = new List<StepSO>();
+    public bool isDone;
 
-    [SerializeField] private bool _isDone;
+    public VoidEventChannelSO endQuestEvent;
 
-    [SerializeField] private VoidEventChannelSO _endQuestEvent;
-
-    public int IdQuest => _idQuest;
-    public List<StepSO> Steps => _steps;
-
-    public bool IsDone
-    {
-        get => _isDone;
-        set => _isDone = value;
-    }
-
-    public VoidEventChannelSO EndQuestEvent => _endQuestEvent;
-
+    /// <summary>
+    ///     引发 结束任务 事件，标记此任务为已完成
+    /// </summary>
     public void FinishQuest()
     {
-        _isDone = true;
-        if (_endQuestEvent != null) _endQuestEvent.RaiseEvent();
+        endQuestEvent?.RaiseEvent();
+        isDone = true;
     }
 
     public void SetQuestId(int id)
     {
-        _idQuest = id;
+        idQuest = id;
     }
 }

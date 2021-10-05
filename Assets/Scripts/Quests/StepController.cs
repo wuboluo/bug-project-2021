@@ -2,48 +2,52 @@
 
 public class StepController : MonoBehaviour
 {
-    [Header("Data")] [SerializeField] private ActorSO _actor;
+    [Header("Data")] 
+    [SerializeField] private ActorSO actor;
+    [SerializeField] private DialogueDataSO defaultDialogue;
+    [SerializeField] private QuestManagerSO questMgr;
 
-    [SerializeField] private DialogueDataSO _defaultDialogue;
-    [SerializeField] private QuestManagerSO _questData;
-
-    [Header("Listening to channels")] [SerializeField]
-    private VoidEventChannelSO _winDialogueEvent;
-
+    [Header("Listening")] 
+    [SerializeField] private VoidEventChannelSO _winDialogueEvent;
     [SerializeField] private VoidEventChannelSO _loseDialogueEvent;
     [SerializeField] private IntEventChannelSO _endDialogueEvent;
 
-    [Header("Broadcasting on channels")] public DialogueDataChannelSO _startDialogueEvent;
+    [Header("Broadcasting")] 
+    public DialogueDataChannelSO _startDialogueEvent;
 
-    [Header("Dialogue Shot Camera")] public GameObject dialogueShot;
+    [Header("Dialogue UI")]
+    public GameObject dialogueUI;
 
-    public bool isInDialogue; //Consumed by the state machine
-
-    //check if character is actif. An actif character is the character concerned by the step.
-    private DialogueDataSO _currentDialogue;
+    private DialogueDataSO currentDialogue;
 
     private void Start()
     {
-        if (!dialogueShot) return;
+        if (!dialogueUI) return;
 
-        dialogueShot.transform.parent = null;
-        dialogueShot.SetActive(false);
+        dialogueUI.transform.parent = null;
+        dialogueUI.SetActive(false);
     }
 
+    /// <summary>
+    ///     播放默认对话。用于 NPC未设置开始对话内容
+    /// </summary>
     private void PlayDefaultDialogue()
     {
-        if (_defaultDialogue == null) return;
+        if (defaultDialogue == null) return;
 
-        _currentDialogue = _defaultDialogue;
+        currentDialogue = defaultDialogue;
         StartDialogue();
     }
 
+    /// <summary>
+    ///     和玩家互动，若此 NPC未设置开始对话，则执行默认对话。否则执行开始对话
+    /// </summary>
     public void InteractWithCharacter()
     {
-        var displayDialogue = _questData.InteractWithCharacter(_actor, false, false);
+        var displayDialogue = questMgr.DifferentDialoguesWithActor(actor, false, false);
         if (displayDialogue != null)
         {
-            _currentDialogue = displayDialogue;
+            currentDialogue = displayDialogue;
             StartDialogue();
         }
         else
@@ -52,62 +56,57 @@ public class StepController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    ///     开始对话。引发 开始对话事件，监听（结束对话、完成对话、未完成对话）事件。显示相关对话 UI
+    /// </summary>
     private void StartDialogue()
     {
-        _startDialogueEvent.RaiseEvent(_currentDialogue);
+        _startDialogueEvent.RaiseEvent(currentDialogue);
         _endDialogueEvent.OnEventRaised += EndDialogue;
-        StopConversation();
         _winDialogueEvent.OnEventRaised += PlayWinDialogue;
         _loseDialogueEvent.OnEventRaised += PlayLoseDialogue;
-        isInDialogue = true;
-        if (dialogueShot)
-            dialogueShot.SetActive(true);
+
+        if (dialogueUI) dialogueUI.SetActive(true);
     }
 
+    /// <summary>
+    ///     结束对话。取消监听（结束对话、完成对话、未完成对话）事件，关闭相关对话 UI
+    /// </summary>
+    /// <param name="dialogueType"></param>
     private void EndDialogue(int dialogueType)
     {
         _endDialogueEvent.OnEventRaised -= EndDialogue;
         _winDialogueEvent.OnEventRaised -= PlayWinDialogue;
         _loseDialogueEvent.OnEventRaised -= PlayLoseDialogue;
-        ResumeConversation();
-        isInDialogue = false;
-        if (dialogueShot)
-            dialogueShot.SetActive(false);
+
+        if (dialogueUI) dialogueUI.SetActive(false);
     }
 
-    private void PlayLoseDialogue()
-    {
-        if (_questData == null) return;
-        var displayDialogue = _questData.InteractWithCharacter(_actor, true, false);
-        if (displayDialogue == null) return;
-
-        _currentDialogue = displayDialogue;
-        StartDialogue();
-    }
-
+    /// <summary>
+    ///     播放成功对话（任务完成）
+    /// </summary>
     private void PlayWinDialogue()
     {
-        if (_questData == null) return;
-        var displayDialogue = _questData.InteractWithCharacter(_actor, true, true);
-        if (displayDialogue == null) return;
-
-        _currentDialogue = displayDialogue;
-        StartDialogue();
+        if (questMgr == null) return;
+        var displayDialogue = questMgr.DifferentDialoguesWithActor(actor, true, true);
+        if (displayDialogue != null)
+        {
+            currentDialogue = displayDialogue;
+            StartDialogue();
+        }
     }
 
-    private void StopConversation()
+    /// <summary>
+    ///     播放失败对话（任务未完成）
+    /// </summary>
+    private void PlayLoseDialogue()
     {
-        var talkingTo = gameObject.GetComponent<NPC>().talkingTo;
-        if (talkingTo == null) return;
-
-        foreach (var t in talkingTo) t.GetComponent<NPC>().npcState = NPCState.Idle;
-    }
-
-    private void ResumeConversation()
-    {
-        var talkingTo = GetComponent<NPC>().talkingTo;
-        if (talkingTo == null) return;
-
-        foreach (var t in talkingTo) t.GetComponent<NPC>().npcState = NPCState.Talk;
+        if (questMgr == null) return;
+        var displayDialogue = questMgr.DifferentDialoguesWithActor(actor, true, false);
+        if (displayDialogue != null)
+        {
+            currentDialogue = displayDialogue;
+            StartDialogue();
+        }
     }
 }
