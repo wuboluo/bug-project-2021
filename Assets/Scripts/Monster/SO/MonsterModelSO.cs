@@ -9,7 +9,7 @@ public class MonsterModelSO : ScriptableObject
 
     public VoidEventChannelSO _onHpToZeroEvent;
 
-    public void OnHurt()
+    public void OnHurtHpChange()
     {
         hp--;
         Debug.Log(hp);

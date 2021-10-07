@@ -9,7 +9,7 @@ public class Monster : MonoBehaviour
 
     private void OnEnable()
     {
-        _onHurtEvent.OnEventRaised += monsterModel.OnHurt;
+        _onHurtEvent.OnEventRaised += OnHurt;
         _onDeathEvent.OnEventRaised += OnDeath;
 
         monsterModel.hp = 3;
@@ -17,10 +17,15 @@ public class Monster : MonoBehaviour
 
     private void OnDisable()
     {
-        _onHurtEvent.OnEventRaised -= monsterModel.OnHurt;
+        _onHurtEvent.OnEventRaised -= OnHurt;
         _onDeathEvent.OnEventRaised -= OnDeath;
     }
 
+    void OnHurt()
+    {
+        monsterModel.OnHurtHpChange();
+    }
+    
     void OnDeath()
     {
         GetComponent<Animator>().SetBool("isdeath", true);
