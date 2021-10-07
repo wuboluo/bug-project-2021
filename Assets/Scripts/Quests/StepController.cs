@@ -24,7 +24,7 @@ public class StepController : MonoBehaviour
     {
         if (!dialogueUI) return;
 
-        dialogueUI.transform.parent = null;
+        // dialogueUI.transform.parent = null;
         dialogueUI.SetActive(false);
     }
 

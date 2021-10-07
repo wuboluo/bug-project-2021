@@ -22,10 +22,7 @@ namespace Bug.Project21.Tools
         public override void OnDisable()
         {
             base.OnDisable();
-            if (_poolRoot != null)
-            {
-                Destroy(_poolRoot.gameObject);
-            }
+            if (_poolRoot != null) Destroy(_poolRoot.gameObject);
         }
 
         public void SetParent(Transform t)

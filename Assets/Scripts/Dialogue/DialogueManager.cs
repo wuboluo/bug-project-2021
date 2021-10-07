@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
@@ -7,30 +7,37 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private List<ActorSO> actorsList;
 
-    [Header("Listening")] 
-    [SerializeField] private DialogueDataChannelSO _startDialogue;
-    [SerializeField] private DialogueChoiceChannelSO _makeDialogueChoiceEvent;
+    [Header("监听 Add.Remove")] 
+    [LabelText("开始对话")] [Tooltip("Raise在 NPC<StepController>")] [SerializeField]
+    private DialogueDataChannelSO _startDialogue;
+    [LabelText("做选择")] [Tooltip("Raise在 Button.onClick-UnityEvent（Inspector）")] [SerializeField]
+    private DialogueChoiceChannelSO _makeDialogueChoiceEvent;
 
-    [Header("Broadcasting")]
-    [SerializeField] private DialogueLineChannelSO _openUIDialogueEvent;
-    [SerializeField] private IntEventChannelSO _endDialogueWithTypeEvent;
+    [Header("广播 Raise")] 
+    [LabelText("对话结束")] [Tooltip("监听于 NPC<StepController>")] [SerializeField]
+    private IntEventChannelSO _endDialogueWithTypeEvent;
+    [LabelText("选择肯定选项")] [Tooltip("监听于 QuestManagerSO")] [SerializeField]
+    private VoidEventChannelSO _makeWinningChoice;
+    [LabelText("选择否定选项")] [Tooltip("监听于 QuestManagerSO")] [SerializeField]
+    private VoidEventChannelSO _makeLosingChoice;
+    [LabelText("播放任务失败对话")] [Tooltip("")] [SerializeField]
+    private VoidEventChannelSO _playIncompleteDialogue;
+
     [SerializeField] private VoidEventChannelSO _continueWithStep;
-    [SerializeField] private VoidEventChannelSO _playIncompleteDialogue;
-    [SerializeField] private VoidEventChannelSO _makeWinningChoice;
-    [SerializeField] private VoidEventChannelSO _makeLosingChoice;
 
-    // ------- temp -------
-    public GameObject uiChoices;
-    public TextMeshProUGUI uiActor;
-    public TextMeshProUGUI uiSentence;
+
+    [Header("UI")] 
+    public DialogueLineChannelSO _openUIDialogueEvent;
+    public VoidEventChannelSO _closeUIDialogueEvent;
+    public VoidEventChannelSO _showChoiceEvent;
+    public VoidEventChannelSO _hideChoiceEvent;
 
 
     private DialogueDataSO _currentDialogue;
-    public DialogueInputControl dialogueInputControl;
 
-    
     private int _counterDialogue;
     private int _counterLine;
+    public DialogueInputControl dialogueInputControl;
     private bool _reachedEndOfDialogue => _counterDialogue >= _currentDialogue.lines.Count;
     private bool _reachedEndOfLine => _counterLine >= _currentDialogue.lines[_counterDialogue].textList.Count;
 
@@ -43,7 +50,7 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         _startDialogue.OnEventRaised += DisplayDialogueData;
-        dialogueInputControl.Dialogue.Next.performed += _ => OnAdvance();
+        dialogueInputControl.Dialogue.Next.performed += _ => Continue();
     }
 
     private void OnEnable()
@@ -57,7 +64,7 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    ///    显示对话内容，显示在 UI上
+    ///     显示对话内容，显示在 UI上
     /// </summary>
     public void DisplayDialogueData(DialogueDataSO dialogueDataSO)
     {
@@ -83,17 +90,13 @@ public class DialogueManager : MonoBehaviour
     public void DisplayDialogueLine(string dialogueLine, ActorSO actor)
     {
         _openUIDialogueEvent.RaiseEvent(dialogueLine, actor);
-
-
-        uiActor.text = actor == null ? "Me" : actor.name;
-        uiSentence.text = dialogueLine;
-        if (_reachedEndOfLine) uiActor.text = uiSentence.text = string.Empty;
     }
 
+
     /// <summary>
-    ///     下一步，切换行 or 段
+    ///     继续。下一行，若最后一行则继续下一段
     /// </summary>
-    private void OnAdvance()
+    private void Continue()
     {
         _counterLine++;
         var _choices = _currentDialogue.lines[_counterDialogue].choices;
@@ -105,7 +108,7 @@ public class DialogueManager : MonoBehaviour
         }
         else if (_choices != null && _choices.Count > 0)
         {
-            DisplayChoices(_currentDialogue.lines[_counterDialogue].choices);
+            DisplayChoices();
         }
         else
         {
@@ -125,35 +128,33 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    // todo: 传入 choices
     /// <summary>
     ///     显示选项
     /// </summary>
-    private void DisplayChoices(List<DialogueDataSO.Choice> choices)
+    private void DisplayChoices()
     {
         _makeDialogueChoiceEvent.OnEventRaised += MakeDialogueChoice;
-        uiChoices.SetActive(true);
+        _showChoiceEvent.RaiseEvent();
     }
 
     /// <summary>
-    ///     做出对话选择
+    ///     选择后，选项衔接的对话SO
     /// </summary>
     private void MakeDialogueChoice(DialogueDataSO.Choice choice)
     {
         _makeDialogueChoiceEvent.OnEventRaised -= MakeDialogueChoice;
+        _hideChoiceEvent?.RaiseEvent();
 
         switch (choice.actionType)
         {
             case ChoiceActionType.ContinueWithStep:
-                if (_continueWithStep != null)
-                    _continueWithStep.RaiseEvent();
+                _continueWithStep?.RaiseEvent();
                 if (choice.nextDialogue != null)
                     DisplayDialogueData(choice.nextDialogue);
                 break;
 
             case ChoiceActionType.WinningChoice:
-                if (_makeWinningChoice != null)
-                    _makeWinningChoice.RaiseEvent();
+                _makeWinningChoice?.RaiseEvent();
                 break;
 
             case ChoiceActionType.LosingChoice:
@@ -169,26 +170,25 @@ public class DialogueManager : MonoBehaviour
                 break;
 
             case ChoiceActionType.IncompleteStep:
-                if (_playIncompleteDialogue != null)
-                    _playIncompleteDialogue.RaiseEvent();
+                _playIncompleteDialogue?.RaiseEvent();
                 if (choice.nextDialogue != null)
                     DisplayDialogueData(choice.nextDialogue);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException();
         }
     }
-
 
     /// <summary>
     ///     对话结束和关闭对话 UI
     /// </summary>
     private void DialogueEndedAndCloseDialogueUI()
     {
-        // 执行 当前对话完成要做的事
+        Debug.Log("对话结束，关闭对话UI窗口");
+
         _currentDialogue.FinishDialogue();
 
         // 根据对话类型，引发 当前对话结束事件
         _endDialogueWithTypeEvent?.RaiseEvent((int) _currentDialogue.dialogueType);
+
+        _closeUIDialogueEvent.RaiseEvent();
     }
 }

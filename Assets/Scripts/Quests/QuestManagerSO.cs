@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -8,17 +9,17 @@ public class QuestManagerSO : ScriptableObject
     public List<QuestlineSO> questlines;
     public InventorySO inventory;
 
-    [Header("Listening")] public VoidEventChannelSO _continueWithStepEvent;
+    [Header("Listening")]
+    [LabelText("步骤结束之后")] public VoidEventChannelSO _continueWithStepEvent;
+    [LabelText("对话结束时")] public IntEventChannelSO _endDialogueEvent;
+    [LabelText("做出肯定选项")] public VoidEventChannelSO _makeWinningChoiceEvent;
+    [LabelText("做出否定选项")] public VoidEventChannelSO _makeLosingChoiceEvent;
 
-    public IntEventChannelSO _endDialogueEvent;
-    public VoidEventChannelSO _makeWinningChoiceEvent;
-    public VoidEventChannelSO _makeLosingChoiceEvent;
-
-    [Header("Broadcasting")] public VoidEventChannelSO _playCompletionDialogueEvent;
-
-    public VoidEventChannelSO _playIncompleteDialogueEvent;
-    public ItemEventChannelSO _giveItemEvent;
-    public ItemStackEventChannelSO _rewardItemEvent;
+    [Header("Broadcasting")] 
+    [LabelText("播放任务完成对话")] public VoidEventChannelSO _playCompletionDialogueEvent;
+    [LabelText("播放任务失败对话")] public VoidEventChannelSO _playIncompleteDialogueEvent;
+    [LabelText("给予物品")] public ItemEventChannelSO _giveItemEvent;
+    [LabelText("奖励物品")] public ItemStackEventChannelSO _rewardItemEvent;
 
     private QuestSO currentQuest;
     private int currentQuestIndex;
@@ -45,7 +46,10 @@ public class QuestManagerSO : ScriptableObject
     }
 
 
-    [Button("Clear Current Quest")]
+    [Space(30)]
+    [LabelText("测试：任务线")]
+    [InlineButton(nameof(TestClearCurrentQuest), "重置任务线")]
+    public QuestlineSO testQL;
     private void TestClearCurrentQuest()
     {
         currentQuest = null;
@@ -53,6 +57,9 @@ public class QuestManagerSO : ScriptableObject
         currentStep = null;
 
         currentQuestIndex = currentQuestlineIndex = currentStepIndex = 0;
+
+        testQL.quests.First()?.steps.ForEach(_ => _.isDone = false);
+        testQL.isDone = testQL.quests.First().isDone = false;
     }
 
 
@@ -262,13 +269,11 @@ public class QuestManagerSO : ScriptableObject
 
     private void MakeWinChoice()
     {
-        // currentStep._endStepEvent = 
         StepToDoAccordingToType();
     }
 
     private void MakeLostChoice()
     {
-        // currentStep._endStepEvent = 
         StepToDoAccordingToType();
     }
 }

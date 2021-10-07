@@ -5,14 +5,9 @@ public class Bullet : MonoBehaviour
     public float speed;
     private Rigidbody2D rb;
 
-    void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    public void SetSpeed(Vector2 direction)
-    {
-        rb.velocity = direction * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -23,5 +18,10 @@ public class Bullet : MonoBehaviour
         GetComponent<SpriteRenderer>().enabled = false;
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(false);
+    }
+
+    public void SetSpeed(Vector2 direction)
+    {
+        rb.velocity = direction * speed;
     }
 }

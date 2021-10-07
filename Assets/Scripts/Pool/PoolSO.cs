@@ -18,7 +18,7 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// Start to generate a certain amount of obj in the pool in advance for use.
+        ///     Start to generate a certain amount of obj in the pool in advance for use.
         /// </summary>
         public virtual void Prewarm(int num)
         {
@@ -33,7 +33,7 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// Pop an obj from the pool, if there is no remaining in the pool, create a new one. ---Stack.Pop()
+        ///     Pop an obj from the pool, if there is no remaining in the pool, create a new one. ---Stack.Pop()
         /// </summary>
         public virtual T Request()
         {
@@ -41,7 +41,7 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// Push the useless obj into the pool. ---Stack.Push()
+        ///     Push the useless obj into the pool. ---Stack.Push()
         /// </summary>
         public virtual void Return(T member)
         {
@@ -49,7 +49,7 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// Created by the corresponding type factory.
+        ///     Created by the corresponding type factory.
         /// </summary>
         protected virtual T Create()
         {
@@ -57,7 +57,7 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// Multiple objs in a single request.
+        ///     Multiple objs in a single request.
         /// </summary>
         public virtual IEnumerable<T> Request(int num = 1)
         {
@@ -67,7 +67,7 @@ namespace Bug.Project21.Tools
         }
 
         /// <summary>
-        /// Return multiple objs at a time.
+        ///     Return multiple objs at a time.
         /// </summary>
         public virtual void Return(IEnumerable<T> members)
         {

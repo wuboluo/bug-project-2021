@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94046a990a88f4f46874003d09985e88, type: 3}
-  m_Name: PlayCompletionDialogueEvent
+  m_Name: PlayCompletionDialogue
   m_EditorClassIdentifier: 
   _guid: dc2da1754c28ab9499cb6c7d72465e69
   description: 
