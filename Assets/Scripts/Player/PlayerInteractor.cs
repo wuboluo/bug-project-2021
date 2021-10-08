@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Bug.Project21.Quest;
 using UnityEngine;
 
 namespace Bug.Project21.Player

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Bug.Project21.Dialogue;
+using UnityEngine;
 
 public class UIDialogueChoiceFiller : MonoBehaviour
 {
-	[Header("Broadcasting on")]
+	[Header("Broadcasting")]
 	[SerializeField] private DialogueChoiceChannelSO _onChoiceMade;
 
 	[SerializeField] private DialogueDataSO.Choice _currentChoice;

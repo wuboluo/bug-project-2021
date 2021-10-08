@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Bug.Project21.Dialogue;
+using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(menuName = "Bug/Event/Dialogue/Dialogue Choice Channel")]

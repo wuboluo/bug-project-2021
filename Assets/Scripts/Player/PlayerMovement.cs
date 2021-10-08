@@ -33,12 +33,14 @@ namespace Bug.Project21.Player
             // todo: mouse position 
             var mousePos = controls.Player.MousePos.ReadValue<Vector2>();
             var mousePosZ = _camera.farClipPlane * .5f;
-            var mouseWorldPos = _camera.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, mousePosZ));
+            var mouseWorldPos =
+                _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0)) -
+                transform.position;
 
 
             // animator
-            animator.SetFloat("MousePositionX", moveInput.x);
-            animator.SetFloat("MousePositionY", moveInput.y);
+            animator.SetFloat("MousePositionX", mouseWorldPos.x);
+            animator.SetFloat("MousePositionY", mouseWorldPos.y);
 
             animator.SetFloat("Horizontal", moveInput.x);
             animator.SetFloat("Vertical", moveInput.y);
