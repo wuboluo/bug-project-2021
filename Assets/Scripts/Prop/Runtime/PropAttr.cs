@@ -36,7 +36,7 @@ namespace Bug.Project21.Props
         [HideInInspector] public bool isWeapon;
 
         /// <summary>
-        /// Determine whether the value of the 'PropAttr' has been set.
+        ///     Determine whether the value of the 'PropAttr' has been set.
         /// </summary>
         public bool InitValues(PropTag tag)
         {
@@ -58,7 +58,7 @@ namespace Bug.Project21.Props
         }
 
         /// <summary>
-        /// Set the value of the 'PropAttr' (random range).
+        ///     Set the value of the 'PropAttr' (random range).
         /// </summary>
         public void SetValues(PropTag tag)
         {
@@ -80,7 +80,7 @@ namespace Bug.Project21.Props
         }
 
         /// <summary>
-        /// Get the value of the prop value.
+        ///     Get the value of the prop value.
         /// </summary>
         public Dictionary<string, int> GetValues(PropTag tag)
         {
@@ -100,7 +100,7 @@ namespace Bug.Project21.Props
 
 
         /// <summary>
-        /// Get whether the attr is available.
+        ///     Get whether the attr is available.
         /// </summary>
         public Dictionary<string, bool> GetAbles(PropTag tag)
         {

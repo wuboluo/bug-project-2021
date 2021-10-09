@@ -34,11 +34,11 @@ namespace Bug.Project21.Dialogue
         public VoidEventChannelSO _showChoiceEvent;
         public VoidEventChannelSO _hideChoiceEvent;
 
-
-        private DialogueDataSO _currentDialogue;
-
         private int _counterDialogue;
         private int _counterLine;
+
+
+        private DialogueDataSO _currentDialogue;
         public DialogueInputControl dialogueInputControl;
         private bool _reachedEndOfDialogue => _counterDialogue >= _currentDialogue.lines.Count;
         private bool _reachedEndOfLine => _counterLine >= _currentDialogue.lines[_counterDialogue].textList.Count;

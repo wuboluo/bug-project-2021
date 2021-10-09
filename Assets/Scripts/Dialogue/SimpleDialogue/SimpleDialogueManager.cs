@@ -63,7 +63,7 @@ namespace Bug.Project21.Dialogues
         }
 
         /// <summary>
-        /// Complete all sentences.
+        ///     Complete all sentences.
         /// </summary>
         private static void EndDialogue()
         {

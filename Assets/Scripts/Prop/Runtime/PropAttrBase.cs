@@ -6,19 +6,19 @@ namespace Bug.Project21.Props
     public class PropAttrBase
     {
         /// <summary>
-        /// This 'PropAttr' value validity, configured in the Prop-Editor-Window.
+        ///     This 'PropAttr' value validity, configured in the Prop-Editor-Window.
         /// </summary>
         public bool enable;
 
         [HideLabel] public Vector2 range = new Vector2(0, 10);
 
         /// <summary>
-        /// Used to record the initialized value, used to Get.
+        ///     Used to record the initialized value, used to Get.
         /// </summary>
         public int Value { get; private set; }
 
         /// <summary>
-        /// Initialize the 'PropAttr' attr value, only need to call once.
+        ///     Initialize the 'PropAttr' attr value, only need to call once.
         /// </summary>
         public void InitValue()
         {

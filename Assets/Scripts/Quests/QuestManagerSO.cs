@@ -26,6 +26,10 @@ namespace Bug.Project21.Quest
         [LabelText("给予物品")] public ItemEventChannelSO _giveItemEvent;
         [LabelText("奖励物品")] public ItemStackEventChannelSO _rewardItemEvent;
 
+
+        [Space(30)] [LabelText("测试：任务线")] [InlineButton(nameof(TestClearCurrentQuest), "重置任务线")]
+        public QuestlineSO testQL;
+
         private QuestSO currentQuest;
         private int currentQuestIndex;
         private QuestlineSO currentQuestline;
@@ -49,10 +53,6 @@ namespace Bug.Project21.Quest
             _makeWinningChoiceEvent.OnEventRaised -= MakeWinChoice;
             _makeLosingChoiceEvent.OnEventRaised -= MakeLostChoice;
         }
-
-
-        [Space(30)] [LabelText("测试：任务线")] [InlineButton(nameof(TestClearCurrentQuest), "重置任务线")]
-        public QuestlineSO testQL;
 
         private void TestClearCurrentQuest()
         {

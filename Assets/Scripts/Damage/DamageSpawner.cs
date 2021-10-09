@@ -5,11 +5,11 @@ public class DamageSpawner : MonoBehaviour
     public DamagePoolSO damagePool;
 
     public IntVectorEventChannelSO _setDamageValueAndSetPos;
-    private DamagePopup damage;
 
     public int initialSize;
+    private DamagePopup damage;
 
-    void Start()
+    private void Start()
     {
         damagePool.Prewarm(initialSize);
     }
@@ -25,7 +25,7 @@ public class DamageSpawner : MonoBehaviour
     }
 
 
-    void SetDamageValueAndSetPos(int value, Vector3 pos)
+    private void SetDamageValueAndSetPos(int value, Vector3 pos)
     {
         damage = damagePool.Request();
         damage.damagePool = damagePool;
