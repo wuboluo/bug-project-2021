@@ -4,17 +4,35 @@ public class Monster : MonoBehaviour
 {
     public MonsterModelSO monsterModel;
 
+    [SerializeField] private float strength = 10;
+    [SerializeField] private float moveSpeed;
+
     public VoidEventChannelSO _onHurtEvent;
     public VoidEventChannelSO _onDeathEvent;
-
     public VectorEventChannelSO _hitbackDirectionEvent;
+    private Transform player;
 
     private Rigidbody2D rb;
-    public float strength = 10;
-    
-    void Start()
+
+    public bool IsDeath { get; private set; }
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindWithTag("Player").transform;
+
+        monsterModel.maxHp = 50;
+        monsterModel.currentHp = 50;
+    }
+
+    private void Update()
+    {
+        if (!IsDeath)
+        {
+            Vector2 dir = player.position - transform.position;
+            dir.Normalize();
+            rb.AddForce(dir * moveSpeed);
+        }
     }
 
     private void OnEnable()
@@ -22,8 +40,6 @@ public class Monster : MonoBehaviour
         _onHurtEvent.OnEventRaised += OnHurt;
         _onDeathEvent.OnEventRaised += OnDeath;
         _hitbackDirectionEvent.OnEventRaised += OnHitBack;
-
-        monsterModel.hp = 10;
     }
 
     private void OnDisable()
@@ -33,19 +49,20 @@ public class Monster : MonoBehaviour
         _hitbackDirectionEvent.OnEventRaised -= OnHitBack;
     }
 
-    void OnHurt()
+    private void OnHurt()
     {
-        monsterModel.OnHurtHpChange();
+        monsterModel.OnHurtHpChange(transform.localPosition);
     }
 
-    void OnHitBack(Vector3 v3)
+    private void OnHitBack(Vector3 v3)
     {
         if (rb != null) rb.AddForce(v3 * strength, ForceMode2D.Impulse);
     }
 
-    void OnDeath()
+    private void OnDeath()
     {
         GetComponent<Animator>().SetBool("isdeath", true);
+        IsDeath = true;
     }
 
     public void DeathEvent()

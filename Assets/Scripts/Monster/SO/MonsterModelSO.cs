@@ -1,20 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "new MonsterModelSO", menuName = "Bug/Monster/New Monster")]
 public class MonsterModelSO : ScriptableObject
 {
-    public int hp;
+    public int maxHp;
+    public int currentHp;
 
     public VoidEventChannelSO _onHpToZeroEvent;
+    public IntVectorEventChannelSO _showDamagePopUpEvent;
+    public FloatEventChannalSO _currentHpUpdateOnUIEvent;
 
-    public void OnHurtHpChange()
+    public void OnHurtHpChange(Vector3 pos)
     {
-        hp--;
-        Debug.Log(hp);
+        var tempValue = Random.Range(1, 5);
+        currentHp -= tempValue;
+        _showDamagePopUpEvent?.RaiseEvent(tempValue, pos);
+        _currentHpUpdateOnUIEvent?.RaiseEvent((float) currentHp / maxHp);
 
-        if (hp <= 0)
+        if (currentHp <= 0)
             _onHpToZeroEvent?.RaiseEvent();
     }
 }
