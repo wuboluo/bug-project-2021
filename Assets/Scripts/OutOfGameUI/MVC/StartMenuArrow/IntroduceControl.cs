@@ -43,9 +43,6 @@ public class IntroduceControl : MonoBehaviour
             rollContent += Time.deltaTime * rollTimes;
             ControlIntroduceContent(rollContent);
         }
-        else if (!isRoll)
-        {
-        }
 
     }
 
