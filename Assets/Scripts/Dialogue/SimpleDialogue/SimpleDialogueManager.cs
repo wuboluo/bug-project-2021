@@ -62,6 +62,9 @@ namespace Bug.Project21.Dialogues
             print($"{s.name} : {s.sentence}");
         }
 
+        /// <summary>
+        ///     Complete all sentences.
+        /// </summary>
         private static void EndDialogue()
         {
             print("completed dialogue");

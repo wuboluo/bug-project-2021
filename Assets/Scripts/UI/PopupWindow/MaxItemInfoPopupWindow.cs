@@ -1,37 +1,40 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// ÷˜–≈œ¢µØ¥∞
+///     ‰∏ª‰ø°ÊÅØÂºπÁ™ó
 /// </summary>
 public class MaxItemInfoPopupWindow : ItemInfoPopupWindowBase<MaxItemInfoPopupWindow>
 {
     public List<VerticalLayoutGroup> LayoutGroups = new List<VerticalLayoutGroup>();
     public List<GameObject> ValidLists = new List<GameObject>();
-    public RawImage MainIcon = null;
-    public Text MainNameText = null;
-    public Text MainDesText = null;
-    public Text AtkText = null;
-    public Text DefText = null;
-    public Text HPText = null;
-    public Text SpeedText = null;
+    public RawImage MainIcon;
+    public Text MainNameText;
+    public Text MainDesText;
+    public Text AtkText;
+    public Text DefText;
+    public Text HPText;
+    public Text SpeedText;
 
-    public GameObject SkillActive = null;
-    public RawImage SkillActiveIcon = null;
-    public Text SkillActiveNameText = null;
-    public Text SkillActiveValueText = null;
-    public Text SkillActiveDesText = null;
+    public GameObject SkillActive;
+    public RawImage SkillActiveIcon;
+    public Text SkillActiveNameText;
+    public Text SkillActiveValueText;
+    public Text SkillActiveDesText;
 
-    public GameObject SkillPassive = null;
-    public RawImage SkillPassiveIcon = null;
-    public Text SkillPassiveNameText = null;
-    public Text SkillPassiveValueText = null;
-    public Text SkillPassiveDesText = null;
+    public GameObject SkillPassive;
+    public RawImage SkillPassiveIcon;
+    public Text SkillPassiveNameText;
+    public Text SkillPassiveValueText;
+    public Text SkillPassiveDesText;
 
-    public GameObject CostPanel = null;
-    public Text CostText = null;
+    public GameObject CostPanel;
+    public Text CostText;
+
+    private void Update()
+    {
+    }
 
     public override void OnClosePopupInfoWindow()
     {
@@ -43,110 +46,116 @@ public class MaxItemInfoPopupWindow : ItemInfoPopupWindowBase<MaxItemInfoPopupWi
         LayoutGroups.ForEach(s => s.enabled = false);
         ValidLists.ForEach(s => s.SetActive(false));
 
-        float popupWindow_W = GetComponent<RectTransform>().rect.width;
-        float popupWindow_H = GetComponent<RectTransform>().rect.height;
-        float grid_W = _grid.GetComponent<RectTransform>().rect.width;
-        float grid_H = _grid.GetComponent<RectTransform>().rect.height;
+        var popupWindow_W = GetComponent<RectTransform>().rect.width;
+        var popupWindow_H = GetComponent<RectTransform>().rect.height;
+        var grid_W = _grid.GetComponent<RectTransform>().rect.width;
+        var grid_H = _grid.GetComponent<RectTransform>().rect.height;
 
-        float offset_x = (popupWindow_W / 2f + grid_W / 2f);
+        var offset_x = popupWindow_W / 2f + grid_W / 2f;
 
-        #region X◊¯±Í
-        float get_X = _grid.transform.position.x;
+        #region XÂùêÊ†á
+
+        var get_X = _grid.transform.position.x;
         get_X = _grid.transform.position.x - offset_x;
         //get_X = get_X > Screen.width / 2f ? GridPoint.position.x - offset_x : GridPoint.position.x + offset_x;
 
         if (get_X - popupWindow_W / 2f < 0f || get_X + popupWindow_W / 2f > Screen.width)
         {
             if (get_X - popupWindow_W / 2f < 0f)
-            {
-                get_X = get_X - popupWindow_W / 2f < 0f ? _grid.transform.position.x + offset_x : _grid.transform.position.x - offset_x;
-            }
+                get_X = get_X - popupWindow_W / 2f < 0f
+                    ? _grid.transform.position.x + offset_x
+                    : _grid.transform.position.x - offset_x;
             if (get_X + popupWindow_W / 2f > Screen.width)
-            {
-                get_X = get_X + popupWindow_W / 2f > Screen.width ? _grid.transform.position.x - offset_x : _grid.transform.position.x + offset_x;
-            }
+                get_X = get_X + popupWindow_W / 2f > Screen.width
+                    ? _grid.transform.position.x - offset_x
+                    : _grid.transform.position.x + offset_x;
         }
+
         #endregion
 
-        #region Y◊¯±Í
-        float get_Y = _grid.transform.position.y;
+        #region YÂùêÊ†á
+
+        var get_Y = _grid.transform.position.y;
         get_Y = get_Y - popupWindow_H / 2f < 0 ? popupWindow_H / 2 : get_Y;
         get_Y = get_Y + popupWindow_H / 2f > Screen.height ? Screen.height - popupWindow_H / 2 : get_Y;
+
         #endregion
 
         transform.position = new Vector3(get_X, get_Y, _grid.transform.position.z);
         transform.localScale = Vector3.one;
 
-        ItemBase temp_item = _item as ItemBase;
+        var temp_item = _item as ItemBase;
 
         MainIcon.texture = temp_item.Icon_;
         MainNameText.text = temp_item.Name_;
-        MainDesText.text = "ΩÈ…‹£∫"+temp_item.Des_;
+        MainDesText.text = "‰ªãÁªçÔºö" + temp_item.Des_;
 
         if (temp_item.Atk_ > 0)
         {
             AtkText.gameObject.SetActive(true);
-            AtkText.text = "π•ª˜£∫" + temp_item.Atk_.ToString();
+            AtkText.text = "ÊîªÂáªÔºö" + temp_item.Atk_;
         }
+
         if (temp_item.Def_ > 0)
         {
             DefText.gameObject.SetActive(true);
-            DefText.text = "∑¿”˘£∫" + temp_item.Def_.ToString();
+            DefText.text = "Èò≤Âæ°Ôºö" + temp_item.Def_;
         }
+
         if (temp_item.HP_ > 0)
         {
             HPText.gameObject.SetActive(true);
-            HPText.text = "…˙√¸£∫" + temp_item.HP_.ToString();
+            HPText.text = "ÁîüÂëΩÔºö" + temp_item.HP_;
         }
+
         if (temp_item.Speed_ > 0)
         {
             SpeedText.gameObject.SetActive(true);
-            SpeedText.text = "“∆∂ØÀŸ∂»£∫" + temp_item.Speed_.ToString();
+            SpeedText.text = "ÁßªÂä®ÈÄüÂ∫¶Ôºö" + temp_item.Speed_;
         }
+
         if (temp_item.SkillActive_ != null)
         {
             SkillActive.SetActive(true);
             SkillActiveIcon.texture = temp_item.SkillActive_.Icon_;
             SkillActiveNameText.text = temp_item.SkillActive_.Name_;
-            SkillActiveValueText.text = "‘ˆ∑˘ Ù–‘£∫"+temp_item.SkillActive_.SkillValue_.ToString();
-            SkillActiveDesText.text = "ΩÈ…‹£∫"+temp_item.SkillActive_.Des_;
+            SkillActiveValueText.text = "Â¢ûÂπÖÂ±ûÊÄßÔºö" + temp_item.SkillActive_.SkillValue_;
+            SkillActiveDesText.text = "‰ªãÁªçÔºö" + temp_item.SkillActive_.Des_;
         }
+
         if (temp_item.SkillPassive_ != null)
         {
             SkillPassive.SetActive(true);
             SkillPassiveIcon.texture = temp_item.SkillPassive_.Icon_;
             SkillPassiveNameText.text = temp_item.SkillPassive_.Name_;
-            SkillPassiveValueText.text = "‘ˆ∑˘ Ù–‘£∫" + temp_item.SkillPassive_.SkillValue_.ToString();
-            SkillPassiveDesText.text = "ΩÈ…‹£∫"+temp_item.SkillPassive_.Des_;
+            SkillPassiveValueText.text = "Â¢ûÂπÖÂ±ûÊÄßÔºö" + temp_item.SkillPassive_.SkillValue_;
+            SkillPassiveDesText.text = "‰ªãÁªçÔºö" + temp_item.SkillPassive_.Des_;
         }
+
         if (temp_item.Cost > 0)
         {
             CostPanel.SetActive(true);
-            CostText.text = "º€÷µ£∫"+temp_item.Cost.ToString();
+            CostText.text = "‰ª∑ÂÄºÔºö" + temp_item.Cost;
         }
+
         switch (_grid.GridPoint_)
         {
-            case global::GridPoint.NULL:
+            case GridPoint.NULL:
                 break;
-            case global::GridPoint.Backpack:
+            case GridPoint.Backpack:
                 break;
-            case global::GridPoint.Equip:
+            case GridPoint.Equip:
                 break;
-            case global::GridPoint.Skill:
+            case GridPoint.Skill:
                 break;
-            case global::GridPoint.Store:
+            case GridPoint.Store:
                 break;
         }
 
         LayoutGroups.ForEach(s => s.enabled = true);
     }
 
-    public override void OnOpenPopupInfoWindow(GridPoint gridPoint, ItemBase item,GridBase grid)
-    {
-        
-    }
-
-    private void Update()
+    public override void OnOpenPopupInfoWindow(GridPoint gridPoint, ItemBase item, GridBase grid)
     {
     }
 }

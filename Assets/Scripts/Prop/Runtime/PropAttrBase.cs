@@ -6,16 +6,19 @@ namespace Bug.Project21.Props
     public class PropAttrBase
     {
         /// <summary>
-        ///     Value 有效性，在 道具编辑器 中配置
+        ///     This 'PropAttr' value validity, configured in the Prop-Editor-Window.
         /// </summary>
         public bool enable;
 
         [HideLabel] public Vector2 range = new Vector2(0, 10);
 
+        /// <summary>
+        ///     Used to record the initialized value, used to Get.
+        /// </summary>
         public int Value { get; private set; }
 
         /// <summary>
-        ///     初始化数值，只能调用一次
+        ///     Initialize the 'PropAttr' attr value, only need to call once.
         /// </summary>
         public void InitValue()
         {

@@ -1,331 +1,284 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Bug.Project21.Dialogue;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-[CreateAssetMenu(fileName = "QuestManager", menuName = "Bug/Quests/QuestManager")]
-public class QuestManagerSO : ScriptableObject
+namespace Bug.Project21.Quest
 {
-    [LabelText("任务线")] public List<QuestlineSO> questlines;
-    [LabelText("背包/清单")] public InventorySO inventory;
-    [LabelText("任务完成物品")] public ItemSO winningItem;
-    [LabelText("任务失败物品")] public ItemSO losingItem;
-
-    [Header("监听")] [LabelText("继续步骤事件")] public VoidEventChannelSO continueWithStepEvent;
-    [LabelText("结束对话事件")] public IntEventChannelSO endDialogueEvent;
-    [LabelText("成功选择事件")] public VoidEventChannelSO makeWinningChoiceEvent;
-    [LabelText("失败选择事件")] public VoidEventChannelSO makeLosingChoiceEvent;
-
-    [Header("广播")] [LabelText("播放完成任务对话事件")]
-    public VoidEventChannelSO playCompletionDialogueEvent;
-
-    [LabelText("播放失败任务对话事件")] public VoidEventChannelSO playIncompleteDialogueEvent;
-    [LabelText("给物品事件")] public ItemEventChannelSO giveItemEvent;
-    [LabelText("奖励物品事件")] public ItemStackEventChannelSO rewardItemEvent;
-
-    private QuestSO currentQuest;
-    private int currentQuestIndex;
-    private QuestlineSO currentQuestline;
-    private int currentQuestlineIndex;
-    private StepSO currentStep;
-    private int currentStepIndex;
-
-    [Button("Clear Current Quest")]
-    void TestClearCurrentQuest()
+    [CreateAssetMenu(fileName = "QuestManager", menuName = "Bug/Quests/QuestManager")]
+    public class QuestManagerSO : ScriptableObject
     {
-        currentQuest = null;
-        currentQuestline = null;
-        currentStep = null;
+        public List<QuestlineSO> questlines;
+        public InventorySO inventory;
 
-        currentQuestIndex = currentQuestlineIndex = currentStepIndex = 0;
-    }
+        [Header("Listening")] [LabelText("步骤结束之后")]
+        public VoidEventChannelSO _continueWithStepEvent;
 
-    public void OnDisable()
-    {
-        continueWithStepEvent.OnEventRaised -= CheckStepValidity;
-        endDialogueEvent.OnEventRaised -= EndDialogue;
-        makeWinningChoiceEvent.OnEventRaised -= MakeWinningChoice;
-        makeLosingChoiceEvent.OnEventRaised -= MakeLosingChoice;
-    }
+        [LabelText("对话结束时")] public IntEventChannelSO _endDialogueEvent;
+        [LabelText("做出肯定选项")] public VoidEventChannelSO _makeWinningChoiceEvent;
+        [LabelText("做出否定选项")] public VoidEventChannelSO _makeLosingChoiceEvent;
 
-    private void OnEnable()
-    {
-        StartGame();
-    }
+        [Header("Broadcasting")] [LabelText("播放任务完成对话")]
+        public VoidEventChannelSO _playCompletionDialogueEvent;
 
-    public void StartGame()
-    {
-        continueWithStepEvent.OnEventRaised += CheckStepValidity;
-        endDialogueEvent.OnEventRaised += EndDialogue;
-        makeWinningChoiceEvent.OnEventRaised += MakeWinningChoice;
-        makeLosingChoiceEvent.OnEventRaised += MakeLosingChoice;
-        StartQuestline();
-    }
+        [LabelText("播放任务失败对话")] public VoidEventChannelSO _playIncompleteDialogueEvent;
+        [LabelText("给予物品")] public ItemEventChannelSO _giveItemEvent;
+        [LabelText("奖励物品")] public ItemStackEventChannelSO _rewardItemEvent;
 
-    private void StartQuestline()
-    {
-        if (questlines == null) return;
-        if (!questlines.Exists(o => !o.isDone)) return;
+
+        [Space(30)] [LabelText("测试：任务线")] [InlineButton(nameof(TestClearCurrentQuest), "重置任务线")]
+        public QuestlineSO testQL;
+
+        private QuestSO currentQuest;
+        private int currentQuestIndex;
+        private QuestlineSO currentQuestline;
+        private int currentQuestlineIndex;
+        private StepSO currentStep;
+        private int currentStepIndex;
+
+        private void OnEnable()
         {
-            currentQuestlineIndex = questlines.FindIndex(o => !o.isDone);
-
-            if (currentQuestlineIndex >= 0)
-                currentQuestline = questlines.Find(o => !o.isDone);
+            _continueWithStepEvent.OnEventRaised += StepToDoAccordingToType;
+            _endDialogueEvent.OnEventRaised += EndDialogue;
+            _makeWinningChoiceEvent.OnEventRaised += MakeWinChoice;
+            _makeLosingChoiceEvent.OnEventRaised += MakeLostChoice;
+            SetQuestline();
         }
-    }
 
-    private bool HasStep(Object actorToCheckWith)
-    {
-        if (currentStep == null) return false;
-        return currentStep._actor == actorToCheckWith;
-    }
-
-    private bool CheckQuestlineForQuestWithActor(Object actorToCheckWith)
-    {
-        // 检查当前是否有任务
-        if (currentQuest != null) return false;
-        if (currentQuestline != null)
-            return currentQuestline.quests.Exists(o =>
-                !o.IsDone && o.Steps != null && o.Steps[0]._actor == actorToCheckWith);
-
-        return false;
-    }
-
-    // 与角色互动
-    public DialogueDataSO InteractWithCharacter(ActorSO actor, bool isCheckValidity, bool isValid)
-    {
-        if (currentQuest == null)
-            if (CheckQuestlineForQuestWithActor(actor))
-                StartQuest(actor);
-
-        if (!HasStep(actor)) return null;
-        if (isCheckValidity) return isValid ? currentStep._completeDialogue : currentStep._incompleteDialogue;
-
-        return currentStep._dialogueBeforeStep;
-    }
-
-    // 当与角色互动时，我们会询问任务经理是否有一个以特定角色的步骤开始的任务
-    private void StartQuest(Object actorToCheckWith)
-    {
-        // 检查当前是否有任务
-        if (currentQuest != null) return;
-
-        if (currentQuestline == null) return;
-        // 寻找任务序号
-        currentQuestIndex = currentQuestline.quests.FindIndex(o =>
-            !o.IsDone && o.Steps != null && o.Steps[0]._actor == actorToCheckWith);
-
-        if (currentQuestline.quests.Count <= currentQuestIndex || currentQuestIndex < 0) return;
+        public void OnDisable()
         {
-            currentQuest = currentQuestline.quests[currentQuestIndex];
-
-            // 开始步骤
-            currentStepIndex = 0;
-            currentStepIndex = currentQuest.Steps.FindIndex(o => o._isDone == false);
-            if (currentStepIndex >= 0)
-                StartStep();
+            _continueWithStepEvent.OnEventRaised -= StepToDoAccordingToType;
+            _endDialogueEvent.OnEventRaised -= EndDialogue;
+            _makeWinningChoiceEvent.OnEventRaised -= MakeWinChoice;
+            _makeLosingChoiceEvent.OnEventRaised -= MakeLostChoice;
         }
-    }
 
-    private void MakeWinningChoice()
-    {
-        currentStep._item = winningItem;
-        // currentStep._endStepEvent = 
-        CheckStepValidity();
-    }
-
-    private void MakeLosingChoice()
-    {
-        currentStep._item = losingItem;
-        // currentStep._endStepEvent = 
-        CheckStepValidity();
-    }
-
-    private void StartStep()
-    {
-        if (currentQuest.Steps != null)
-            if (currentQuest.Steps.Count > currentStepIndex)
-                currentStep = currentQuest.Steps[currentStepIndex];
-    }
-
-    private void CheckStepValidity()
-    {
-        if (currentStep == null) return;
-
-        switch (currentStep._type)
+        private void TestClearCurrentQuest()
         {
-            case StepType.CheckItem:
-                if (inventory.Contains(currentStep._item))
-                    // 触发成功对话
-                    playCompletionDialogueEvent.RaiseEvent();
-                else
-                    // 触发失败对话
-                    playIncompleteDialogueEvent.RaiseEvent();
+            currentQuest = null;
+            currentQuestline = null;
+            currentStep = null;
 
-                break;
+            currentQuestIndex = currentQuestlineIndex = currentStepIndex = 0;
 
-            case StepType.GiveItem:
-                if (inventory.Contains(currentStep._item))
-                {
-                    giveItemEvent.RaiseEvent(currentStep._item);
-                    playCompletionDialogueEvent.RaiseEvent();
-                }
-                else
-                {
-                    // 触发失败对话
-                    playIncompleteDialogueEvent.RaiseEvent();
-                }
+            testQL.quests.First()?.steps.ForEach(_ => _.isDone = false);
+            testQL.isDone = testQL.quests.First().isDone = false;
+        }
 
-                break;
 
-            case StepType.Dialogue:
-                // 对话已经播放
-                if (currentStep._completeDialogue != null)
-                    playCompletionDialogueEvent.RaiseEvent();
-                else
+        /// <summary>
+        ///     从任务线库中寻找未完成的任务线，设置 当前任务线序号 和 当前任务线
+        /// </summary>
+        private void SetQuestline()
+        {
+            if (questlines == null) return;
+            if (!questlines.Exists(o => !o.isDone)) return;
+            {
+                currentQuestlineIndex = questlines.FindIndex(o => !o.isDone);
+
+                if (currentQuestlineIndex >= 0)
+                    currentQuestline = questlines.Find(o => !o.isDone);
+            }
+        }
+
+        /// <summary>
+        ///     执行 当前任务线结束之后要做的事。检查任务线库中是否还有未完成的任务线，有则设置新的任务线
+        /// </summary>
+        private void EndQuestline()
+        {
+            if (questlines == null) return;
+
+            if (currentQuestline != null) currentQuestline.FinishQuestline();
+
+            if (questlines.Exists(o => o.isDone)) SetQuestline();
+        }
+
+        /// <summary>
+        ///     设置 当前任务序号：当前任务线中查找（未完成、步骤不为空、步骤一的 Actor为传入的 Actor）的任务。
+        ///     若序号有效，根据序号设置 当前任务。
+        ///     查找此任务中第一个未完成的步骤，并设置当前步骤序号、设置步骤
+        /// </summary>
+        private void StartQuest(Object actorToCheckWith)
+        {
+            if (currentQuest != null) return;
+            if (currentQuestline == null) return;
+
+            currentQuestIndex = currentQuestline.quests.FindIndex(o =>
+                !o.isDone && o.steps != null && o.steps[0].actor == actorToCheckWith);
+
+            if (currentQuestline.quests.Count > currentQuestIndex && currentQuestIndex >= 0)
+            {
+                currentQuest = currentQuestline.quests[currentQuestIndex];
+
+                currentStepIndex = currentQuest.steps.FindIndex(o => o.isDone == false);
+                if (currentStepIndex >= 0)
+                    SetStep();
+            }
+        }
+
+        /// <summary>
+        ///     执行 当前任务结束之后要做的事。检查当前任务线所有任务完成状态，若全部完成，结束任务线。
+        /// </summary>
+        private void EndQuest()
+        {
+            if (currentQuest != null) currentQuest.FinishQuest();
+
+            currentQuest = null;
+            currentQuestIndex = -1;
+            if (currentQuestline == null) return;
+
+            if (!currentQuestline.quests.Exists(o => !o.isDone)) EndQuestline();
+        }
+
+        /// <summary>
+        ///     若当前步骤不为当前任务的最后一个步骤，根据当前步骤序号设置 当前步骤
+        /// </summary>
+        private void SetStep()
+        {
+            if (currentQuest.steps == null) return;
+            if (currentQuest.steps.Count > currentStepIndex)
+                currentStep = currentQuest.steps[currentStepIndex];
+        }
+
+        /// <summary>
+        ///     步骤结束时，检查是否继续下一个步骤 或 结束任务
+        /// </summary>
+        private void EndStep()
+        {
+            currentStep = null;
+
+            // 若当前任务不为空，并且当前步骤不为最后一个步骤
+            if (currentQuest == null) return;
+            if (currentQuest.steps.Count <= currentStepIndex) return;
+
+            // 执行当前步骤完成时需要做的事
+            currentQuest.steps[currentStepIndex].FinishStep();
+
+            // 若不为最后一个步骤，则继续下一个步骤。否则结束任务
+            if (currentQuest.steps.Count > currentStepIndex + 1)
+            {
+                currentStepIndex++;
+                SetStep();
+            }
+            else
+            {
+                EndQuest();
+            }
+        }
+
+        /// <summary>
+        ///     检查当前任务的当前步骤的 Actor是否为传入的 Actor，
+        ///     若不是，影响：没有后续的相关对话
+        /// </summary>
+        private bool HasStep(Object actorToCheckWith)
+        {
+            if (currentStep == null) return false;
+            return currentStep.actor == actorToCheckWith;
+        }
+
+        /// <summary>
+        ///     检查当前任务线是否包含符合要求的任务。
+        ///     1、未完成
+        ///     2、步骤不为空
+        ///     3、步骤一的 Actor为传入的 NPC
+        /// </summary>
+        private bool CheckQuestlineForQuestWithActor(Object actorToCheckWith)
+        {
+            if (currentQuest != null) return false;
+            return currentQuestline != null
+                   && currentQuestline.quests.Exists(o =>
+                       !o.isDone && o.steps != null && o.steps[0].actor == actorToCheckWith);
+        }
+
+        /// <summary>
+        ///     和 Actor(NPC) 不同阶段的对话。【hasSthToDo】对话中是否需要做什么事 【SthIsDone】若需要做什么，是否做完
+        /// </summary>
+        public DialogueDataSO DifferentDialoguesWithActor(ActorSO actor, bool hasSthToDo, bool SthIsDone)
+        {
+            // 如果当前任务为空，则根据传入的 actor分配任务
+            if (currentQuest == null)
+                if (CheckQuestlineForQuestWithActor(actor))
+                    StartQuest(actor);
+
+            if (!HasStep(actor)) return null;
+            if (hasSthToDo) return SthIsDone ? currentStep.completeDialogue : currentStep.incompleteDialogue;
+
+            return currentStep.startDialogue;
+        }
+
+        /// <summary>
+        ///     根据步骤类型设置当前步骤需要做什么事
+        /// </summary>
+        private void StepToDoAccordingToType()
+        {
+            if (currentStep == null) return;
+
+            switch (currentStep.type)
+            {
+                case StepType.CheckItem:
+                    if (inventory.Contains(currentStep.item))
+                        _playCompletionDialogueEvent.RaiseEvent();
+                    else
+                        _playIncompleteDialogueEvent.RaiseEvent();
+                    break;
+
+                case StepType.GiveItem:
+                    if (inventory.Contains(currentStep.item))
+                    {
+                        _giveItemEvent.RaiseEvent(currentStep.item);
+                        _playCompletionDialogueEvent.RaiseEvent();
+                    }
+                    else
+                    {
+                        _playIncompleteDialogueEvent.RaiseEvent();
+                    }
+
+                    break;
+
+                case StepType.Dialogue:
+                    if (currentStep.completeDialogue != null)
+                        _playCompletionDialogueEvent.RaiseEvent();
+                    else
+                        EndStep();
+                    break;
+            }
+        }
+
+        /// <summary>
+        ///     对话完成时，被监听。
+        ///     在 StartDialogue之后，根据对话类型检查对话完成需要做什么。
+        ///     在 CompletionDialogue之后，检查是否存在需要奖励的物品，若存在，引发 奖励物品 事件
+        /// </summary>
+        private void EndDialogue(int dialogueType)
+        {
+            switch ((DialogueType) dialogueType)
+            {
+                case DialogueType.StartDialogue:
+                    StepToDoAccordingToType();
+                    break;
+
+                case DialogueType.CompletionDialogue:
+                    if (currentStep.hasReward && currentStep.rewardItem != null)
+                    {
+                        var itemStack = new ItemStack(currentStep.rewardItem, currentStep.rewardItemCount);
+                        _rewardItemEvent.RaiseEvent(itemStack);
+                    }
+
                     EndStep();
-
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-    }
-
-    private void EndDialogue(int dialogueType)
-    {
-        // 根据结束的对话，做一些事情
-        switch ((DialogueType) dialogueType)
-        {
-            case DialogueType.CompletionDialogue:
-                if (currentStep._hasReward && currentStep._rewardItem != null)
-                {
-                    var itemStack = new ItemStack(currentStep._rewardItem, currentStep._rewardItemCount);
-                    rewardItemEvent.RaiseEvent(itemStack);
-                }
-
-                EndStep();
-                break;
-            case DialogueType.StartDialogue:
-                CheckStepValidity();
-                break;
-            case DialogueType.IncompletionDialogue:
-                break;
-            case DialogueType.DefaultDialogue:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(dialogueType), dialogueType, null);
-        }
-    }
-
-    private void EndStep()
-    {
-        currentStep = null;
-        if (currentQuest == null) return;
-        if (currentQuest.Steps.Count <= currentStepIndex) return;
-
-        currentQuest.Steps[currentStepIndex].FinishStep();
-        if (currentQuest.Steps.Count > currentStepIndex + 1)
-        {
-            currentStepIndex++;
-            StartStep();
-        }
-        else
-        {
-            EndQuest();
-        }
-    }
-
-    private void EndQuest()
-    {
-        if (currentQuest != null) currentQuest.FinishQuest();
-
-        currentQuest = null;
-        currentQuestIndex = -1;
-        if (currentQuestline == null) return;
-
-        if (!currentQuestline.quests.Exists(o => !o.IsDone)) EndQuestline();
-    }
-
-    private void EndQuestline()
-    {
-        if (questlines == null) return;
-
-        if (currentQuestline != null) currentQuestline.FinishQuestline();
-
-        if (questlines.Exists(o => o.isDone)) StartQuestline();
-    }
-
-    public List<string> GetFinishedQuestlineItemsGUIds()
-    {
-        var finishedItemsGUIds = new List<string>();
-
-        foreach (var questline in questlines)
-        {
-            if (questline.isDone) finishedItemsGUIds.Add(questline.Guid);
-
-            foreach (var quest in questline.quests)
-            {
-                if (quest.IsDone) finishedItemsGUIds.Add(quest.Guid);
-
-                finishedItemsGUIds.AddRange(from step in quest.Steps where step._isDone select step.Guid);
+                    break;
             }
         }
 
-        return finishedItemsGUIds;
-    }
 
-    public void SetFinishedQuestlineItemsFromSave(List<string> finishedItemsGUIds)
-    {
-        foreach (var questline in questlines)
+        private void MakeWinChoice()
         {
-            questline.isDone = finishedItemsGUIds.Exists(o => o == questline.Guid);
-
-
-            foreach (var quest in questline.quests)
-            {
-                quest.IsDone = finishedItemsGUIds.Exists(o => o == quest.Guid);
-
-
-                foreach (var step in quest.Steps) step._isDone = finishedItemsGUIds.Exists(o => o == step.Guid);
-            }
+            StepToDoAccordingToType();
         }
 
-        //Start Questline with the new data 
-        StartQuestline();
-    }
-
-    public void ResetQuestlines()
-    {
-        foreach (var questline in questlines)
+        private void MakeLostChoice()
         {
-            questline.isDone = false;
-
-
-            foreach (var quest in questline.quests)
-            {
-                quest.IsDone = false;
-
-
-                foreach (var step in quest.Steps) step._isDone = false;
-            }
+            StepToDoAccordingToType();
         }
-
-        currentQuest = null;
-        currentQuestline = null;
-        currentStep = null;
-        currentQuestIndex = 0;
-        currentQuestlineIndex = 0;
-        currentStepIndex = 0;
-        // 使用新数据启动 Questline
-        StartQuestline();
-    }
-
-    public bool IsNewGame()
-    {
-        var isNew = false;
-        isNew = !questlines.Exists(o => o.quests.Exists(j => j.Steps.Exists(k => k._isDone)));
-        return isNew;
     }
 }

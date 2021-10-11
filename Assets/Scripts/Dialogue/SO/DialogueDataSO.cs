@@ -2,82 +2,77 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
-
-#endif
-
-public enum DialogueType
+namespace Bug.Project21.Dialogue
 {
-    StartDialogue,
-    CompletionDialogue,
-    IncompletionDialogue,
-    DefaultDialogue
-}
-
-public enum ChoiceActionType
-{
-    DoNothing,
-    ContinueWithStep,
-    WinningChoice,
-    LosingChoice,
-    IncompleteStep
-}
-
-[CreateAssetMenu(fileName = "new Dialogue", menuName = "Bug/Dialogue/Dialogue Data")]
-public class DialogueDataSO : ScriptableObject
-{
-    [SerializeField] private List<Line> _lines;
-    [SerializeField] private DialogueType _dialogueType;
-    [SerializeField] private VoidEventChannelSO _endOfDialogueEvent;
-
-    public VoidEventChannelSO EndOfDialogueEvent => _endOfDialogueEvent;
-    public List<Line> Lines => _lines;
-
-    public DialogueType DialogueType
+    [CreateAssetMenu(fileName = "new Dialogue", menuName = "Bug/Dialogue/Dialogue Data")]
+    public class DialogueDataSO : ScriptableObject
     {
-        get => _dialogueType;
-        set => _dialogueType = value;
-    }
+        public List<Line> lines;
+        public DialogueType dialogueType;
+        public VoidEventChannelSO endOfDialogueEvent;
 
-    public void FinishDialogue()
-    {
-        if (EndOfDialogueEvent != null)
-            EndOfDialogueEvent.RaiseEvent();
-    }
+        // 任务需求在 UI上的显示
+        public StringEventChannelSO questTargetOnUIEvent;
+        [SerializeField] private string displayOnUI = string.Empty;
+        public string DisplayOnUI => displayOnUI;
 
-    [Serializable]
-    public class Choice
-    {
-        [SerializeField] private DialogueDataSO _nextDialogue;
-        [SerializeField] private ChoiceActionType _actionType;
-
-        public Choice(Choice choice)
+        /// <summary>
+        ///     引发 对话结束事件
+        /// </summary>
+        public void FinishDialogue()
         {
-            _nextDialogue = choice.NextDialogue;
-            _actionType = ActionType;
+            endOfDialogueEvent?.RaiseEvent();
+
+            // 结束后 广播任务目标需求事件
+            questTargetOnUIEvent?.RaiseEvent(displayOnUI);
         }
 
-        public DialogueDataSO NextDialogue => _nextDialogue;
-        public ChoiceActionType ActionType => _actionType;
-
-        public void SetNextDialogue(DialogueDataSO dialogue)
+        [Serializable]
+        public class Choice
         {
-            _nextDialogue = dialogue;
+            public DialogueDataSO nextDialogue;
+            public ChoiceActionType actionType;
+
+            public Choice(Choice choice)
+            {
+                nextDialogue = choice.nextDialogue;
+            }
+
+            public void SetNextDialogue(DialogueDataSO dialogue)
+            {
+                nextDialogue = dialogue;
+            }
+        }
+
+        [Serializable]
+        public class Line
+        {
+            public int actorID;
+            public string actor;
+            public List<string> textList;
+            public List<Choice> choices;
+
+            public Line()
+            {
+                textList = null;
+            }
         }
     }
 
-    [Serializable]
-    public class Line
+    public enum DialogueType
     {
-        public int actorID;
-        public string actor;
-        public List<string> _textList;
-        public List<Choice> _choices;
+        StartDialogue,
+        CompletionDialogue,
+        IncompletionDialogue,
+        DefaultDialogue
+    }
 
-
-        public Line()
-        {
-            _textList = null;
-        }
+    public enum ChoiceActionType
+    {
+        DoNothing,
+        ContinueWithStep,
+        WinningChoice,
+        LosingChoice,
+        IncompleteStep
     }
 }
