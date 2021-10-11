@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Bug/Event/Float Event Channel")]
+[CreateAssetMenu(menuName ="Bug/Events/Float Event Channel")]
 public class FloatEventChannelSO : DescriptionBaseSO
 {
     public UnityAction<float> OnEventRaised;
