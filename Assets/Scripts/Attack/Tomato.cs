@@ -9,10 +9,10 @@ public class Tomato : MonoBehaviour
 
     public VoidEventChannelSO _onHitMonsterEvent;
     public VectorEventChannelSO _hitbackDirectionEvent;
+
+    public ParticleSystem boomParticle;
     private Rigidbody2D rb;
 
-    public ParticleSystem boomParticle; 
-    
     private CinemachineCollisionImpulseSource vCamera;
 
     private void Awake()

@@ -8,7 +8,7 @@ public class MonsterModelSO : ScriptableObject
 
     public VoidEventChannelSO _onHpToZeroEvent;
     public IntVectorEventChannelSO _showDamagePopUpEvent;
-    public FloatEventChannalSO _currentHpUpdateOnUIEvent;
+    public FloatEventChannelSO _currentHpUpdateOnUIEvent;
 
     public void OnHurtHpChange(Vector3 pos)
     {
