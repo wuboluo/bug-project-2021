@@ -4,7 +4,7 @@ public class MonsterHealthView : MonoBehaviour
 {
     public Transform hpBar;
 
-    public FloatEventChannalSO _updateHpBarValueEvent;
+    public FloatEventChannelSO _updateHpBarValueEvent;
     private float maxHpBarLength;
 
     private void OnEnable()
