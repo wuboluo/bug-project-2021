@@ -2,9 +2,11 @@ using UnityEngine;
 
 namespace Bug.Project21.Player
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
         public float moveSpeed = 3;
+        public bool useAnim;
         private Camera _camera;
 
         private Animator animator;
@@ -20,8 +22,9 @@ namespace Bug.Project21.Player
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
-            animator = GetComponent<Animator>();
             _camera = Camera.main;
+
+            if (useAnim) animator = GetComponent<Animator>();
         }
 
         private void FixedUpdate()
@@ -38,14 +41,17 @@ namespace Bug.Project21.Player
                 transform.position;
 
 
-            // animator
-            animator.SetFloat("MousePositionX", mouseWorldPos.x);
-            animator.SetFloat("MousePositionY", mouseWorldPos.y);
+            if (useAnim)
+            {
+                // animator
+                animator.SetFloat("MousePositionX", mouseWorldPos.x);
+                animator.SetFloat("MousePositionY", mouseWorldPos.y);
 
-            animator.SetFloat("Horizontal", moveInput.x);
-            animator.SetFloat("Vertical", moveInput.y);
+                animator.SetFloat("Horizontal", moveInput.x);
+                animator.SetFloat("Vertical", moveInput.y);
 
-            animator.SetFloat("Speed", moveInput.sqrMagnitude);
+                animator.SetFloat("Speed", moveInput.sqrMagnitude);
+            }
         }
 
         private void OnEnable()

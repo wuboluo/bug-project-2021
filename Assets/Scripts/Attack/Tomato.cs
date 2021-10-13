@@ -42,7 +42,7 @@ public class Tomato : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Monster") && !other.GetComponent<Monster>().IsDeath)
+        if (other.CompareTag("Monster") && !other.GetComponent<Enemy>().IsDeath)
         {
             DestroySelf();
             _onHitMonsterEvent?.RaiseEvent();

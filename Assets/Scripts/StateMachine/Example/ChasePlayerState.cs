@@ -2,33 +2,25 @@ using UnityEngine;
 
 public class ChasePlayerState : FSMState
 {
-    public ChasePlayerState()
+    private Rigidbody2D rb;
+
+    public ChasePlayerState(Rigidbody2D _rb)
     {
         stateID = StateID.ChasingPlayer;
+        rb = _rb;
     }
 
     public override void Reason(GameObject player, GameObject npc)
     {
-        // If the player has gone 30 meters away from the NPC, fire LostPlayer transition
-        if (Vector3.Distance(npc.transform.position, player.transform.position) >= 30)
+        if (Vector3.Distance(npc.transform.position, player.transform.position) >= 5)
             npc.GetComponent<NPCControl>().SetTransition(Transition.LostPlayer);
     }
 
     public override void Act(GameObject player, GameObject npc)
     {
-        // Follow the path of waypoints
-        // Find the direction of the player         
         var moveDir = player.transform.position - npc.transform.position;
+        var vel = moveDir.normalized * 3;
 
-        // Rotate towards the waypoint
-        npc.transform.rotation = Quaternion.Slerp(npc.transform.rotation,
-            Quaternion.LookRotation(moveDir),
-            5 * Time.deltaTime);
-        npc.transform.eulerAngles = new Vector3(0, npc.transform.eulerAngles.y, 0);
-
-        var vel = moveDir.normalized * 10;
-
-        // Apply the new Velocity
-        npc.GetComponent<Rigidbody>().velocity = vel;
+        rb.velocity = vel;
     }
-} // ChasePlayerState
+}
