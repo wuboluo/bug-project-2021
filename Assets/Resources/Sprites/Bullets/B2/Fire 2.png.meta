@@ -1,37 +1,22 @@
 fileFormatVersion: 2
-guid: 1739f6f0e8ae0344b930427dc744653c
+guid: fc1da31a9f741a446befe26532bac5eb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2937912103407283272
-    second: IceVFX 1 Repeatable_0
+      213: 5211608322165293109
+    second: Fire 2_0
   - first:
-      213: -4969676193942958089
-    second: IceVFX 1 Repeatable_1
+      213: 3908156412481683009
+    second: Fire 2_1
   - first:
-      213: -2752706012691971032
-    second: IceVFX 1 Repeatable_2
+      213: 6877948385374388732
+    second: Fire 2_2
   - first:
-      213: 4426986535507562079
-    second: IceVFX 1 Repeatable_3
+      213: -7531386062618639873
+    second: Fire 2_3
   - first:
-      213: -7338746557343932665
-    second: IceVFX 1 Repeatable_4
-  - first:
-      213: 2121323489530304963
-    second: IceVFX 1 Repeatable_5
-  - first:
-      213: 959595360459687273
-    second: IceVFX 1 Repeatable_6
-  - first:
-      213: 9016592951320014200
-    second: IceVFX 1 Repeatable_7
-  - first:
-      213: -2634239317843360259
-    second: IceVFX 1 Repeatable_8
-  - first:
-      213: -7184832548953209133
-    second: IceVFX 1 Repeatable_9
+      213: 3966772883931764388
+    second: Fire 2_4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -76,7 +61,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -157,211 +142,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IceVFX 1 Repeatable_0
+      name: Fire 2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 32
+        width: 50
+        height: 52
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b39617f1807a37d0800000000000000
-      internalID: -2937912103407283272
+      spriteID: 530c12f182a535840800000000000000
+      internalID: 5211608322165293109
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IceVFX 1 Repeatable_1
+      name: Fire 2_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 50
         y: 0
-        width: 48
-        height: 32
+        width: 50
+        height: 52
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7ff805305d9280bb0800000000000000
-      internalID: -4969676193942958089
+      spriteID: 14eb2a40d8f8c3630800000000000000
+      internalID: 3908156412481683009
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IceVFX 1 Repeatable_2
+      name: Fire 2_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 100
         y: 0
-        width: 48
-        height: 32
+        width: 50
+        height: 52
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 824c966477c6cc9d0800000000000000
-      internalID: -2752706012691971032
+      spriteID: cf146b59d91637f50800000000000000
+      internalID: 6877948385374388732
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IceVFX 1 Repeatable_3
+      name: Fire 2_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 150
         y: 0
-        width: 48
-        height: 32
+        width: 50
+        height: 52
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5e8d528cc0df6d30800000000000000
-      internalID: 4426986535507562079
+      spriteID: ff1c94f67442b7790800000000000000
+      internalID: -7531386062618639873
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: IceVFX 1 Repeatable_4
+      name: Fire 2_4
       rect:
         serializedVersion: 2
-        x: 192
+        x: 200
         y: 0
-        width: 48
-        height: 32
+        width: 50
+        height: 52
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70fd4e073e8872a90800000000000000
-      internalID: -7338746557343932665
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceVFX 1 Repeatable_5
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 0
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3c955277974707d10800000000000000
-      internalID: 2121323489530304963
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceVFX 1 Repeatable_6
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 965005c65ea215d00800000000000000
-      internalID: 959595360459687273
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceVFX 1 Repeatable_7
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 0
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 87d68bb648f512d70800000000000000
-      internalID: 9016592951320014200
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceVFX 1 Repeatable_8
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: df544961c4d417bd0800000000000000
-      internalID: -2634239317843360259
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: IceVFX 1 Repeatable_9
-      rect:
-        serializedVersion: 2
-        x: 432
-        y: 0
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3d6caf41dd85a4c90800000000000000
-      internalID: -7184832548953209133
+      spriteID: 4a6976bcbeecc0730800000000000000
+      internalID: 3966772883931764388
       vertices: []
       indices: 
       edges: []
@@ -369,14 +249,14 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8446a7756d7fede4c9f041dc83821b3c
+    spriteID: 30d98dd49aae8254780207c430c64bf3
     internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures:
-    - texture: {fileID: 2800000, guid: dcd56f327c9cb474c89aabccc7b9b5e6, type: 3}
+    - texture: {fileID: 2800000, guid: 178aa2eab264ed844b9977925e956d8a, type: 3}
       name: _Emission
   spritePackingTag: 
   pSDRemoveMatte: 0

@@ -8,6 +8,8 @@ public class FollowPathState : FSMState
     private EnemyAI enemyAI;
     private Transform[] waypoints;
 
+    private Enemy enemy;
+
     public FollowPathState(Transform[] _wp, EnemyFSM _fsm)
     {
         waypoints = _wp;
@@ -16,6 +18,7 @@ public class FollowPathState : FSMState
         currentWayPoint = 0;
         stateID = StateID.FollowingPath;
         enemyAI = fsm.GetComponent<EnemyAI>();
+        enemy = fsm.GetComponent<Enemy>();
     }
 
     public override void Reason(GameObject player, GameObject npc)
@@ -35,6 +38,8 @@ public class FollowPathState : FSMState
             if (currentWayPoint >= waypoints.Length) currentWayPoint = 0;
             enemyAI.target = waypoints[currentWayPoint];
         }
+        
+        enemy.OnResumeHP();
     }
 
     public override void DoBeforeEntering()

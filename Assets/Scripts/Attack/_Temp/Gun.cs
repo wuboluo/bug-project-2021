@@ -9,6 +9,9 @@ public class Gun : MonoBehaviour
 
     private Vector2 mousePos;
 
+    public float bulletCD = 0.5f;
+    private float cdTimer;
+
     private void Start()
     {
         camera = Camera.main;
@@ -26,6 +29,15 @@ public class Gun : MonoBehaviour
         direction = (mousePos - new Vector2(transform.position.x, transform.position.y)).normalized;
 
         if (Input.GetMouseButtonDown(0)) Fire();
+        if (Input.GetMouseButton(1))
+        {
+            cdTimer += Time.deltaTime;
+            if (cdTimer >= bulletCD)
+            {
+                cdTimer = 0;
+                Fire();
+            }
+        }
     }
 
     private void Fire()

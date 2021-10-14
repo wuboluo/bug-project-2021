@@ -54,6 +54,13 @@ public class Enemy : MonoBehaviour
         if (rb != null) rb.AddForce(v3 * strength, ForceMode2D.Impulse);
     }
 
+    public void OnResumeHP()
+    {
+        if (currentHp >= maxHp) return;
+        currentHp++;
+        updateHpBarEvent?.Invoke((float) currentHp / maxHp);
+    }
+
     private void OnDeath()
     {
         IsDeath = true;

@@ -4,7 +4,7 @@ using UnityEngine;
 public class BulletVFX : MonoBehaviour
 {
     public BulletVFXPoolSO bulletVFXPool;
-    public int lifeTime = 3;
+    public float lifeTime = 3;
     public float speed;
 
     public OnHitEnemyEventChannelSO _onHitMonsterEvent;
@@ -44,6 +44,12 @@ public class BulletVFX : MonoBehaviour
             // 在 Tomato<...Impulse Source>上设置 TriggerObjectFilter.LayerMask = Nothing
             // 否则不需要此行代码，则可以在碰撞太 指定层的物体时自动震动屏幕
             vCamera.GenerateImpulse();
+        }
+        
+        else if (other.CompareTag("Wall"))
+        {
+            rb.velocity = Vector2.zero;
+            GetComponent<Animator>().Play("Bullet-Ice-Hit");
         }
     }
 
