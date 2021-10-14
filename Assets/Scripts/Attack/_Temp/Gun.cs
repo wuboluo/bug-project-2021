@@ -2,7 +2,7 @@
 
 public class Gun : MonoBehaviour
 {
-    public TomatoPoolSO tomatoPool;
+    public BulletVFXPoolSO bulletPool;
     public int initialSize;
     private new Camera camera;
     private Vector2 direction;
@@ -12,7 +12,7 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         camera = Camera.main;
-        tomatoPool.Prewarm(initialSize);
+        bulletPool.Prewarm(initialSize);
     }
 
     private void Update()
@@ -30,10 +30,13 @@ public class Gun : MonoBehaviour
 
     private void Fire()
     {
-        var tomato = tomatoPool.Request();
-        tomato.tomatoPool = tomatoPool;
+        var bullet = bulletPool.Request();
+        bullet.bulletVFXPool = bulletPool;
 
-        tomato.transform.position = transform.position;
-        tomato.GetComponent<Tomato>().SetSpeed(direction);
+        transform.right = (Vector3) mousePos - transform.position;
+        bullet.transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+        bullet.transform.position = transform.position;
+
+        bullet.GetComponent<BulletVFX>().SetSpeed(direction);
     }
 }

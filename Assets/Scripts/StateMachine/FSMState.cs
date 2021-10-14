@@ -46,11 +46,11 @@ public abstract class FSMState
         return map.ContainsKey(trans) ? map[trans] : StateID.NullStateID;
     }
 
-    public void DoBeforeEntering()
+    public virtual void DoBeforeEntering()
     {
     }
 
-    public void DoBeforeLeaving()
+    public virtual void DoBeforeLeaving()
     {
     }
 

@@ -3,19 +3,17 @@ using UnityEngine;
 public class EnemyHealthView : MonoBehaviour
 {
     public Transform hpBar;
-
-    public FloatEventChannelSO _updateHpBarValueEvent;
     private float maxHpBarLength;
 
     private void OnEnable()
     {
-        _updateHpBarValueEvent.OnEventRaised += UpdateHpValue;
+        transform.GetComponent<Enemy>().updateHpBarEvent += UpdateHpValue;
         maxHpBarLength = hpBar.localScale.x;
     }
 
     private void OnDisable()
     {
-        _updateHpBarValueEvent.OnEventRaised -= UpdateHpValue;
+        transform.GetComponent<Enemy>().updateHpBarEvent -= UpdateHpValue;
     }
 
     private void UpdateHpValue(float value)

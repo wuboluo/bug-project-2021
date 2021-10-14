@@ -1,58 +1,70 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
-    public EnemyModelSO monsterModel;
+    public int maxHp;
+    public int currentHp;
 
-    [SerializeField] private float strength = 10;
+    public float strength = 10;
 
-    public VoidEventChannelSO _onHurtEvent;
-    public VoidEventChannelSO _onDeathEvent;
-    public VectorEventChannelSO _hitbackDirectionEvent;
+    public OnHitEnemyEventChannelSO _onHitEnemyEvent;
+    public IntVectorEventChannelSO _showDamagePopUpEvent;
+
+    public event UnityAction<float> updateHpBarEvent;
 
     private Rigidbody2D rb;
+    public Transform player;
 
     public bool IsDeath { get; private set; }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        monsterModel.maxHp = 50;
-        monsterModel.currentHp = 50;
+        currentHp = maxHp;
     }
 
     private void OnEnable()
     {
-        _onHurtEvent.OnEventRaised += OnHurt;
-        _onDeathEvent.OnEventRaised += OnDeath;
-        _hitbackDirectionEvent.OnEventRaised += OnHitBack;
+        _onHitEnemyEvent.OnEventRaised += OnHurt;
     }
 
     private void OnDisable()
     {
-        _onHurtEvent.OnEventRaised -= OnHurt;
-        _onDeathEvent.OnEventRaised -= OnDeath;
-        _hitbackDirectionEvent.OnEventRaised -= OnHitBack;
+        _onHitEnemyEvent.OnEventRaised -= OnHurt;
     }
 
-    private void OnHurt()
+    private void OnHurt(string eName, Vector3 pos)
     {
-        monsterModel.OnHurtHpChange(transform.localPosition);
+        if (!eName.Equals(name)) return;
+
+        var tempValue = Random.Range(1, 5);
+        currentHp -= tempValue;
+
+        _showDamagePopUpEvent?.RaiseEvent(tempValue, transform.localPosition);
+        updateHpBarEvent?.Invoke((float) currentHp / maxHp);
+        OnHitBack(pos);
+
+        if (currentHp <= 0) OnDeath();
         GetComponent<Animator>().Play("E1-OnHurt");
     }
 
     private void OnHitBack(Vector3 v3)
     {
-        if (rb != null)
-        {
-            rb.AddForce(v3 * strength, ForceMode2D.Impulse);
-        }
+        if (rb != null) rb.AddForce(v3 * strength, ForceMode2D.Impulse);
     }
 
-    private void OnDeath() 
+    private void OnDeath()
+    {
+        IsDeath = true;
+        GetComponent<EnemyAI>().enabled = false;
+        GetComponent<EnemyFSM>().enabled = false;
+        GetComponent<Animator>().SetBool("_HurtToDeath", true);
+    }
+
+    // 绑定在 Death动画最后一帧
+    public void DisappearSelf()
     {
         gameObject.SetActive(false);
-        IsDeath = true;
     }
 }
