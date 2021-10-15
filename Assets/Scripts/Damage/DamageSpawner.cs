@@ -6,12 +6,11 @@ public class DamageSpawner : MonoBehaviour
 
     public IntVectorEventChannelSO _setDamageValueAndSetPos;
 
-    public int initialSize;
     private DamagePopup damage;
 
     private void Start()
     {
-        damagePool.Prewarm(initialSize);
+        damagePool.Prewarm(damagePool.size);
     }
 
     private void OnEnable()
@@ -30,14 +29,7 @@ public class DamageSpawner : MonoBehaviour
         damage = damagePool.Request();
         damage.damagePool = damagePool;
 
-        // damage.transform.SetParent(transform);
         damage.SetUp(value);
-
-        // var screenPos = CameraPosSwitcher.i.ToScreenPos(pos);
-        // damage.transform.localPosition =
-        //     new Vector3(screenPos.x - Screen.width / 2, screenPos.y - Screen.height / 2, 0)
-        //     + new Vector3(0, 75);
-
         damage.transform.position = pos;
     }
 }
