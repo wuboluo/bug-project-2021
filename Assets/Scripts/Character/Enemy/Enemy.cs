@@ -3,8 +3,8 @@ using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHp;
-    public int currentHp;
+    public EnemySO enemyDefaultData;
+    [HideInInspector] public int currentHp;
 
     public float strength = 10;
 
@@ -14,19 +14,21 @@ public class Enemy : MonoBehaviour
     public event UnityAction<float> updateHpBarEvent;
 
     private Rigidbody2D rb;
-    public Transform player;
+
+    public Transform Player { get; private set; }
 
     public bool IsDeath { get; private set; }
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentHp = maxHp;
+        Player = GameObject.FindWithTag("Player").transform;
     }
 
     private void OnEnable()
     {
         _onHitEnemyEvent.OnEventRaised += OnHurt;
+        currentHp = enemyDefaultData.maxHp;
     }
 
     private void OnDisable()
@@ -42,7 +44,7 @@ public class Enemy : MonoBehaviour
         currentHp -= tempValue;
 
         _showDamagePopUpEvent?.RaiseEvent(tempValue, transform.localPosition);
-        updateHpBarEvent?.Invoke((float) currentHp / maxHp);
+        updateHpBarEvent?.Invoke((float) currentHp / enemyDefaultData.maxHp);
         OnHitBack(pos);
 
         if (currentHp <= 0) OnDeath();
@@ -56,9 +58,9 @@ public class Enemy : MonoBehaviour
 
     public void OnResumeHP()
     {
-        if (currentHp >= maxHp) return;
+        if (currentHp >= enemyDefaultData.maxHp) return;
         currentHp++;
-        updateHpBarEvent?.Invoke((float) currentHp / maxHp);
+        updateHpBarEvent?.Invoke((float) currentHp / enemyDefaultData.maxHp);
     }
 
     private void OnDeath()

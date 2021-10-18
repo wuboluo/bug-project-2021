@@ -6,7 +6,7 @@ public class EnemyAI : MonoBehaviour
 {
     public Transform target;
 
-    public float speed = 200;
+    private float speed;
     public float nextWayPointDistance = 3;
 
     private Path path;
@@ -16,16 +16,18 @@ public class EnemyAI : MonoBehaviour
     private Rigidbody2D rb;
 
     private EnemyToward enemyToward;
-    
+
     private void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         enemyToward = GetComponent<EnemyToward>();
 
-        var playerDis = Vector2.Distance(transform.position, GetComponent<Enemy>().player.position);
+        var playerDis = Vector2.Distance(transform.position, GetComponent<Enemy>().Player.position);
         var warnDis = GetComponent<EnemyFSM>().warningDistance;
-        target = playerDis > warnDis ? GetComponent<EnemyFSM>().path.First() : GetComponent<Enemy>().player;
+        target = playerDis > warnDis ? GetComponent<EnemyFSM>().path.First() : GetComponent<Enemy>().Player;
+
+        speed = GetComponent<Enemy>().enemyDefaultData.defaultSpeed;
     }
 
     private void OnEnable()
@@ -59,16 +61,6 @@ public class EnemyAI : MonoBehaviour
         }
 
         enemyToward.toward = force.x;
-        // if (force.x >= 0.01f)
-        // {
-        //     transform.localScale = new Vector2(-startScale.x, startScale.y);
-        //     hpBar.localScale = new Vector2(-hpScale.x, hpScale.y);
-        // }
-        // else if (force.x <= -0.01f)
-        // {
-        //     transform.localScale = startScale;
-        //     hpBar.localScale = hpScale;
-        // }
     }
 
     private void OnPathComplete(Path p)

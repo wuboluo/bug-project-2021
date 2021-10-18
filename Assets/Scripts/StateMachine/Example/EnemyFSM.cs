@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyFSM : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     public Transform[] path;
     public float warningDistance;
 
@@ -10,6 +10,7 @@ public class EnemyFSM : MonoBehaviour
 
     public void Start()
     {
+        player = GetComponent<Enemy>().Player.gameObject;
         MakeFSM();
     }
 

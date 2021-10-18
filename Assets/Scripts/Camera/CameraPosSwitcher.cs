@@ -46,15 +46,4 @@ public class CameraPosSwitcher : MonoBehaviour
 
         isShake = false;
     }
-
-
-    [ContextMenu(">>>")]
-    void Tee()
-    {
-        var lst1 = new List<int> {2, 3, 1};
-        var lst2 = new List<int> {2, 3, 1};
-
-        var res = lst1.SequenceEqual(lst2);
-        print(res);
-    }
 }

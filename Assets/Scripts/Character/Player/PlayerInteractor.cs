@@ -6,14 +6,14 @@ namespace Bug.Project21.Player
 {
     public class PlayerInteractor : MonoBehaviour
     {
-        public bool haveObjCanPickUp;
-        public GameObject canPickUpObj;
+        [HideInInspector] public bool haveObjCanPickUp;
+        [HideInInspector] public GameObject canPickUpObj;
         public List<GameObject> tempPlayerBackpack = new List<GameObject>();
 
         private PlayerInputControl controls;
 
         public GameManager _gameManager;
-        
+
         private void Start()
         {
             controls = GetComponent<PlayerMovement>().controls;
@@ -27,7 +27,7 @@ namespace Bug.Project21.Player
                 other.gameObject.GetComponent<StepController>().InteractWithCharacter();
             }
         }
-        
+
         private void OnCollisionStay2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("Prop"))

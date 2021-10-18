@@ -26,6 +26,6 @@ public class ChasePlayerState : FSMState
     
     public override void DoBeforeEntering()
     {
-        enemyAI.target = fsm.GetComponent<Enemy>().player;
+        enemyAI.target = fsm.GetComponent<Enemy>().Player;
     }
 }

@@ -47,8 +47,17 @@ namespace Bug.Project21.Player
                 animator.SetFloat("MousePositionX", mouseWorldPos.x);
                 animator.SetFloat("MousePositionY", mouseWorldPos.y);
 
-                animator.SetFloat("Horizontal", moveInput.x);
-                animator.SetFloat("Vertical", moveInput.y);
+                // 移动攻击时，玩家朝向攻击方向而不是移动方向
+                if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
+                {
+                    animator.SetFloat("Horizontal", mouseWorldPos.x);
+                    animator.SetFloat("Vertical", mouseWorldPos.y);
+                }
+                else
+                {
+                    animator.SetFloat("Horizontal", moveInput.x);
+                    animator.SetFloat("Vertical", moveInput.y);
+                }
 
                 animator.SetFloat("Speed", moveInput.sqrMagnitude);
             }
