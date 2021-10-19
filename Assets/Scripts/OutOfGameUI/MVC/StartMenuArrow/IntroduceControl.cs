@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 团队介绍界面 控制器
 /// </summary>
-public class IntroduceControl : MonoBehaviour
+public class IntroduceControl : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
     /// <summary>
     /// 团队介绍界面滚动的位置
@@ -27,6 +28,9 @@ public class IntroduceControl : MonoBehaviour
     /// </summary>
     public int rollTimes = 20;
 
+    /// <summary>
+    /// 方便计算滚动的距离
+    /// </summary>
     RectTransform ScrollView;
     RectTransform Content;
 
@@ -38,13 +42,13 @@ public class IntroduceControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isRoll && rollContent <= Content.sizeDelta.y - ScrollView.sizeDelta.y)
+        if (isRoll)
         {
-            rollContent += Time.deltaTime * rollTimes;
-            ControlIntroduceContent(rollContent);
-        }
-        else if (!isRoll)
-        {
+            if (rollContent <= Content.sizeDelta.y - ScrollView.sizeDelta.y)
+            {
+                rollContent += Time.deltaTime * rollTimes;
+                ControlIntroduceContent(rollContent);
+            }
         }
 
     }
@@ -60,6 +64,8 @@ public class IntroduceControl : MonoBehaviour
         isRoll = false;
     }
 
+
+
     /// <summary>
     /// 传值给滚动位置
     /// </summary>
@@ -67,5 +73,24 @@ public class IntroduceControl : MonoBehaviour
     public void ControlIntroduceContent(float rollTime)
     {
         introduceContentSO?.RaiseEvent(rollTime);
+    }
+
+    /// <summary>
+    /// 鼠标拖拽时时
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        isRoll = false;
+    }
+
+    /// <summary>
+    /// 松开鼠标时
+    /// </summary>
+    /// <param name="eventData"></param>
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        rollContent = Content.localPosition.y;
+        isRoll = true;
     }
 }
