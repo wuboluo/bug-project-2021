@@ -3,47 +3,47 @@ using UnityEngine;
 public class FollowPathState : FSMState
 {
     private int currentWayPoint;
+
+    private EnemyFSM fsm;
+    private EnemyAI enemyAI;
     private Transform[] waypoints;
 
-    public FollowPathState(Transform[] wp)
+    private Enemy enemy;
+
+    public FollowPathState(Transform[] _wp, EnemyFSM _fsm)
     {
-        waypoints = wp;
+        waypoints = _wp;
+        fsm = _fsm;
+
         currentWayPoint = 0;
         stateID = StateID.FollowingPath;
+        enemyAI = fsm.GetComponent<EnemyAI>();
+        enemy = fsm.GetComponent<Enemy>();
     }
 
     public override void Reason(GameObject player, GameObject npc)
     {
-        // If the Player passes less than 15 meters away in front of the NPC
-        if (Physics.Raycast(npc.transform.position, npc.transform.forward, out var hit, 15F))
-            if (hit.transform.gameObject.CompareTag("Player"))
-                npc.GetComponent<NPCControl>().SetTransition(Transition.SawPlayer);
+        var dis = Vector3.Distance(player.transform.position, npc.transform.position);
+        if (dis < fsm.warningDistance)
+            npc.GetComponent<EnemyFSM>().SetTransition(Transition.SawPlayer);
     }
 
     public override void Act(GameObject player, GameObject npc)
     {
-        // Follow the path of waypoints
-        // Find the direction of the current way point 
-        var vel = npc.GetComponent<Rigidbody>().velocity;
         var moveDir = waypoints[currentWayPoint].position - npc.transform.position;
 
-        if (moveDir.magnitude < 1)
+        if (moveDir.magnitude < 1.5f)
         {
             currentWayPoint++;
             if (currentWayPoint >= waypoints.Length) currentWayPoint = 0;
+            enemyAI.target = waypoints[currentWayPoint];
         }
-        else
-        {
-            vel = moveDir.normalized * 10;
-
-            // Rotate towards the waypoint
-            npc.transform.rotation = Quaternion.Slerp(npc.transform.rotation,
-                Quaternion.LookRotation(moveDir),
-                5 * Time.deltaTime);
-            npc.transform.eulerAngles = new Vector3(0, npc.transform.eulerAngles.y, 0);
-        }
-
-        // Apply the Velocity
-        npc.GetComponent<Rigidbody>().velocity = vel;
+        
+        enemy.OnResumeHP();
     }
-} // FollowPathState
+
+    public override void DoBeforeEntering()
+    {
+        enemyAI.target = waypoints[currentWayPoint];
+    }
+}

@@ -6,6 +6,7 @@ namespace Bug.Project21.Tools
     {
         private Transform _parent;
         private Transform _poolRoot;
+        public int size;
 
         private Transform PoolRoot
         {

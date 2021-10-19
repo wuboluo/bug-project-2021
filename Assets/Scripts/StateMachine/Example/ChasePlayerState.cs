@@ -2,33 +2,30 @@ using UnityEngine;
 
 public class ChasePlayerState : FSMState
 {
-    public ChasePlayerState()
+    private EnemyFSM fsm;
+    private EnemyAI enemyAI;
+    
+    public ChasePlayerState( EnemyFSM _fsm)
     {
         stateID = StateID.ChasingPlayer;
+        fsm = _fsm;
+        enemyAI = fsm.GetComponent<EnemyAI>();
     }
 
     public override void Reason(GameObject player, GameObject npc)
     {
-        // If the player has gone 30 meters away from the NPC, fire LostPlayer transition
-        if (Vector3.Distance(npc.transform.position, player.transform.position) >= 30)
-            npc.GetComponent<NPCControl>().SetTransition(Transition.LostPlayer);
+        var dis = Vector3.Distance(npc.transform.position, player.transform.position);
+        if (dis >= fsm.warningDistance)
+            npc.GetComponent<EnemyFSM>().SetTransition(Transition.LostPlayer);
     }
 
     public override void Act(GameObject player, GameObject npc)
     {
-        // Follow the path of waypoints
-        // Find the direction of the player         
-        var moveDir = player.transform.position - npc.transform.position;
-
-        // Rotate towards the waypoint
-        npc.transform.rotation = Quaternion.Slerp(npc.transform.rotation,
-            Quaternion.LookRotation(moveDir),
-            5 * Time.deltaTime);
-        npc.transform.eulerAngles = new Vector3(0, npc.transform.eulerAngles.y, 0);
-
-        var vel = moveDir.normalized * 10;
-
-        // Apply the new Velocity
-        npc.GetComponent<Rigidbody>().velocity = vel;
+       
     }
-} // ChasePlayerState
+    
+    public override void DoBeforeEntering()
+    {
+        enemyAI.target = fsm.GetComponent<Enemy>().player;
+    }
+}

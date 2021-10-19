@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -21,6 +23,7 @@ public class CameraPosSwitcher : MonoBehaviour
     public Vector3 ToWorldPos(Vector3 screenPos) => mainCamera.ScreenToWorldPoint(screenPos);
 
     bool isShake;
+
     public void CameraShake(float duration, float strength)
     {
         if (!isShake)
@@ -42,5 +45,16 @@ public class CameraPosSwitcher : MonoBehaviour
         }
 
         isShake = false;
+    }
+
+
+    [ContextMenu(">>>")]
+    void Tee()
+    {
+        var lst1 = new List<int> {2, 3, 1};
+        var lst2 = new List<int> {2, 3, 1};
+
+        var res = lst1.SequenceEqual(lst2);
+        print(res);
     }
 }

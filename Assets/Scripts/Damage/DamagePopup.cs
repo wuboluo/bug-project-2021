@@ -55,7 +55,7 @@ public class DamagePopup : MonoBehaviour
         sortingOrder++;
         textMesh.sortingOrder = sortingOrder;
 
-        moveVector = new Vector3(.7f, 1) * 6f;
+        moveVector = new Vector3(.3f, 1) * 6f;
     }
 
     private void DestroySelf()
