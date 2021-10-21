@@ -43,21 +43,9 @@ public class Gun : MonoBehaviour
     {
         direction = (mousePos - new Vector2(transform.position.x, transform.position.y)).normalized;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Fire(0);
-        }
-        else if (Input.GetMouseButtonDown(1))
-        {
-            Fire(1);
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") >= 0.1f)
-        {
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") <= -0.1f)
-        {
-            Fire(2);
-        }
+        if (Input.GetKeyDown(KeyCode.Q)) Fire(0);
+        else if (Input.GetKeyDown(KeyCode.W)) Fire(1);
+        else if (Input.GetKeyDown(KeyCode.E)) Fire(2);
     }
 
     private void Fire(int poolIndex)
@@ -67,7 +55,7 @@ public class Gun : MonoBehaviour
         if (bulletPools[poolIndex].castingDistance != 0 &&
             !(Vector2.Distance(mainCam.ScreenToWorldPoint(Input.mousePosition), transform.position) <=
               bulletPools[poolIndex].castingDistance)) return;
-        
+
         var bullet = bulletPools[poolIndex].Request();
         bullet.bulletVFXPool = bulletPools[poolIndex];
 

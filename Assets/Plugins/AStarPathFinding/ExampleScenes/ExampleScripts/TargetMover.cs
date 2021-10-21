@@ -22,6 +22,8 @@ namespace Pathfinding {
 		public bool onlyOnDoubleClick;
 		public bool use2D;
 
+		public int mouseDownCount;
+
 		Camera cam;
 
 		public void Start () {
@@ -34,7 +36,7 @@ namespace Pathfinding {
 		}
 
 		public void OnGUI () {
-			if (onlyOnDoubleClick && cam != null && Event.current.type == EventType.MouseDown && Event.current.clickCount == 2) {
+			if (onlyOnDoubleClick && cam != null && Event.current.type == EventType.MouseDown && Event.current.clickCount == mouseDownCount) {
 				UpdateTargetPosition();
 			}
 		}

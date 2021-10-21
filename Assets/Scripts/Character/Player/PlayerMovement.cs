@@ -1,18 +1,19 @@
+using Pathfinding;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace Bug.Project21.Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
-        public float moveSpeed = 3;
         public bool useAnim;
-        private Camera _camera;
 
         private Animator animator;
+        private AIDestinationSetter aiSetter;
 
         public PlayerInputControl controls;
-        private Rigidbody2D rb;
+
+        private float stopX, stopY;
 
         private void Awake()
         {
@@ -21,46 +22,25 @@ namespace Bug.Project21.Player
 
         private void Start()
         {
-            rb = GetComponent<Rigidbody2D>();
-            _camera = Camera.main;
+            aiSetter = GetComponent<AIDestinationSetter>();
 
             if (useAnim) animator = GetComponent<Animator>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            // move
-            var moveInput = controls.Player.Move.ReadValue<Vector2>();
-            rb.velocity = moveInput * moveSpeed;
+            var targetPos = aiSetter.target.position - transform.position;
 
-            // todo: mouse position 
-            var mousePos = controls.Player.MousePos.ReadValue<Vector2>();
-            var mousePosZ = _camera.farClipPlane * .5f;
-            var mouseWorldPos =
-                _camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0)) -
-                transform.position;
-
-
-            if (useAnim)
+            if (!aiSetter.ai.reachedEndOfPath)
             {
-                // animator
-                animator.SetFloat("MousePositionX", mouseWorldPos.x);
-                animator.SetFloat("MousePositionY", mouseWorldPos.y);
-
-                // 移动攻击时，玩家朝向攻击方向而不是移动方向
-                if (Input.GetMouseButton(0) || Input.GetMouseButton(1))
-                {
-                    animator.SetFloat("Horizontal", mouseWorldPos.x);
-                    animator.SetFloat("Vertical", mouseWorldPos.y);
-                }
-                else
-                {
-                    animator.SetFloat("Horizontal", moveInput.x);
-                    animator.SetFloat("Vertical", moveInput.y);
-                }
-
-                animator.SetFloat("Speed", moveInput.sqrMagnitude);
+                stopX = targetPos.x;
+                stopY = targetPos.y;
             }
+
+            animator.SetBool("Reached", aiSetter.ai.reachedEndOfPath);
+
+            animator.SetFloat("InputX", stopX);
+            animator.SetFloat("InputY", stopY);
         }
 
         private void OnEnable()
