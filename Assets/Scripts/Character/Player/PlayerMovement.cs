@@ -1,11 +1,14 @@
+using System;
 using Pathfinding;
-using Sirenix.Utilities;
 using UnityEngine;
+using static CameraPosSwitcher;
 
 namespace Bug.Project21.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        public Vector2 mousePos;
+        public Transform moveTargetTile;
         public bool useAnim;
 
         private Animator animator;
@@ -41,6 +44,12 @@ namespace Bug.Project21.Player
 
             animator.SetFloat("InputX", stopX);
             animator.SetFloat("InputY", stopY);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                mousePos = i.ToWorldPos(Input.mousePosition);
+                moveTargetTile.position = new Vector2((int) Math.Ceiling(mousePos.x), (int) Math.Ceiling(mousePos.y));
+            }
         }
 
         private void OnEnable()
