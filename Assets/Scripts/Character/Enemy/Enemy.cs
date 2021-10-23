@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Unit2D
 {
     public EnemySO enemyDefaultData;
     [HideInInspector] public int currentHp;
 
+    
     public float strength = 10;
 
     public OnHitEnemyEventChannelSO _onHitEnemyEvent;

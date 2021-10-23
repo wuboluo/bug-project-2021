@@ -1,22 +1,19 @@
-using System;
-using Pathfinding;
 using UnityEngine;
-using static CameraPosSwitcher;
 
 namespace Bug.Project21.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public Vector2 mousePos;
-        public Transform moveTargetTile;
-        public bool useAnim;
-
-        private Animator animator;
-        private AIDestinationSetter aiSetter;
-
         public PlayerInputControl controls;
+        public float moveSpeed = 3;
 
+        private Vector2 moveInput;
+        private Animator animator;
+
+        private Rigidbody2D rb;
         private float stopX, stopY;
+
+        public bool isMove;
 
         private void Awake()
         {
@@ -25,41 +22,46 @@ namespace Bug.Project21.Player
 
         private void Start()
         {
-            aiSetter = GetComponent<AIDestinationSetter>();
+            rb = GetComponent<Rigidbody2D>();
 
-            if (useAnim) animator = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
         }
 
-        private void Update()
-        {
-            var targetPos = aiSetter.target.position - transform.position;
+        private void OnEnable() => controls.Enable();
 
-            if (!aiSetter.ai.reachedEndOfPath)
+        private void OnDisable() => controls.Disable();
+
+        void Update()
+        {
+            moveInput = controls.Player.Move.ReadValue<Vector2>();
+
+            if (moveInput != Vector2.zero)
             {
-                stopX = targetPos.x;
-                stopY = targetPos.y;
+                stopX = moveInput.x;
+                stopY = moveInput.y;
             }
 
-            animator.SetBool("Reached", aiSetter.ai.reachedEndOfPath);
+            animator.SetBool("isMoving", moveInput != Vector2.zero);
 
             animator.SetFloat("InputX", stopX);
             animator.SetFloat("InputY", stopY);
+        }
 
-            if (Input.GetMouseButtonDown(0))
+        private void FixedUpdate()
+        {
+            if (isMove)
+                rb.velocity = moveInput * moveSpeed;
+            else
             {
-                mousePos = i.ToWorldPos(Input.mousePosition);
-                moveTargetTile.position = new Vector2((int) Math.Ceiling(mousePos.x), (int) Math.Ceiling(mousePos.y));
+                rb.velocity = Vector2.zero;
             }
         }
 
-        private void OnEnable()
-        {
-            controls.Enable();
-        }
 
-        private void OnDisable()
+        public void SetIsMove()
         {
-            controls.Disable();
+            isMove = true;
+            GetComponent<PlayerInteractor>().atkCollider.GetComponent<Collider2D>().enabled = false;
         }
     }
 }
