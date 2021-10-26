@@ -8,23 +8,22 @@ namespace Bug.Project21.Dialogue
     {
         [SerializeField] private List<ActorSO> actorsList;
 
-        [Header("监听 Add.Remove")] [LabelText("开始对话")] [Tooltip("Raise在 NPC<StepController>")] [SerializeField]
+        [Header("监听 Add.Remove")] [Tooltip("Raise在 NPC<StepController>")] [SerializeField]
         private DialogueDataChannelSO _startDialogue;
 
-        [LabelText("做选择")] [Tooltip("Raise在 Button.onClick-UnityEvent（Inspector）")] [SerializeField]
+        [Tooltip("Raise在 Button.onClick-UnityEvent（Inspector）")] [SerializeField]
         private DialogueChoiceChannelSO _makeDialogueChoiceEvent;
 
-        [Header("广播 Raise")] [LabelText("对话结束")] [Tooltip("监听于 NPC<StepController>")] [SerializeField]
+        [Header("广播 Raise")] [Tooltip("监听于 NPC<StepController>")] [SerializeField]
         private IntEventChannelSO _endDialogueWithTypeEvent;
 
-        [LabelText("选择肯定选项")] [Tooltip("监听于 QuestManagerSO")] [SerializeField]
+        [Tooltip("监听于 QuestManagerSO")] [SerializeField]
         private VoidEventChannelSO _makeWinningChoice;
 
-        [LabelText("选择否定选项")] [Tooltip("监听于 QuestManagerSO")] [SerializeField]
+        [Tooltip("监听于 QuestManagerSO")] [SerializeField]
         private VoidEventChannelSO _makeLosingChoice;
 
-        [LabelText("播放任务失败对话")] [Tooltip("")] [SerializeField]
-        private VoidEventChannelSO _playIncompleteDialogue;
+        [Tooltip("")] [SerializeField] private VoidEventChannelSO _playIncompleteDialogue;
 
         [SerializeField] private VoidEventChannelSO _continueWithStep;
 

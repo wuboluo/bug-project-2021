@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Bug.Project21.Quest;
 using UnityEngine;
 
@@ -7,47 +5,48 @@ namespace Bug.Project21.Player
 {
     public class PlayerInteractor : MonoBehaviour, IInteractor
     {
-        [HideInInspector] public bool haveObjCanPickUp;
-        [HideInInspector] public GameObject canPickUpObj;
-        public List<GameObject> tempPlayerBackpack = new List<GameObject>();
+        public ItemEventChannelSO _onObjectPickUp;
+        public ItemSO item;
 
         private PlayerInputControl controls;
 
         private void Start()
         {
             controls = GetComponent<PlayerMovement>().controls;
-            controls.Player.PickUp.performed += _ => PickUpObj();
+            controls.Player.PickUp.performed += _ => Collect();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (other.gameObject.CompareTag("NPC"))
-            {
                 other.gameObject.GetComponent<StepController>().InteractWithCharacter();
-            }
+
+            if (other.gameObject.CompareTag("Pickable"))
+                item = other.gameObject.GetComponent<ItemSO>();
         }
 
         private void OnCollisionStay2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag("Prop"))
+            if (other.gameObject.CompareTag("Pickable"))
+                item = null;
+        }
+
+        private void Collect()
+        {
+            if (_onObjectPickUp != null)
             {
-                haveObjCanPickUp = true;
-                if (canPickUpObj == null) canPickUpObj = other.gameObject;
+                // todo:item检测方式优化
+                if (item != null)
+                    _onObjectPickUp.RaiseEvent(item);
             }
+
+            Destroy(item);
+
+            RequestUpdateUI();
         }
 
-        private void OnCollisionExit2D(Collision2D other)
+        void RequestUpdateUI()
         {
-            if (!other.gameObject.CompareTag("Prop")) return;
-            haveObjCanPickUp = false;
-            canPickUpObj = null;
-        }
-
-        private void PickUpObj()
-        {
-            if (!haveObjCanPickUp) return;
-            tempPlayerBackpack.Add(canPickUpObj);
-            canPickUpObj.SetActive(false);
         }
 
         public void OnNearTriggerChange(bool entered, GameObject who)
