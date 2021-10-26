@@ -41,6 +41,18 @@ namespace Bug.Project21.Skills
 
         [BoxGroup("Basic/属性")] [LabelText("影响比例")] [SerializeField] [Range(0, 5)]
         private float percent;
+        
+        [BoxGroup("Basic/属性")] [LabelText("持续时间")] [SerializeField]
+        private float lifeTime;
+        
+        [BoxGroup("Basic/属性")] [LabelText("速度")] [SerializeField]
+        private float speed;
+        
+        [BoxGroup("Basic/属性")] [LabelText("可穿透")] [SerializeField]
+        private bool canPenetrate;
+        
+        [BoxGroup("Basic/属性")] [LabelText("指向性")] [SerializeField]
+        private bool isShoot;
 
         [BoxGroup("Basic/音特效")] [LabelText("特效")] [SerializeField]
         private ParticleSystem effect;
@@ -63,6 +75,11 @@ namespace Bug.Project21.Skills
         public bool IsAOE => isAOE;
         public float Percent => percent;
         public float Value => value;
+        public float LifeTime => lifeTime;
+        public float Speed => speed;
+        public bool CanPenetrate => canPenetrate;
+        public bool IsShoot => isShoot;
+        
         public ParticleSystem Effect => effect;
         public AudioSource Audio => audio;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 public class EnemyToward : MonoBehaviour
 {
     [HideInInspector] public float toward;
-    private Vector2 startScale, hpScale;
+    private Vector3 startScale, hpScale;
 
     private Transform hpBar;
 
@@ -18,8 +18,8 @@ public class EnemyToward : MonoBehaviour
     {
         if (toward >= 0.01f)
         {
-            transform.localScale = new Vector2(-startScale.x, startScale.y);
-            hpBar.localScale = new Vector2(-hpScale.x, hpScale.y);
+            transform.localScale = new Vector3(-startScale.x, startScale.y, 1);
+            hpBar.localScale = new Vector3(-hpScale.x, hpScale.y, 1);
         }
         else if (toward <= -0.01f)
         {

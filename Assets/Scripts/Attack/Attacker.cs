@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Linq;
+using Bug.Project21.Player;
 using Sirenix.Utilities;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Attacker : MonoBehaviour, IInteractor
 {
     public BulletVFXPoolSO[] bulletPools;
 
     public UpdateSkillCdChannelSO _shootUpdateViewCD;
     public SkillInCDChannelSO _skillCDState;
-    private Camera mainCam;
-    private Vector2 direction;
 
+    public GeneralAtkDataSO generalAtkData;
+    public GameObject generalCollider;
+
+    private Camera mainCam;
+    private Transform player;
+
+    private Vector2 direction;
     private Vector2 mousePos;
 
     private void Start()
@@ -21,6 +28,9 @@ public class Gun : MonoBehaviour
             _.Prewarm(_.size);
             _.isCd = false;
         });
+
+        player = transform.parent;
+        generalAtkData.Init();
     }
 
     private void OnEnable()
@@ -43,12 +53,35 @@ public class Gun : MonoBehaviour
     {
         direction = (mousePos - new Vector2(transform.position.x, transform.position.y)).normalized;
 
-        if (Input.GetKeyDown(KeyCode.Q)) Fire(0);
-        else if (Input.GetKeyDown(KeyCode.W)) Fire(1);
-        else if (Input.GetKeyDown(KeyCode.E)) Fire(2);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SkillAttack(0);
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) SkillAttack(1);
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) SkillAttack(2);
+
+        if (Input.GetMouseButtonDown(0)) GeneralAttack();
     }
 
-    private void Fire(int poolIndex)
+    void GeneralAttack()
+    {
+        transform.localEulerAngles = Vector3.zero;
+        var anims = player.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0);
+
+        var currentAnim = anims.First().clip.name;
+        var dir = currentAnim.Substring(currentAnim.LastIndexOf('_') + 1);
+
+        player.GetComponent<Animator>().Play("Player_Attack_" + dir);
+        generalCollider.transform.localPosition = generalAtkData.atkColliderPos[dir].Item1;
+        generalCollider.transform.localScale = generalAtkData.atkColliderPos[dir].Item2;
+        player.GetComponent<PlayerMovement>().isMove = false;
+        generalCollider.GetComponent<Collider2D>().enabled = true;
+    }
+
+    public void OnNearTriggerChange(bool entered, GameObject who)
+    {
+        if (entered)
+            generalAtkData.Hit(who.GetComponent<Collider2D>(), who.transform.position - transform.position, transform);
+    }
+
+    void SkillAttack(int poolIndex)
     {
         // 发射条件：1-不在冷却 2-处于施法范围内
         if (bulletPools[poolIndex].isCd) return;
@@ -66,7 +99,7 @@ public class Gun : MonoBehaviour
             bullet.transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
             bullet.transform.position = transform.position;
 
-            bullet.GetComponent<BulletVFX>().SetSpeed(direction);
+            bullet.GetComponent<Skill>().SetSpeed(direction);
         }
         else
         {

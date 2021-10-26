@@ -61,7 +61,7 @@ namespace Bug.Project21.Player
         public void SetIsMove()
         {
             isMove = true;
-            GetComponent<PlayerInteractor>().atkCollider.GetComponent<Collider2D>().enabled = false;
+            GetComponentInChildren<Attacker>().generalCollider.GetComponent<Collider2D>().enabled = false;
         }
     }
 }

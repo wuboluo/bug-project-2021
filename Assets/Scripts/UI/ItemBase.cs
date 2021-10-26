@@ -5,9 +5,9 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 /// <summary>
-/// 1£º×°±¸
-/// 2£º¼¼ÄÜ
-/// 3£º²ÄÁÏ
+/// 1ï¼šè£…å¤‡
+/// 2ï¼šæŠ€èƒ½
+/// 3ï¼šææ–™
 /// </summary>
 public enum ItemType
 {
@@ -17,9 +17,9 @@ public enum ItemType
     Mater = 2
 }
 /// <summary>
-/// 1£ºÎäÆ÷
-/// 2£ºîø¼×
-/// 3£ºĞ¬×Ó
+/// 1ï¼šæ­¦å™¨
+/// 2ï¼šé“ ç”²
+/// 3ï¼šé‹å­
 /// </summary>
 public enum EquipType
 {
@@ -29,8 +29,8 @@ public enum EquipType
     Shoe = 2
 }
 /// <summary>
-/// 1£ºÖ÷¶¯
-/// 2£º±»¶¯
+/// 1ï¼šä¸»åŠ¨
+/// 2ï¼šè¢«åŠ¨
 /// </summary>
 public enum SkillType
 {
@@ -39,7 +39,7 @@ public enum SkillType
     Passive = 1
 }
 /// <summary>
-/// 1£º
+/// 1ï¼š
 /// </summary>
 public enum MaterType
 {

@@ -1,28 +1,28 @@
+using Bug.Project21.Skills;
 using Cinemachine;
 using UnityEngine;
 
-public class BulletVFX : MonoBehaviour
+public class Skill : MonoBehaviour
 {
+    public SkillSO skillData;
+    public PlayerModelSO playerData;
+    
     public BulletVFXPoolSO bulletVFXPool;
-    public float lifeTime = 3;
-    public float speed;
-
-    public bool isShoot;
-    public bool canPenetrate;
-
-    public OnHitEnemyEventChannelSO _onHitMonsterEvent;
+    public OnHitEnemyEventChannelSO _OnHitEnemyEvent;
 
     private Rigidbody2D rb;
-
     private CinemachineCollisionImpulseSource vCamera;
+
+    private float damage => skillData.Value + playerData.atk * skillData.Percent;
+    private float lifeTime => skillData.LifeTime;
+    private float speed => skillData.Speed;
+    private bool canPenetrate => skillData.CanPenetrate;
+    public bool isShoot => skillData.IsShoot;
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Start()
-    {
         vCamera = GetComponentInChildren<CinemachineCollisionImpulseSource>();
     }
 
@@ -38,7 +38,7 @@ public class BulletVFX : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Monster") && !other.GetComponent<Enemy>().IsDeath)
+        if (other.CompareTag("Enemy") && !other.GetComponent<Enemy>().IsDeath)
         {
             if (!canPenetrate)
             {
@@ -46,10 +46,10 @@ public class BulletVFX : MonoBehaviour
                 GetComponent<Animator>().Play("OnHit");
             }
 
-            _onHitMonsterEvent?.RaiseEvent(other.name, other.transform.position - transform.position);
+            _OnHitEnemyEvent?.RaiseEvent(other.name, other.transform.position - transform.position, damage);
 
             // 在 Tomato<...Impulse Source>上设置 TriggerObjectFilter.LayerMask = Nothing
-            // 否则不需要此行代码，则可以在碰撞太 指定层的物体时自动震动屏幕
+            // 否则不需要此行代码，则可以在碰撞指定层的物体时自动震动屏幕
             vCamera.GenerateImpulse();
         }
 
@@ -69,12 +69,5 @@ public class BulletVFX : MonoBehaviour
     private void DestroySelf()
     {
         bulletVFXPool?.Return(this);
-
-        // // 待定
-        // if (!canPenetrate)
-        // {
-        //     rb.velocity = Vector2.zero;
-        //     GetComponent<Animator>().Play("OnHit");
-        // }
     }
 }

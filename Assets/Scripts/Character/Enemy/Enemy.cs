@@ -1,18 +1,16 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Enemy : Unit2D
+public class Enemy : Unit2D, ICharacter
 {
     public EnemySO enemyDefaultData;
-    [HideInInspector] public int currentHp;
+    public int currentHp;
 
-    
     public float strength = 10;
+    public bool isStable;
 
     public OnHitEnemyEventChannelSO _onHitEnemyEvent;
     public IntVectorEventChannelSO _showDamagePopUpEvent;
-
-    public event UnityAction<float> updateHpBarEvent;
 
     private Rigidbody2D rb;
 
@@ -37,22 +35,24 @@ public class Enemy : Unit2D
         _onHitEnemyEvent.OnEventRaised -= OnHurt;
     }
 
-    private void OnHurt(string eName, Vector3 pos)
+    public event UnityAction<float> updateHpBarEvent;
+
+    public void OnHurt(string eName, Vector3 pos, float value)
     {
         if (!eName.Equals(name)) return;
 
-        var tempValue = Random.Range(1, 5);
-        currentHp -= tempValue;
+        currentHp -= (int) value;
 
-        _showDamagePopUpEvent?.RaiseEvent(tempValue, transform.localPosition);
+        _showDamagePopUpEvent?.RaiseEvent((int) value, transform.localPosition);
         updateHpBarEvent?.Invoke((float) currentHp / enemyDefaultData.maxHp);
-        OnHitBack(pos);
+
+        if (!isStable) OnHitBack(pos);
 
         if (currentHp <= 0) OnDeath();
-        GetComponent<Animator>().Play("E1-OnHurt");
+        GetComponent<Animator>().Play("OnHurt");
     }
 
-    private void OnHitBack(Vector3 v3)
+    public void OnHitBack(Vector3 v3)
     {
         if (rb != null) rb.AddForce(v3 * strength, ForceMode2D.Impulse);
     }
@@ -64,12 +64,14 @@ public class Enemy : Unit2D
         updateHpBarEvent?.Invoke((float) currentHp / enemyDefaultData.maxHp);
     }
 
-    private void OnDeath()
+    public void OnDeath()
     {
         IsDeath = true;
+        GetComponent<Animator>().SetBool("_HurtToDeath", true);
+
+        if (isStable) return;
         GetComponent<EnemyAI>().enabled = false;
         GetComponent<EnemyFSM>().enabled = false;
-        GetComponent<Animator>().SetBool("_HurtToDeath", true);
     }
 
     // 绑定在 Death动画最后一帧

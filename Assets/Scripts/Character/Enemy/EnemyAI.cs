@@ -2,6 +2,7 @@ using System.Linq;
 using Pathfinding;
 using UnityEngine;
 
+[RequireComponent(typeof(Seeker)), RequireComponent(typeof(EnemyFSM)), RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(EnemyToward))]
 public class EnemyAI : MonoBehaviour
 {
     public Transform target;
