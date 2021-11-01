@@ -10,24 +10,22 @@ namespace Bug.Project21.Quest
     public class QuestManagerSO : ScriptableObject
     {
         public List<QuestlineSO> questlines;
-        public InventorySO inventory;
 
-        [Header("Listening")] [LabelText("步骤结束之后")]
-        public VoidEventChannelSO _continueWithStepEvent;
+        [Header("Listening")] [SerializeField] private VoidEventChannelSO continueWithStepEvent;
+        [SerializeField] private IntEventChannelSO endDialogueEvent;
+        [SerializeField] private VoidEventChannelSO makeWinningChoiceEvent;
+        [SerializeField] private VoidEventChannelSO makeLosingChoiceEvent;
 
-        [LabelText("对话结束时")] public IntEventChannelSO _endDialogueEvent;
-        [LabelText("做出肯定选项")] public VoidEventChannelSO _makeWinningChoiceEvent;
-        [LabelText("做出否定选项")] public VoidEventChannelSO _makeLosingChoiceEvent;
+        [Header("Broadcasting")] [SerializeField]
+        private VoidEventChannelSO playCompletionDialogueEvent;
 
-        [Header("Broadcasting")] [LabelText("播放任务完成对话")]
-        public VoidEventChannelSO _playCompletionDialogueEvent;
-
-        [LabelText("播放任务失败对话")] public VoidEventChannelSO _playIncompleteDialogueEvent;
-        [LabelText("给予物品")] public ItemEventChannelSO _giveItemEvent;
-        [LabelText("奖励物品")] public ItemStackEventChannelSO _rewardItemEvent;
+        [SerializeField] private VoidEventChannelSO playIncompleteDialogueEvent;
+        [SerializeField] private ObtainPropEventChannelSO giveItemEvent;
+        [SerializeField] private ObtainPropEventChannelSO rewardItemEvent;
+        [SerializeField] private CheckPropForBackpackEventChannelSO checkPropForBackpackEvent;
 
 
-        [Space(30)] [LabelText("测试：任务线")] [InlineButton(nameof(TestClearCurrentQuest), "重置任务线")]
+        [Space(30)] [InlineButton(nameof(TestClearCurrentQuest), "重置任务线")]
         public QuestlineSO testQL;
 
         private QuestSO currentQuest;
@@ -39,19 +37,19 @@ namespace Bug.Project21.Quest
 
         private void OnEnable()
         {
-            _continueWithStepEvent.OnEventRaised += StepToDoAccordingToType;
-            _endDialogueEvent.OnEventRaised += EndDialogue;
-            _makeWinningChoiceEvent.OnEventRaised += MakeWinChoice;
-            _makeLosingChoiceEvent.OnEventRaised += MakeLostChoice;
+            continueWithStepEvent.OnEventRaised += StepToDoAccordingToType;
+            endDialogueEvent.OnEventRaised += EndDialogue;
+            makeWinningChoiceEvent.OnEventRaised += MakeWinChoice;
+            makeLosingChoiceEvent.OnEventRaised += MakeLostChoice;
             SetQuestline();
         }
 
         public void OnDisable()
         {
-            _continueWithStepEvent.OnEventRaised -= StepToDoAccordingToType;
-            _endDialogueEvent.OnEventRaised -= EndDialogue;
-            _makeWinningChoiceEvent.OnEventRaised -= MakeWinChoice;
-            _makeLosingChoiceEvent.OnEventRaised -= MakeLostChoice;
+            continueWithStepEvent.OnEventRaised -= StepToDoAccordingToType;
+            endDialogueEvent.OnEventRaised -= EndDialogue;
+            makeWinningChoiceEvent.OnEventRaised -= MakeWinChoice;
+            makeLosingChoiceEvent.OnEventRaised -= MakeLostChoice;
         }
 
         private void TestClearCurrentQuest()
@@ -192,9 +190,9 @@ namespace Bug.Project21.Quest
         }
 
         /// <summary>
-        ///     和 Actor(NPC) 不同阶段的对话。【hasSthToDo】对话中是否需要做什么事 【SthIsDone】若需要做什么，是否做完
+        ///     和 Actor(NPC) 不同阶段的对话。【hasSthToDo】对话中是否需要做什么事 【sthIsDone】若需要做什么，是否做完
         /// </summary>
-        public DialogueDataSO DifferentDialoguesWithActor(ActorSO actor, bool hasSthToDo, bool SthIsDone)
+        public DialogueDataSO DifferentDialoguesWithActor(ActorSO actor, bool hasSthToDo, bool sthIsDone)
         {
             // 如果当前任务为空，则根据传入的 actor分配任务
             if (currentQuest == null)
@@ -202,7 +200,7 @@ namespace Bug.Project21.Quest
                     StartQuest(actor);
 
             if (!HasStep(actor)) return null;
-            if (hasSthToDo) return SthIsDone ? currentStep.completeDialogue : currentStep.incompleteDialogue;
+            if (hasSthToDo) return sthIsDone ? currentStep.completeDialogue : currentStep.incompleteDialogue;
 
             return currentStep.startDialogue;
         }
@@ -217,28 +215,28 @@ namespace Bug.Project21.Quest
             switch (currentStep.type)
             {
                 case StepType.CheckItem:
-                    if (inventory.Contains(currentStep.item))
-                        _playCompletionDialogueEvent.RaiseEvent();
+                    if (checkPropForBackpackEvent.RaiseEvent(currentStep.wantedProp.ID, currentStep.wantedAmount))
+                        playCompletionDialogueEvent.RaiseEvent();
                     else
-                        _playIncompleteDialogueEvent.RaiseEvent();
+                        playIncompleteDialogueEvent.RaiseEvent();
                     break;
 
                 case StepType.GiveItem:
-                    if (inventory.Contains(currentStep.item))
+                    if (checkPropForBackpackEvent.RaiseEvent(currentStep.rewardItem.ID, currentStep.rewardItemCount))
                     {
-                        _giveItemEvent.RaiseEvent(currentStep.item);
-                        _playCompletionDialogueEvent.RaiseEvent();
+                        giveItemEvent.RaiseEvent(currentStep.rewardItem, currentStep.rewardItemCount);
+                        playCompletionDialogueEvent.RaiseEvent();
                     }
                     else
                     {
-                        _playIncompleteDialogueEvent.RaiseEvent();
+                        playIncompleteDialogueEvent.RaiseEvent();
                     }
 
                     break;
 
                 case StepType.Dialogue:
                     if (currentStep.completeDialogue != null)
-                        _playCompletionDialogueEvent.RaiseEvent();
+                        playCompletionDialogueEvent.RaiseEvent();
                     else
                         EndStep();
                     break;
@@ -261,8 +259,7 @@ namespace Bug.Project21.Quest
                 case DialogueType.CompletionDialogue:
                     if (currentStep.hasReward && currentStep.rewardItem != null)
                     {
-                        var itemStack = new ItemStack(currentStep.rewardItem, currentStep.rewardItemCount);
-                        _rewardItemEvent.RaiseEvent(itemStack);
+                        rewardItemEvent.RaiseEvent(currentStep.rewardItem, currentStep.rewardItemCount);
                     }
 
                     EndStep();

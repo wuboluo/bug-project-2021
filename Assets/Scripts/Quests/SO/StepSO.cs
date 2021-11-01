@@ -1,5 +1,7 @@
 ﻿using Bug.Project21.Dialogue;
+using Bug.Project21.Props;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Bug.Project21.Quest
 {
@@ -17,17 +19,22 @@ namespace Bug.Project21.Quest
         public ActorSO actor;
         public StepType type;
 
-        [Header("Dialogue")] public DialogueDataSO startDialogue;
+        [Header("Dialogue")] 
+        public DialogueDataSO startDialogue;
         public DialogueDataSO completeDialogue;
         public DialogueDataSO incompleteDialogue;
 
-        [Header("Want")] public ItemSO item;
+        [Header("Want")]
+        public PropSO wantedProp;
+        public int wantedAmount;
 
-        [Header("Reward")] public bool hasReward;
-        public ItemSO rewardItem;
-        public int rewardItemCount = 1;
+        [Header("Reward")] 
+        public bool hasReward;
+        public PropSO rewardItem;
+        public int rewardItemCount;
 
-        [Header("Result")] public bool isDone;
+        [Header("Result")] 
+        public bool isDone;
         public VoidEventChannelSO endStepEvent;
         public StringEventChannelSO questTargetOnUIEvent;
 

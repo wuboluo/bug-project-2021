@@ -1,3 +1,4 @@
+using Bug.Project21.Props;
 using Bug.Project21.Quest;
 using UnityEngine;
 
@@ -5,8 +6,8 @@ namespace Bug.Project21.Player
 {
     public class PlayerInteractor : MonoBehaviour, IInteractor
     {
-        public ItemEventChannelSO _onObjectPickUp;
-        public ItemSO item;
+        [SerializeField] private ObtainPropEventChannelSO pickUpPropEvent;
+        [SerializeField] private PropSO item;
 
         private PlayerInputControl controls;
 
@@ -22,7 +23,10 @@ namespace Bug.Project21.Player
                 other.gameObject.GetComponent<StepController>().InteractWithCharacter();
 
             if (other.gameObject.CompareTag("Pickable"))
-                item = other.gameObject.GetComponent<ItemSO>();
+            {
+                // todo: 需要道具类型，需要继承 IPackable
+                // item = other.gameObject.GetComponent<>();
+            }
         }
 
         private void OnCollisionStay2D(Collision2D other)
@@ -31,27 +35,23 @@ namespace Bug.Project21.Player
                 item = null;
         }
 
+        public void OnNearTriggerChange(bool entered, GameObject who)
+        {
+            if (entered) print($"hit {who}");
+        }
+
         private void Collect()
         {
-            if (_onObjectPickUp != null)
-            {
-                // todo:item检测方式优化
-                if (item != null)
-                    _onObjectPickUp.RaiseEvent(item);
-            }
+            if (item != null)
+                pickUpPropEvent.RaiseEvent(item, 1);
 
             Destroy(item);
 
             RequestUpdateUI();
         }
 
-        void RequestUpdateUI()
+        private void RequestUpdateUI()
         {
-        }
-
-        public void OnNearTriggerChange(bool entered, GameObject who)
-        {
-            if (entered) print($"hit {who}");
         }
     }
 }
