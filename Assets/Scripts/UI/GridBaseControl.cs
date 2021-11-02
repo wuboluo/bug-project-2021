@@ -1,13 +1,14 @@
+using Bug.Project21.Props;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 /// <summary>
-/// ¸ñ×ÓÎ»ÖÃ:
-/// 1£º±³°ü
-/// 2£º×°±¸
-/// 3£º¼¼ÄÜ
-/// 4£ºÉÌµê
+/// æ ¼å­ä½ç½®:
+/// 1ï¼šèƒŒåŒ…
+/// 2ï¼šè£…å¤‡
+/// 3ï¼šæŠ€èƒ½
+/// 4ï¼šå•†åº—
 /// </summary>
 public enum GridPoint
 {
@@ -61,9 +62,15 @@ public abstract class GridBaseControl<T> : MonoBehaviour where T :MonoBehaviour
         OnInitEvent.RemoveAllListeners();
     }
     /// <summary>
-    /// Éú³É
+    /// ç”Ÿæˆ
     /// </summary>
-    public abstract void OnCreateTo();
+    public abstract void OnCreateTo(PropSO prop);
+
+    /// <summary>
+    /// æ£€æŸ¥èƒŒåŒ…æ˜¯å¦å­˜åœ¨æ­¤ç‰©ä½“
+    /// </summary>
+    /// <param name="value"></param>
+    public abstract bool OnExamine(int value);
 
     private void OnEnable()
     {

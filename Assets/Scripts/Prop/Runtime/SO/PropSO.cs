@@ -26,6 +26,7 @@ namespace Bug.Project21.Props
         public int Price => price;
         public int ID => id;
         public PropTag Tag => tag;
+        public EquipType EquipType => equipType;
         public PropAttr Attrs => attrs;
 
         private void SwitchPropTag()
