@@ -50,7 +50,21 @@ public class IntroduceControl : MonoBehaviour, IBeginDragHandler, IEndDragHandle
                 ControlIntroduceContent(rollContent);
             }
         }
+        Debug.Log(isRoll);
 
+    }
+
+    void Update()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 || Input.GetMouseButtonDown(0))
+        {
+            isRoll = false;
+        }
+        else
+        {
+            rollContent = Content.localPosition.y;
+            isRoll = true;
+        }
     }
 
     private void OnEnable()

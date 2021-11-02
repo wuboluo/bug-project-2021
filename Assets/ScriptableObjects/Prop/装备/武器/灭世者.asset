@@ -21,7 +21,7 @@ MonoBehaviour:
   tag: 1
   equipType: 0
   describe: "\u9547\u538B\u8FD9\u4E00\u4E16"
-  skill: {fileID: 0}
+  skill: {fileID: 11400000, guid: 9b2cab45dcc17944ea96000ce808754a, type: 2}
   attrs:
     atk:
       enable: 1

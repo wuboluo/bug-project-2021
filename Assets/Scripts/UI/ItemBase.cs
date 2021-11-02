@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Bug.Project21.Props;
 
 /// <summary>
 /// 1：装备
@@ -48,6 +49,9 @@ public enum MaterType
 }
 public abstract class ItemBase : MonoBehaviour
 {
+
+    public PropSO Data_PropSO = null;
+
     public ItemType ItemType_ = ItemType.NULL;
 
     public EquipType EquipType_ = EquipType.NULL;
@@ -67,9 +71,9 @@ public abstract class ItemBase : MonoBehaviour
     public int HP_ = 0;
     public int Speed_ = 0;
 
-    public int Cost = 0;
+    public int Price_ = 0;
 
-    public int SkillValue_ = 0;
+    public float SkillValue_ = 0;
 
     public ItemBase SkillActive_ = null;
 
