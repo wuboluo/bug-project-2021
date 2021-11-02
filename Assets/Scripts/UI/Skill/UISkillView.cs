@@ -24,12 +24,11 @@ public class UISkillView : MonoBehaviour
             if (isCds[i])
             {
                 skillIcons[i].fillAmount -= 1 / tempCd * Time.deltaTime;
-                if (skillIcons[i].fillAmount <= 0)
-                {
-                    skillIcons[i].fillAmount = 0;
-                    isCds[i] = false;
-                    _skillCDState?.RaiseEvent(i, false);
-                }
+                
+                if (!(skillIcons[i].fillAmount <= 0)) continue;
+                skillIcons[i].fillAmount = 0;
+                isCds[i] = false;
+                _skillCDState?.RaiseEvent(i, false);
             }
     }
 

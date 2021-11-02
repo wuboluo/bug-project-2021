@@ -25,7 +25,7 @@ namespace Bug.Project21.Player
             if (other.gameObject.CompareTag("Pickable"))
             {
                 // todo: 需要道具类型，需要继承 IPackable
-                // item = other.gameObject.GetComponent<>();
+                // item = other.gameObject.GetComponent<Item>().;
             }
         }
 
