@@ -6,7 +6,6 @@ using UnityEngine;
 public class InventorySO : ScriptableObject
 {
     [SerializeField] private List<ItemStack> _items = new List<ItemStack>();
-    [SerializeField] private List<ItemStack> _defaultItems = new List<ItemStack>();
 
     public bool Contains(ItemSO item)
     {

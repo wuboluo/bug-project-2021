@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "new Actor", menuName = "Bug/Dialogue/Actor")]
-public class ActorSO : ScriptableObject
+namespace Bug.Project21.Dialogue
 {
-    public int _actorId;
+    [CreateAssetMenu(fileName = "new Actor", menuName = "Bug/Dialogue/Actor")]
+    public class ActorSO : ScriptableObject
+    {
+        public int _actorId;
+    }
 }

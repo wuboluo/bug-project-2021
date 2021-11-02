@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/DialogueInputControl.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/_InputControls/DialogueInputControl.inputactions'
 
 using System;
 using System.Collections;

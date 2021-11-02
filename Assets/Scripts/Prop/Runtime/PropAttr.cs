@@ -36,9 +36,8 @@ namespace Bug.Project21.Props
         [HideInInspector] public bool isWeapon;
 
         /// <summary>
-        ///     判断道具属性的值是否都被设置过
+        ///     Determine whether the value of the 'PropAttr' has been set.
         /// </summary>
-        /// <returns>true：全部被设置</returns>
         public bool InitValues(PropTag tag)
         {
             switch (tag)
@@ -59,7 +58,7 @@ namespace Bug.Project21.Props
         }
 
         /// <summary>
-        ///     设置道具属性的数值（范围随机）
+        ///     Set the value of the 'PropAttr' (random range).
         /// </summary>
         public void SetValues(PropTag tag)
         {
@@ -75,13 +74,14 @@ namespace Bug.Project21.Props
                     price.InitValue();
                     rarity.InitValue();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(tag), tag, null);
             }
         }
 
         /// <summary>
-        ///     获取道具属性的值
+        ///     Get the value of the prop value.
         /// </summary>
-        /// <returns></returns>
         public Dictionary<string, int> GetValues(PropTag tag)
         {
             return tag switch
@@ -100,9 +100,8 @@ namespace Bug.Project21.Props
 
 
         /// <summary>
-        ///     获取属性是否可使用
+        ///     Get whether the attr is available.
         /// </summary>
-        /// <returns></returns>
         public Dictionary<string, bool> GetAbles(PropTag tag)
         {
             return tag switch
