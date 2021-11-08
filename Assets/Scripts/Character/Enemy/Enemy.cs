@@ -69,6 +69,9 @@ public class Enemy : Unit2D, ICharacter
         IsDeath = true;
         GetComponent<Animator>().SetBool("_HurtToDeath", true);
 
+        // 掉落道具
+        GetComponent<EnemyInteractor>().propDropper.Drop();
+        
         if (isStable) return;
         GetComponent<EnemyAI>().enabled = false;
         GetComponent<EnemyFSM>().enabled = false;

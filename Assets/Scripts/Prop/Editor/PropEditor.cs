@@ -50,10 +50,10 @@ namespace Bug.Project21.Props
                     SOCreator.ShowDialog<PropSO>("Assets/ScriptableObjects/Prop",
                         obj =>
                         {
-                            obj.Name = obj.name;
+                            obj.PropName = obj.name;
                             TrySelectMenuItemWithObject(obj);
 
-                            obj.asset = AssetDatabase.FindAssets(obj.Name, new[] {"Assets/ScriptableObjects/Prop"});
+                            obj.asset = AssetDatabase.FindAssets(obj.PropName, new[] {"Assets/ScriptableObjects/Prop"});
                         });
 
                 if (SirenixEditorGUI.ToolbarButton(new GUIContent("删除")))

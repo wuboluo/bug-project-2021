@@ -36,7 +36,7 @@ public class Item : ItemBase
             }
 
             Icon_ = Data_PropSO.Icon;
-            Name_ = Data_PropSO.Name;
+            Name_ = Data_PropSO.PropName;
             Des_ = Data_PropSO.Describe;
 
             var datas = Data_PropSO.Attrs.GetValues(PropTag.equip);
@@ -55,25 +55,25 @@ public class Item : ItemBase
         {
             ItemBase skill = transform.GetChild(0).GetComponent<ItemBase>();
             skill.transform.localScale = Vector3.zero;
-            switch (Data_PropSO.skill.Type)
+            switch (Data_PropSO.Skill.Type)
             {
                 case PropSkillType.active:
                     SkillActive_ = skill;
                     SkillActive_.ItemType_ = ItemType.Skill;
                     SkillActive_.SkillType_ = SkillType.Active;
-                    SkillActive_.Icon_ = Data_PropSO.skill.Icon;
-                    SkillActive_.Name_ = Data_PropSO.skill.Name;
-                    SkillActive_.SkillValue_ = Data_PropSO.skill.Value;
-                    SkillActive_.Des_ = Data_PropSO.skill.SkillDescribe;
+                    SkillActive_.Icon_ = Data_PropSO.Skill.Icon;
+                    SkillActive_.Name_ = Data_PropSO.Skill.Name;
+                    SkillActive_.SkillValue_ = Data_PropSO.Skill.Value;
+                    SkillActive_.Des_ = Data_PropSO.Skill.SkillDescribe;
                     break;
                 case PropSkillType.passive:
                     SkillPassive_ = skill;
                     SkillPassive_.ItemType_ = ItemType.Skill;
                     SkillPassive_.SkillType_ = SkillType.Passive;
-                    SkillPassive_.Icon_ = Data_PropSO.skill.Icon;
-                    SkillPassive_.Name_ = Data_PropSO.skill.Name;
-                    SkillPassive_.SkillValue_ = Data_PropSO.skill.Value;
-                    SkillPassive_.Des_ = Data_PropSO.skill.SkillDescribe;
+                    SkillPassive_.Icon_ = Data_PropSO.Skill.Icon;
+                    SkillPassive_.Name_ = Data_PropSO.Skill.Name;
+                    SkillPassive_.SkillValue_ = Data_PropSO.Skill.Value;
+                    SkillPassive_.Des_ = Data_PropSO.Skill.SkillDescribe;
                     break;
             }
         }

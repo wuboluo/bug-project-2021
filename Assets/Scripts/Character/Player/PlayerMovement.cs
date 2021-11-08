@@ -4,7 +4,7 @@ namespace Bug.Project21.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public PlayerInputControl controls;
+        public PlayerInputControl Controls;
         public float moveSpeed = 3;
 
         private Vector2 moveInput;
@@ -15,42 +15,52 @@ namespace Bug.Project21.Player
 
         public bool isMove;
 
+        private static readonly int IsMoving = Animator.StringToHash("isMoving");
+        private static readonly int InputX = Animator.StringToHash("InputX");
+        private static readonly int InputY = Animator.StringToHash("InputY");
+        private PlayerInteractor playerInteractor;
+
         private void Awake()
         {
-            controls = new PlayerInputControl();
+            Controls = new PlayerInputControl();
         }
 
         private void Start()
         {
+            playerInteractor = GetComponent<PlayerInteractor>();
             rb = GetComponent<Rigidbody2D>();
 
             animator = GetComponent<Animator>();
         }
 
-        private void OnEnable() => controls.Enable();
+        private void OnEnable() => Controls.Enable();
 
-        private void OnDisable() => controls.Disable();
+        private void OnDisable() => Controls.Disable();
 
-        void Update()
+        private void Update()
         {
-            moveInput = controls.Player.Move.ReadValue<Vector2>();
+            moveInput = Controls.Player.Move.ReadValue<Vector2>();
 
             if (moveInput != Vector2.zero)
             {
                 stopX = moveInput.x;
                 stopY = moveInput.y;
+                
+                playerInteractor.SwitchInteractColliderDirection(moveInput);
             }
 
-            animator.SetBool("isMoving", moveInput != Vector2.zero);
+            animator.SetBool(IsMoving, moveInput != Vector2.zero);
 
-            animator.SetFloat("InputX", stopX);
-            animator.SetFloat("InputY", stopY);
+            animator.SetFloat(InputX, stopX);
+            animator.SetFloat(InputY, stopY);
         }
 
         private void FixedUpdate()
         {
             if (isMove)
+            {
                 rb.velocity = moveInput * moveSpeed;
+            }
             else
             {
                 rb.velocity = Vector2.zero;

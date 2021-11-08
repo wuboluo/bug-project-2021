@@ -3,8 +3,8 @@ using UnityEngine.Events;
 
 public interface ICharacter
 {
-    void OnHurt(string _name, Vector3 _dir, float _value);
-    void OnHitBack(Vector3 _dir);
+    void OnHurt(string name, Vector3 dir, float value);
+    void OnHitBack(Vector3 dir);
     void OnResumeHP();
     void OnDeath();
     
